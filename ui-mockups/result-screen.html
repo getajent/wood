@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WOOD — Result Screen v5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&family=Amatic+SC:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #1a1512;
+      --bg-mid: #231e1a;
+      --bg-warm: #2e2620;
+      --bg-overlay: rgba(12, 10, 8, 0.85);
+      --paper: #d4b9a0;
+      --paper-light: #e0cbb8;
+      --paper-dark: #b89a7e;
+      --paper-shadow: #8a7660;
+      --red-dark: #5a1a1a;
+      --red-mid: #8a2828;
+      --red-bar: #a83030;
+      --red-bright: #d44040;
+      --red-critical: #ff3030;
+      --green: #6aaa4a;
+      --green-bright: #8acc6a;
+      --green-glow: rgba(106, 170, 74, 0.25);
+      --yellow: #d4a040;
+      --yellow-bright: #e8b850;
+      --yellow-glow: rgba(212, 160, 64, 0.2);
+      --text-bright: #e8ddd0;
+      --text-mid: #b8a898;
+      --text-dim: #7a6a5a;
+      --text-dark: #3a2e24;
+      --font-display: 'Boogaloo', cursive;
+      --font-handwritten: 'Amatic SC', cursive;
+      --font-scrawl: 'Caveat', cursive;
+      --font-body: 'Nunito', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-ui: 'Rajdhani', sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-bright);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      padding: 60px 20px;
+    }
+
+    /* ─── GUIDE WRAPPER ─── */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .style-guide-card {
+      background: var(--bg-mid);
+      border: 2px solid rgba(212, 160, 64, 0.1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+      animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .style-guide-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.4;
+      mix-blend-mode: overlay;
+    }
+
+    .style-guide-card {
+      animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), borderGlow 4s infinite;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 80px 40px 60px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(212, 160, 64, 0.05) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(212, 160, 64, 0.1);
+    }
+
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--yellow);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: 0.8;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 64px;
+      color: var(--paper);
+      text-shadow: 0 4px 0 rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 160, 64, 0.15);
+      line-height: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .hero-desc {
+      font-family: var(--font-scrawl);
+      font-size: 26px;
+      color: var(--text-dim);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+
+    /* ─── SPEC META ─── */
+    .spec-meta {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .spec-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .spec-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      color: var(--paper-light);
+      margin-bottom: 10px;
+    }
+
+    .spec-desc {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    /* ─── SHOWCASE ADAPTATION ─── */
+    .showcase {
+      padding: 60px 0 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes barGrow {
+      from {
+        width: 0;
+      }
+    }
+
+    @keyframes stampIn {
+      0% {
+        transform: scale(3.5) rotate(-15deg);
+        opacity: 0;
+        filter: blur(4px);
+      }
+
+      40% {
+        transform: scale(0.9) rotate(3deg);
+        opacity: 1;
+        filter: blur(0);
+      }
+
+      60% {
+        transform: scale(1.08) rotate(-1deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(-3deg);
+      }
+    }
+
+    @keyframes wobble {
+
+      0%,
+      100% {
+        transform: rotate(0deg);
+      }
+
+      25% {
+        transform: rotate(-3deg);
+      }
+
+      75% {
+        transform: rotate(3deg);
+      }
+    }
+
+    @keyframes bobUp {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0);
+      }
+
+      70% {
+        transform: scale(1.15);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes starPop {
+      0% {
+        transform: scale(0) rotate(-30deg);
+        opacity: 0;
+      }
+
+      60% {
+        transform: scale(1.2) rotate(5deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes borderGlow {
+
+      0%,
+      100% {
+        border-color: rgba(180, 150, 120, 0.12);
+      }
+
+      50% {
+        border-color: rgba(180, 150, 120, 0.22);
+      }
+    }
+
+    /* ─── MAIN CONTAINER ─── */
+    .result-screen {
+      width: 740px;
+      background: #1e1a17;
+      border: 2px solid rgba(180, 150, 120, 0.12);
+      box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.7),
+        0 4px 20px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Vignette overlay */
+    .result-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Paper grain texture */
+    .result-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 128px;
+      pointer-events: none;
+      z-index: 11;
+      opacity: 0.6;
+      mix-blend-mode: overlay;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      text-align: center;
+      padding: 28px 24px 20px;
+      background:
+        radial-gradient(ellipse at 50% 80%, rgba(212, 160, 64, 0.08) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(212, 160, 64, 0.04) 0%, transparent 100%);
+      border-bottom: 2px solid rgba(180, 150, 120, 0.1);
+      flex-shrink: 0;
+      animation: slideUp 0.5s ease-out;
+      position: relative;
+    }
+
+    /* Decorative line under header */
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 160, 64, 0.2), transparent);
+    }
+
+    .shift-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .shift-complete {
+      font-family: var(--font-display);
+      font-size: 52px;
+      color: var(--paper);
+      text-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(212, 160, 64, 0.1);
+      line-height: 1;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    .shift-subtitle {
+      font-family: var(--font-scrawl);
+      font-size: 22px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* ─── PAY ROW ─── */
+    .pay-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 2px solid rgba(180, 150, 120, 0.08);
+      flex-shrink: 0;
+      animation: slideUp 0.5s ease-out 0.1s both;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .pay-icon {
+      animation: bobUp 2.5s ease-in-out infinite;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
+
+    .pay-bar-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pay-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .pay-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .pay-amount {
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--green-bright);
+      text-shadow:
+        0 2px 0 rgba(0, 0, 0, 0.4),
+        0 0 20px var(--green-glow);
+      line-height: 1;
+      animation: countUp 0.6s ease-out 0.5s both;
+    }
+
+    .pay-needed {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-left: 4px;
+    }
+
+    .pay-bar-track {
+      height: 18px;
+      background: var(--red-dark);
+      border: 2px solid rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .pay-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red-mid), var(--red-bar), var(--red-bright));
+      width: 78%;
+      animation: barGrow 1s ease-out 0.5s both;
+      position: relative;
+    }
+
+    /* Shimmer stripe on bar */
+    .pay-bar-fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(-45deg,
+          transparent,
+          transparent 3px,
+          rgba(255, 255, 255, 0.04) 3px,
+          rgba(255, 255, 255, 0.04) 6px);
+    }
+
+    /* Glow at the tip of the bar */
+    .pay-bar-fill::before {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: -2px;
+      bottom: -2px;
+      width: 20px;
+      background: linear-gradient(90deg, transparent, rgba(212, 64, 64, 0.5));
+      filter: blur(4px);
+      animation: glowPulse 1.5s ease-in-out infinite;
+    }
+
+    .pay-threshold {
+      position: absolute;
+      left: 46%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--yellow);
+      z-index: 1;
+      box-shadow: 0 0 8px var(--yellow-glow);
+    }
+
+    .pay-threshold::before {
+      content: 'MIN';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-ui);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--yellow);
+      opacity: 0.6;
+    }
+
+    /* ─── MIDDLE AREA ─── */
+    .middle {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      border-bottom: 2px solid rgba(180, 150, 120, 0.08);
+      animation: slideUp 0.5s ease-out 0.2s both;
+    }
+
+    /* Stats column */
+    .stats-col {
+      width: 250px;
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 1px;
+      background: rgba(180, 150, 120, 0.06);
+      border-right: 2px solid rgba(180, 150, 120, 0.08);
+    }
+
+    .stat-card {
+      background: var(--bg-mid);
+      padding: 16px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+      position: relative;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(212, 160, 64, 0.04), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .stat-card:hover {
+      background: var(--bg-warm);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+    }
+
+    .stat-card .stat-icon-wrap {
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .stat-card:hover .stat-icon-wrap {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .stat-icon-wrap {
+      margin-bottom: 6px;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+    }
+
+    .stat-card:nth-child(1) .stat-icon-wrap {
+      animation: bobUp 2.5s ease-in-out infinite;
+    }
+
+    .stat-card:nth-child(2) .stat-icon-wrap {
+      animation: bobUp 2.5s ease-in-out 0.3s infinite;
+    }
+
+    .stat-card:nth-child(3) .stat-icon-wrap {
+      animation: bobUp 2.5s ease-in-out 0.6s infinite;
+    }
+
+    .stat-card:nth-child(4) .stat-icon-wrap {
+      animation: bobUp 2.5s ease-in-out 0.9s infinite;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--paper);
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+      line-height: 1;
+    }
+
+    .stat-value.bad {
+      color: var(--red-bright);
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4), 0 0 12px rgba(212, 64, 64, 0.2);
+    }
+
+    .stat-value.warn {
+      color: var(--yellow);
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4), 0 0 12px var(--yellow-glow);
+    }
+
+    .stat-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* Breakdown column */
+    .breakdown-col {
+      flex: 1;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .breakdown-title {
+      font-family: var(--font-scrawl);
+      font-size: 20px;
+      color: var(--paper-dark);
+      margin-bottom: 10px;
+      font-weight: 600;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(180, 150, 120, 0.06);
+    }
+
+    .breakdown-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .bd-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 8px;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+
+    .bd-item:hover {
+      background: rgba(180, 150, 120, 0.04);
+    }
+
+    .bd-icon {
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .bd-text {
+      flex: 1;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--text-mid);
+      font-weight: 700;
+    }
+
+    .bd-amount {
+      font-family: var(--font-display);
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .bd-amount.plus {
+      color: var(--green-bright);
+      text-shadow: 0 0 8px var(--green-glow);
+    }
+
+    .bd-amount.minus {
+      color: var(--red-bright);
+      text-shadow: 0 0 8px rgba(212, 64, 64, 0.15);
+    }
+
+    /* divider between + and - items */
+    .bd-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(180, 150, 120, 0.1), transparent);
+      margin: 4px 0;
+    }
+
+    /* total row */
+    .bd-total {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 8px 4px;
+      margin-top: 4px;
+      border-top: 2px solid rgba(180, 150, 120, 0.08);
+    }
+
+    .bd-total-label {
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--paper-dark);
+      flex: 1;
+    }
+
+    .bd-total-amount {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--green-bright);
+      text-shadow: 0 0 12px var(--green-glow);
+    }
+
+    /* ─── BOTTOM ROW ─── */
+    .bottom-row {
+      display: flex;
+      align-items: center;
+      padding: 16px 24px;
+      flex-shrink: 0;
+      gap: 20px;
+      animation: slideUp 0.5s ease-out 0.4s both;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.08) 100%);
+    }
+
+    .rating-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .rating-label {
+      font-family: var(--font-scrawl);
+      font-size: 22px;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .rating-stamp {
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: var(--paper);
+      text-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.5),
+        0 0 24px var(--yellow-glow);
+      border: 3px solid var(--paper-dark);
+      padding: 2px 16px;
+      transform: rotate(-3deg);
+      box-shadow:
+        inset 0 0 12px rgba(0, 0, 0, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+      animation: stampIn 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) 0.8s both;
+    }
+
+    .rating-stamp::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid var(--paper-dark);
+      opacity: 0.3;
+      transform: rotate(2deg);
+    }
+
+    /* Handwritten Sticky Note */
+    .rs-sticky-note {
+      position: absolute;
+      top: 15px;
+      right: -30px;
+      width: 140px;
+      background: #eadaa2;
+      padding: 15px;
+      box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.05);
+      transform: rotate(6deg);
+      border-radius: 2px;
+      z-index: 15;
+      animation: noteSlideIn 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) 1.5s both;
+    }
+
+    .rs-sticky-note::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 30%;
+      width: 40px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      transform: rotate(-2deg);
+    }
+
+    .note-text {
+      font-family: var(--font-scrawl);
+      font-size: 16px;
+      color: #3e3228;
+      line-height: 1.2;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    @keyframes noteSlideIn {
+      from {
+        transform: translateX(100px) rotate(20deg);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0) rotate(6deg);
+        opacity: 1;
+      }
+    }
+
+    /* Payout Particles */
+    .payout-particle {
+      position: absolute;
+      pointer-events: none;
+      z-index: 100;
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--green-bright);
+      text-shadow: 0 0 8px var(--green-glow);
+      animation: particleFly 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    @keyframes particleFly {
+      0% {
+        transform: translate(0, 0) scale(0) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--tr));
+        opacity: 0;
+      }
+    }
+
+    /* Inner glow inside stamp */
+    .rating-stamp::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(212, 185, 160, 0.1);
+    }
+
+    .rating-stars {
+      display: flex;
+      gap: 4px;
+    }
+
+    .rating-stars svg {
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+    }
+
+    .star-filled {
+      opacity: 1;
+    }
+
+    .star-empty {
+      opacity: 0.15;
+    }
+
+    .star-filled:nth-child(1) {
+      animation: starPop 0.4s ease-out 1.0s both;
+    }
+
+    .star-filled:nth-child(2) {
+      animation: starPop 0.4s ease-out 1.1s both;
+    }
+
+    .star-filled:nth-child(3) {
+      animation: starPop 0.4s ease-out 1.2s both;
+    }
+
+    .star-filled:nth-child(4) {
+      animation: starPop 0.4s ease-out 1.3s both;
+    }
+
+    .star-empty:nth-child(5) {
+      animation: fadeIn 0.3s ease-out 1.4s both;
+    }
+
+    .button-group {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      font-family: var(--font-display);
+      font-size: 18px;
+      padding: 10px 24px;
+      border: 2px solid rgba(180, 150, 120, 0.2);
+      border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      transform-origin: center;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
+      color: var(--text-mid);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+      border-radius: 2px;
+    }
+
+    .btn:hover {
+      transform: scale(1.03) rotate(-1deg);
+      background: linear-gradient(to bottom, var(--paper), #cbb094);
+      color: var(--bg-dark);
+      border-color: var(--paper);
+      text-shadow: none;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      z-index: 5;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      border-bottom-width: 2px;
+    }
+
+    .btn.primary {
+      background: var(--paper);
+      color: var(--bg-dark);
+      border-color: var(--paper-dark);
+      box-shadow: 0 4px 0 var(--paper-shadow), 0 8px 16px rgba(0, 0, 0, 0.3);
+      text-shadow: none;
+    }
+
+    .btn.primary:hover {
+      background: var(--paper-light);
+      transform: scale(1.04) rotate(1deg);
+      box-shadow: 0 6px 0 var(--paper-shadow), 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn.primary:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 0 var(--paper-shadow);
+    }
+
+    .btn.secondary {
+      background: linear-gradient(to bottom, var(--bg-mid), #2a2520);
+      color: var(--text-mid);
+      border: 2px solid rgba(180, 150, 120, 0.2);
+      border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .btn.secondary:hover {
+      background: linear-gradient(to bottom, var(--paper), #dcc8b4);
+      color: var(--bg-dark);
+      border-color: var(--paper);
+    }
+
+    .btn-key {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+      background: var(--yellow);
+      color: var(--bg-dark);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+      line-height: 1;
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      opacity: 0.9;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      text-align: center;
+      padding: 8px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--text-dim);
+      opacity: 0.2;
+      letter-spacing: 2px;
+      border-top: 1px solid rgba(180, 150, 120, 0.04);
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="style-guide-card">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-tag">System Documentation</div>
+        <h1 class="hero-title">End-of-Shift Analysis</h1>
+        <p class="hero-desc">The critical summation of player performance, presenting earnings, safety metrics, and
+          operational efficiency in a tactile, high-stakes report.</p>
+      </div>
+
+      <!-- SHOWCASE -->
+      <div class="showcase">
+        <div class="spec-meta">
+          <span class="spec-label">Pattern 08 // Performance Review</span>
+          <h2 class="spec-title">The Result Screen</h2>
+          <p class="spec-desc">A heavy-vignetted diagnostic panel that processes shift data. Features animated pay-bar
+            thresholds, hover-reactive stat cards, and physical-grade rating stamps.</p>
+        </div>
+
+        <div class="result-screen" id="main-result">
+          <!-- Premium Sticky Note -->
+          <div class="rs-sticky-note">
+            <div class="note-text">Satisfactory... <br>for now.</div>
+          </div>
+
+          <!-- HEADER -->
+          <div class="header">
+            <div class="shift-tag">Night #04 · Facility B · 03:47 AM</div>
+            <div class="shift-complete">Shift Over!</div>
+            <div class="shift-subtitle">you survived... barely</div>
+          </div>
+
+          <!-- PAY ROW -->
+          <div class="pay-row">
+            <div class="pay-icon">
+              <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
+                <path d="M14 8c1-3 7-3 8 0" stroke="#d4a040" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                <path d="M12 12c-4 4-6 10-5 16 1 4 5 5 11 5s10-1 11-5c1-6-1-12-5-16z" fill="#d4a040" stroke="#b89a7e"
+                  stroke-width="1.5" />
+                <path d="M18 17v10M15 20h6M15 24h6" stroke="#3a2e24" stroke-width="2" stroke-linecap="round" />
+                <circle cx="15" cy="10" r="1.5" fill="#e8b850" />
+                <circle cx="21" cy="10" r="1.5" fill="#e8b850" />
+              </svg>
+            </div>
+            <div class="pay-bar-area">
+              <div class="pay-top">
+                <span class="pay-label">Shift Pay</span>
+                <span class="pay-amount">$847 <span class="pay-needed">/ $500 min</span></span>
+              </div>
+              <div class="pay-bar-track">
+                <div class="pay-bar-fill"></div>
+                <div class="pay-threshold"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MIDDLE: stats + breakdown -->
+          <div class="middle">
+            <div class="stats-col">
+              <!-- Anomalies Found -->
+              <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.3s both;">
+                <div class="stat-icon-wrap">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <ellipse cx="14" cy="14" rx="12" ry="8" stroke="#d4b9a0" stroke-width="2.5" fill="none"
+                      stroke-linecap="round" />
+                    <circle cx="14" cy="14" r="4.5" fill="#d4b9a0" />
+                    <circle cx="14" cy="14" r="2" fill="#1a1512" />
+                    <path d="M2 14c3-7 9-10 12-10s9 3 12 10" stroke="#d4b9a0" stroke-width="1" opacity="0.3"
+                      fill="none" />
+                  </svg>
+                </div>
+                <div class="stat-value">5</div>
+                <div class="stat-label">Anomalies</div>
+              </div>
+
+              <!-- False Reports -->
+              <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.4s both;">
+                <div class="stat-icon-wrap">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="12" r="9" stroke="#d4a040" stroke-width="2.5" fill="none"
+                      stroke-linecap="round" />
+                    <path d="M10 10l2 2-2 2" stroke="#d4a040" stroke-width="2" stroke-linecap="round" fill="none" />
+                    <path d="M18 10l-2 2 2 2" stroke="#d4a040" stroke-width="2" stroke-linecap="round" fill="none" />
+                    <path d="M10 18c1 2 3 3 4 3s3-1 4-3" stroke="#d4a040" stroke-width="2" stroke-linecap="round"
+                      fill="none" />
+                    <line x1="14" y1="22" x2="14" y2="26" stroke="#d4a040" stroke-width="2" stroke-linecap="round" />
+                    <path d="M11 26h6" stroke="#d4a040" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </div>
+                <div class="stat-value warn">1</div>
+                <div class="stat-label">False Reports</div>
+              </div>
+
+              <!-- Stuff Fixed -->
+              <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.5s both;">
+                <div class="stat-icon-wrap">
+                  <!-- Premium wrench-checkmark icon -->
+                  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                    <path
+                      d="M26.5 6.5C25.5 5.5 24 5 22.5 5C19.5 5 17 7.5 17 10.5C17 11.5 17.3 12.5 17.8 13.3L8 23V27H12L21.7 17.2C22.5 17.7 23.5 18 24.5 18C27.5 18 30 15.5 30 12.5C30 11 29.5 9.5 28.5 8.5L26.5 10.5L24.5 8.5L26.5 6.5Z"
+                      fill="#d4b9a0" stroke="#3a2e24" stroke-width="1.5" />
+                    <path d="M5 21L10 26L20 16" stroke="#8acc6a" stroke-width="3" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div class="stat-value">8</div>
+                <div class="stat-label">Fixed</div>
+              </div>
+
+              <!-- Intruders -->
+              <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.6s both;">
+                <div class="stat-icon-wrap">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="10" r="7" stroke="#d44040" stroke-width="2.5" fill="none"
+                      stroke-linecap="round" />
+                    <circle cx="11" cy="9" r="1.5" fill="#d44040" />
+                    <circle cx="17" cy="9" r="1.5" fill="#d44040" />
+                    <path d="M10 14h8" stroke="#d44040" stroke-width="2" stroke-linecap="round" />
+                    <path d="M8 4l3 3M20 4l-3 3" stroke="#d44040" stroke-width="2" stroke-linecap="round" />
+                    <path d="M11 18v5M17 18v5M9 23h4M15 23h4" stroke="#d44040" stroke-width="2"
+                      stroke-linecap="round" />
+                  </svg>
+                </div>
+                <div class="stat-value bad">2</div>
+                <div class="stat-label">Intruders</div>
+              </div>
+            </div>
+
+            <div class="breakdown-col">
+              <div class="breakdown-title">How'd you earn it?</div>
+              <div class="breakdown-list">
+                <div class="bd-item" style="animation: slideUp 0.4s ease-out 0.7s both;">
+                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <rect x="2" y="6" width="12" height="8" rx="1" stroke="#7a6a5a" stroke-width="1.5" fill="none" />
+                    <path d="M5 6V4a3 3 0 016 0v2" stroke="#7a6a5a" stroke-width="1.5" fill="none" />
+                  </svg>
+                  <span class="bd-text">Base shift pay</span>
+                  <span class="bd-amount plus">+$500</span>
+                </div>
+                <div class="bd-item" style="animation: slideUp 0.4s ease-out 0.8s both;">
+                  <!-- Premium wrench-checkmark icon (mini) -->
+                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 32 32" fill="none">
+                    <path
+                      d="M26.5 6.5C25.5 5.5 24 5 22.5 5C19.5 5 17 7.5 17 10.5C17 11.5 17.3 12.5 17.8 13.3L8 23V27H12L21.7 17.2C22.5 17.7 23.5 18 24.5 18C27.5 18 30 15.5 30 12.5C30 11 29.5 9.5 28.5 8.5L26.5 10.5L24.5 8.5L26.5 6.5Z"
+                      fill="#7a6a5a" stroke="#3a2e24" stroke-width="1.5" />
+                    <path d="M5 21L10 26L20 16" stroke="#8acc6a" stroke-width="3" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  <span class="bd-text">Breakdowns repaired (×8)</span>
+                  <span class="bd-amount plus">+$480</span>
+                </div>
+                <div class="bd-item" style="animation: slideUp 0.4s ease-out 0.9s both;">
+                  <!-- Premium eye-glow icon (mini) -->
+                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 28 28" fill="none">
+                    <ellipse cx="14" cy="14" rx="12" ry="8" stroke="#7a6a5a" stroke-width="2.5" fill="none"
+                      stroke-linecap="round" />
+                    <circle cx="14" cy="14" r="4.5" fill="#7a6a5a" />
+                    <circle cx="14" cy="14" r="2" fill="#1e1a17" />
+                    <path d="M2 14c3-7 9-10 12-10s9 3 12 10" stroke="#7a6a5a" stroke-width="1" opacity="0.3"
+                      fill="none" />
+                  </svg>
+                  <span class="bd-text">Anomalies resolved (×5)</span>
+                  <span class="bd-amount plus">+$150</span>
+                </div>
+                <div class="bd-divider"></div>
+                <div class="bd-item" style="animation: slideUp 0.4s ease-out 1.0s both;">
+                  <!-- Premium face-penalty icon (mini) -->
+                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="12" r="9" stroke="#7a6a5a" stroke-width="2.5" fill="none"
+                      stroke-linecap="round" />
+                    <path d="M10 10l2 2-2 2" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" fill="none" />
+                    <path d="M18 10l-2 2 2 2" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" fill="none" />
+                    <path d="M10 18c1 2 3 3 4 3s3-1 4-3" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round"
+                      fill="none" />
+                  </svg>
+                  <span class="bd-text">False report penalty (×1)</span>
+                  <span class="bd-amount minus">−$75</span>
+                </div>
+                <div class="bd-item" style="animation: slideUp 0.4s ease-out 1.1s both;">
+                  <!-- Premium intruder icon (mini) -->
+                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="10" r="7" stroke="#7a6a5a" stroke-width="2.5" fill="none"
+                      stroke-linecap="round" />
+                    <circle cx="11" cy="9" r="1.5" fill="#7a6a5a" />
+                    <circle cx="17" cy="9" r="1.5" fill="#7a6a5a" />
+                    <path d="M10 14h8" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" />
+                    <path d="M11 18v5L9 23M17 18v5L19 23" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  <span class="bd-text">Breakdown damage</span>
+                  <span class="bd-amount minus">−$208</span>
+                </div>
+              </div>
+              <div class="bd-total">
+                <span class="bd-total-label">Net Pay</span>
+                <span class="bd-total-amount">$847</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM — rating + buttons -->
+          <div class="bottom-row">
+            <div class="rating-area">
+              <span class="rating-label">Rating:</span>
+              <div class="rating-stamp">B+</div>
+              <div class="rating-stars">
+                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
+                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
+                    stroke="#b89a7e" stroke-width="0.5" />
+                </svg>
+                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
+                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
+                    stroke="#b89a7e" stroke-width="0.5" />
+                </svg>
+                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
+                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
+                    stroke="#b89a7e" stroke-width="0.5" />
+                </svg>
+                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
+                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
+                    stroke="#b89a7e" stroke-width="0.5" />
+                </svg>
+                <svg class="star-empty" width="20" height="20" viewBox="0 0 18 18">
+                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
+                    stroke="#b89a7e" stroke-width="0.5" />
+                </svg>
+              </div>
+            </div>
+            <div class="button-group">
+              <button class="btn secondary" onclick="navigateWithSound('main-menu.html')">
+                <span>Menu</span>
+                <span class="btn-key">Esc</span>
+              </button>
+              <button class="btn primary" onclick="navigateWithSound('game-screen.html')">
+                <span>Next Shift!</span>
+                <span class="btn-key">Space</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="footer" style="padding: 16px; border-top: 1px solid rgba(180, 150, 120, 0.08);">W.O.O.D. — We
+            Observe
+            Odd
+            Disturbances</div>
+        </div>
+
+      </div>
+
+      <!-- PAGE FOOTER -->
+      <div class="style-guide-footer"
+        style="padding: 40px; text-align: center; border-top: 1px solid rgba(212, 160, 64, 0.1); font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase;">
+        W.O.O.D. — Facility Management Prototype
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Audio System
+    const clickSound = new Audio('../audio/uiclick.mp3');
+    clickSound.volume = 0.5;
+
+    function playClick() {
+      // Create a clone to allow rapid overlapping clicks if needed
+      const sound = clickSound.cloneNode();
+      sound.volume = clickSound.volume;
+      sound.play().catch(e => console.log("Audio play blocked:", e));
+    }
+
+    function navigateWithSound(url) {
+      // playClick() is already handled by the global .btn listener
+      // Add subtle visual feedback
+      document.body.style.opacity = '0.8';
+      document.body.style.transition = 'opacity 0.2s';
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 250);
+    }
+
+    window.onload = () => {
+      // Small delay to let the initial animation start
+      setTimeout(spawnPayoutParticles, 1200);
+
+      // Attach click sound to all buttons
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          playClick();
+        });
+      });
+    };
+
+    function spawnPayoutParticles() {
+      const parent = document.getElementById('main-result');
+      if (!parent) return;
+
+      const symbols = ['$', '★', '✔', '💰'];
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'payout-particle';
+        p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+        // Random trajectory
+        const tx = (Math.random() - 0.5) * 600;
+        const ty = (Math.random() - 0.5) * 600 - 100;
+        const tr = (Math.random() - 0.5) * 720;
+
+        p.style.setProperty('--tx', `${tx}px`);
+        p.style.setProperty('--ty', `${ty}px`);
+        p.style.setProperty('--tr', `${tr}deg`);
+
+        // Center of the result screen
+        p.style.left = '50%';
+        p.style.top = '50%';
+
+        parent.appendChild(p);
+        setTimeout(() => p.remove(), 1500);
+      }
+    }
+  </script>
+</body>
+
+</html>

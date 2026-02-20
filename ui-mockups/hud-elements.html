@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.O.O.D. — HUD Elements Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1a1512;
+            --bg-mid: #231E1A;
+            --bg-warm: #2a221d;
+            --bg-overlay: rgba(12, 10, 8, 0.85);
+
+            --paper: #d4b9a0;
+            --paper-light: #e8d5c4;
+            --paper-dark: #b0957c;
+            --paper-shadow: #8a7660;
+
+            --yellow: #d4a040;
+            --yellow-bright: #e8b850;
+            --yellow-glow: rgba(212, 160, 64, 0.2);
+
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bar: #a83030;
+            --red-bright: #d44040;
+
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --green-glow: rgba(106, 170, 74, 0.25);
+
+            --text-bright: #e8ddd0;
+            --text-mid: #b8a898;
+            --text-dim: #70655c;
+            --text-dark: #3a2e24;
+
+            --font-display: 'Boogaloo', cursive;
+            --font-handwritten: 'Amatic SC', cursive;
+            --font-scrawl: 'Caveat', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-ui: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-bright);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            padding: 60px 20px;
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(212, 160, 64, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(212, 64, 64, 0.02) 0%, transparent 40%);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes borderGlow {
+
+            0%,
+            100% {
+                border-color: rgba(212, 160, 64, 0.1);
+            }
+
+            50% {
+                border-color: rgba(212, 160, 64, 0.25);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 6px var(--green);
+            }
+
+            50% {
+                box-shadow: 0 0 14px var(--green-bright), 0 0 24px rgba(106, 170, 74, 0.15);
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .style-guide-card {
+            background: var(--bg-mid);
+            border: 2px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), borderGlow 4s infinite;
+        }
+
+        .style-guide-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.5;
+            mix-blend-mode: overlay;
+        }
+
+        .hero {
+            padding: 100px 40px 80px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(212, 160, 64, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(212, 160, 64, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 160, 64, 0.2), transparent);
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.9;
+            animation: fadeIn 1s ease-out 0.3s both;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 72px;
+            color: var(--paper-light);
+            text-shadow:
+                0 4px 0 rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(212, 160, 64, 0.1);
+            line-height: 1;
+            margin-bottom: 18px;
+            animation: slideUp 0.6s ease-out;
+            letter-spacing: 1px;
+        }
+
+        .hero-desc {
+            font-family: var(--font-scrawl);
+            font-size: 28px;
+            color: var(--text-dim);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.4;
+            animation: fadeIn 1s ease-out 0.6s both;
+            opacity: 0.9;
+        }
+
+        .section-header {
+            padding: 40px 40px 30px;
+            text-align: center;
+        }
+
+        .section-header-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            color: var(--paper);
+            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 160, 64, 0.1);
+            line-height: 0.9;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .section-header-desc {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-mid);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .section-separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 160, 64, 0.2) 20%, rgba(212, 160, 64, 0.2) 80%, transparent);
+            margin: 60px 0 0;
+        }
+
+        .showcase {
+            max-width: 100%;
+            margin: 0 auto 80px;
+            padding: 0 40px;
+        }
+
+        .demo-container {
+            position: relative;
+            background: var(--bg-dark);
+            border: 2px solid rgba(180, 150, 120, 0.1);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            min-height: 200px;
+        }
+
+        /* ═══════════════════════════════════════════
+           PAY BAR
+           ═══════════════════════════════════════════ */
+        .paybar {
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .paybar-label {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 4px;
+        }
+
+        .paybar-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .paybar-amount {
+            font-family: var(--font-display);
+            font-size: 22px;
+            color: var(--paper);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .paybar-track {
+            flex: 1;
+            height: 18px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(180, 150, 120, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paybar-fill {
+            height: 100%;
+            width: 68%;
+            background: linear-gradient(90deg, var(--red-dark), var(--red-mid), var(--red-bar));
+            transition: width 0.8s ease-out;
+            position: relative;
+        }
+
+        .paybar-fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 6px);
+        }
+
+        .paybar-fill.critical {
+            background: linear-gradient(90deg, var(--red-dark), #ff3030);
+            animation: criticalPulse 0.8s ease-in-out infinite;
+        }
+
+        .paybar-fill.low {
+            background: linear-gradient(90deg, var(--red-dark), var(--red-mid));
+        }
+
+        .paybar-fill.medium,
+        .paybar-fill.high {
+            background: linear-gradient(90deg, var(--red-dark), var(--red-mid), var(--red-bar));
+        }
+
+        @keyframes criticalPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* ═══════════════════════════════════════════
+           PAY NOTIFICATIONS
+           ═══════════════════════════════════════════ */
+        .pay-notification {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideInNotification 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        @keyframes slideInNotification {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pay-notification-amount {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 400;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .pay-notification.positive .pay-notification-amount {
+            color: var(--green-bright);
+        }
+
+        .pay-notification.negative .pay-notification-amount {
+            color: var(--red-bright);
+        }
+
+        .pay-notification-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+        }
+
+        .pay-notification.positive .pay-notification-icon {
+            color: var(--green-bright);
+        }
+
+        .pay-notification.negative .pay-notification-icon {
+            color: var(--red-bright);
+        }
+
+        .pay-notification-text {
+            font-family: var(--font-body);
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .pay-notification.positive .pay-notification-text {
+            color: var(--green-bright);
+        }
+
+        .pay-notification.negative .pay-notification-text {
+            color: var(--red-bright);
+        }
+
+        /* ═══════════════════════════════════════════
+           CIRCULAR HOLD PROGRESS
+           ═══════════════════════════════════════════ */
+        .hold-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            user-select: none;
+        }
+
+        .hold-ring::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(212, 160, 64, 0.15);
+            animation: holdPulseOuter 2.4s ease-in-out infinite;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(212, 160, 64, 0.05);
+        }
+
+        @keyframes holdPulseOuter {
+
+            0%,
+            100% {
+                border-color: rgba(212, 160, 64, 0.1);
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(212, 160, 64, 0.05);
+            }
+
+            50% {
+                border-color: rgba(212, 160, 64, 0.4);
+                transform: scale(1.06);
+                box-shadow: 0 0 25px rgba(212, 160, 64, 0.15);
+            }
+        }
+
+        .hold-ring-track circle {
+            fill: none;
+            stroke: rgba(180, 150, 120, 0.1);
+            stroke-width: 5;
+        }
+
+        .hold-ring-progress {
+            position: absolute;
+            inset: 0;
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 0 8px rgba(106, 170, 74, 0.25));
+        }
+
+        .hold-ring-progress circle {
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 339.292;
+            stroke-dashoffset: 339.292;
+            transition: stroke-dashoffset 0.06s linear;
+        }
+
+        .hold-ring-progress circle.progress-green {
+            stroke: url(#holdGradGreen);
+        }
+
+        .hold-ring-progress circle.progress-yellow {
+            stroke: url(#holdGradYellow);
+        }
+
+        .hold-ring-progress circle.progress-red {
+            stroke: url(#holdGradRed);
+        }
+
+        .hold-ring.active .hold-ring-progress circle {
+            animation: fillRing 2s linear forwards;
+        }
+
+        @keyframes fillRing {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .hold-ring.completed .hold-ring-inner {
+            opacity: 0;
+        }
+
+        .hold-ring-check {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28), transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .hold-ring.completed .hold-ring-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hold-ring-inner {
+            position: absolute;
+            inset: 14px;
+            border-radius: 50%;
+            background: rgba(46, 38, 32, 0.85);
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, background 0.25s;
+        }
+
+        /* Green variant active state */
+        #hold-green.active .hold-ring-inner {
+            border-color: rgba(106, 170, 74, 0.5);
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(106, 170, 74, 0.2);
+            transform: scale(0.95);
+        }
+
+        #hold-green.active .hold-ring-icon {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        #hold-green.active .hold-ring-key {
+            background: var(--green);
+            color: var(--bg-dark);
+            border-color: rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-bottom-width: 1px;
+            animation: keyPulseGreen 0.8s ease-in-out infinite;
+        }
+
+        @keyframes keyPulseGreen {
+
+            0%,
+            100% {
+                transform: scale(0.9);
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+                background: var(--green);
+            }
+
+            50% {
+                transform: scale(0.93);
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 8px rgba(106, 170, 74, 0.4);
+                background: var(--green-bright);
+                color: var(--bg-warm);
+            }
+        }
+
+        /* Yellow variant active state */
+        #hold-yellow.active .hold-ring-inner {
+            border-color: rgba(212, 160, 64, 0.5);
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 160, 64, 0.2);
+            transform: scale(0.95);
+        }
+
+        #hold-yellow.active .hold-ring-icon {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        #hold-yellow.active .hold-ring-key {
+            background: var(--yellow);
+            color: var(--bg-dark);
+            border-color: rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-bottom-width: 1px;
+            animation: keyPulseYellow 0.8s ease-in-out infinite;
+        }
+
+        @keyframes keyPulseYellow {
+
+            0%,
+            100% {
+                transform: scale(0.9);
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+                background: var(--yellow);
+            }
+
+            50% {
+                transform: scale(0.93);
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 8px rgba(212, 160, 64, 0.4);
+                background: var(--yellow-bright);
+                color: var(--bg-warm);
+            }
+        }
+
+        /* Red variant active state */
+        #hold-red.active .hold-ring-inner {
+            border-color: rgba(212, 64, 64, 0.5);
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 64, 64, 0.2);
+            transform: scale(0.95);
+        }
+
+        #hold-red.active .hold-ring-icon {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        #hold-red.active .hold-ring-key {
+            background: var(--red-bar);
+            color: var(--bg-dark);
+            border-color: rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            border-bottom-width: 1px;
+            animation: keyPulseRed 0.8s ease-in-out infinite;
+        }
+
+        @keyframes keyPulseRed {
+
+            0%,
+            100% {
+                transform: scale(0.9);
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+                background: var(--red-bar);
+            }
+
+            50% {
+                transform: scale(0.93);
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 0 8px rgba(212, 64, 64, 0.4);
+                background: var(--red-bright);
+                color: var(--bg-warm);
+            }
+        }
+
+        .hold-ring-icon {
+            opacity: 0.7;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            transition: opacity 0.2s, transform 0.25s;
+        }
+
+        .hold-ring-key {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            letter-spacing: 0.5px;
+            padding: 2px 6px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            background: var(--text-dim);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s;
+        }
+
+        .hold-ring-label {
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .hold-ring-label-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--paper);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .hold-ring-label-hint {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        .hold-demo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .hold-demo-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .hold-demo-wrapper:active {
+            transform: scale(0.98);
+        }
+
+        /* ═══════════════════════════════════════════
+           ACTION KEYS
+           ═══════════════════════════════════════════ */
+        .hud-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .hud-action-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .hud-action-label {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(232, 221, 208, 0.7);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .hud-action-key {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            background: var(--yellow);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+            line-height: 1.3;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* ═══════════════════════════════════════════
+           INTERACTION PROMPT
+           ═══════════════════════════════════════════ */
+        .interaction-prompt {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .interaction-prompt .key-badge {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--yellow);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .interaction-prompt.green .key-badge {
+            background: var(--green);
+        }
+
+        .interaction-prompt.red .key-badge {
+            background: var(--red-bar);
+            text-shadow: none;
+        }
+
+        .interaction-prompt .action-text {
+            font-family: var(--font-display);
+            font-size: 17px;
+            letter-spacing: 1px;
+            color: var(--paper);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            margin-top: 2px;
+        }
+
+        /* ═══════════════════════════════════════════
+           TIMER & LOCATION
+           ═══════════════════════════════════════════ */
+        .hud-timer {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-bright);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        .hud-location {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hud-location::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--yellow);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 5px var(--yellow);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ═══════════════════════════════════════════
+           VOICE INDICATOR
+           ═══════════════════════════════════════════ */
+        .voice-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+        }
+
+        .voice-indicator.radio {
+            border-color: rgba(106, 170, 74, 0.4);
+            background: rgba(106, 170, 74, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 12px rgba(106, 170, 74, 0.1);
+        }
+
+        .voice-indicator.radio .voice-label {
+            color: var(--green-bright);
+            text-shadow: 0 0 8px rgba(106, 170, 74, 0.4);
+        }
+
+        .voice-indicator.local {
+            border-color: rgba(212, 160, 64, 0.4);
+            background: rgba(212, 160, 64, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 12px rgba(212, 160, 64, 0.1);
+        }
+
+        .voice-indicator.local .voice-icon {
+            color: var(--yellow-bright);
+            filter: drop-shadow(0 0 4px var(--yellow-bright));
+        }
+
+        .voice-indicator.local .voice-waves .wave {
+            background: var(--yellow-bright);
+            box-shadow: 0 0 6px var(--yellow-bright);
+        }
+
+        .voice-indicator.local .voice-label {
+            color: var(--yellow-bright);
+            text-shadow: 0 0 8px rgba(212, 160, 64, 0.4);
+        }
+
+        .voice-icon {
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-bright);
+            filter: drop-shadow(0 0 4px var(--green-bright));
+        }
+
+        .voice-waves {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 14px;
+        }
+
+        .wave {
+            width: 3px;
+            height: 4px;
+            border-radius: 1.5px;
+            background: var(--green-bright);
+            box-shadow: 0 0 6px var(--green-bright);
+            animation: soundWave 0.2s alternate infinite;
+        }
+
+        .wave:nth-child(1) {
+            animation-duration: 0.15s;
+        }
+
+        .wave:nth-child(2) {
+            animation-duration: 0.25s;
+            animation-delay: 0.05s;
+        }
+
+        .wave:nth-child(3) {
+            animation-duration: 0.18s;
+            animation-delay: 0.1s;
+        }
+
+        .wave:nth-child(4) {
+            animation-duration: 0.22s;
+            animation-delay: 0.15s;
+        }
+
+        @keyframes soundWave {
+            0% {
+                height: 4px;
+            }
+
+            100% {
+                height: 14px;
+            }
+        }
+
+        .voice-label {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* ═══════════════════════════════════════════
+           HOTKEY HINTS
+           ═══════════════════════════════════════════ */
+        .hotkey-hint {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(180, 150, 120, 0.15);
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .hotkey-hint:hover {
+            border-color: var(--yellow);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .hotkey-hint .key {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            background: var(--yellow);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+            line-height: 1.3;
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .hotkey-hint .label {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-mid);
+        }
+
+        /* ═══════════════════════════════════════════
+           GRID LAYOUT FOR MULTIPLE ELEMENTS
+           ═══════════════════════════════════════════ */
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .element-card {
+            background: var(--bg-dark);
+            border: 2px solid rgba(180, 150, 120, 0.1);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: block;
+            text-align: center;
+        }
+
+        /* ═══════════════════════════════════════════
+           COLOR PALETTE
+           ═══════════════════════════════════════════ */
+        .color-swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-box {
+            width: 100%;
+            height: 80px;
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .color-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .color-label {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-bright);
+            text-align: center;
+        }
+
+        .color-value {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-dim);
+            text-align: center;
+        }
+
+        /* Color chips for sections */
+        .color-chips {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .chip {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(180, 150, 120, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            cursor: help;
+            transition: transform 0.2s;
+        }
+
+        .chip:hover {
+            transform: scale(1.2);
+        }
+
+        /* ═══════════════════════════════════════════
+           BUTTONS
+           ═══════════════════════════════════════════ */
+        .modal-btn {
+            font-family: var(--font-display);
+            font-size: 18px;
+            padding: 10px 24px;
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            transform-origin: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
+            color: var(--text-mid);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.03) rotate(-1deg);
+            background: linear-gradient(to bottom, var(--paper), #cbb094);
+            color: var(--bg-dark);
+            border-color: var(--paper);
+            text-shadow: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            z-index: 5;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-bottom-width: 2px;
+        }
+
+        .modal-btn.confirm {
+            background: var(--paper);
+            color: var(--bg-dark);
+            border-color: var(--paper-dark);
+            box-shadow: 0 4px 0 var(--paper-shadow), 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-shadow: none;
+        }
+
+        .modal-btn.confirm:hover {
+            background: var(--paper-light);
+            transform: scale(1.04) rotate(1deg);
+            box-shadow: 0 6px 0 var(--paper-shadow), 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-btn.confirm:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 0 var(--paper-shadow);
+        }
+
+        .modal-btn.cancel {
+            background: linear-gradient(to bottom, var(--bg-mid), #2a2520);
+            color: var(--text-mid);
+        }
+
+        .modal-btn.cancel:hover {
+            background: linear-gradient(to bottom, var(--paper), #dcc8b4);
+            color: var(--bg-dark);
+        }
+
+        /* ═══════════════════════════════════════════
+           ESCAPE MENU BUTTONS
+           ═══════════════════════════════════════════ */
+        .esc-btn {
+            background: var(--bg-mid);
+            border: 2px solid rgba(180, 150, 120, 0.15);
+            padding: 18px 24px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            transform-origin: center;
+        }
+
+        .esc-btn:hover {
+            transform: scale(1.03) rotate(-1deg);
+            background: var(--paper);
+            border-color: var(--paper);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+        }
+
+        .esc-btn .btn-text {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--text-mid);
+            transition: color 0.1s;
+        }
+
+        .esc-btn:hover .btn-text {
+            color: var(--bg-dark);
+        }
+
+        .esc-btn .btn-icon {
+            font-size: 18px;
+            color: var(--text-dim);
+            transition: color 0.1s;
+        }
+
+        .esc-btn:hover .btn-icon {
+            color: var(--red-mid);
+        }
+
+        .esc-btn.primary {
+            background: var(--red-dark);
+            border-color: transparent;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .esc-btn.primary .btn-text {
+            color: var(--text-bright);
+        }
+
+        .esc-btn.primary:hover {
+            background: var(--red-mid);
+            transform: scale(1.04) rotate(1deg);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .esc-btn.primary:hover .btn-text {
+            color: white;
+        }
+
+        .esc-btn.primary .btn-icon {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .esc-btn.primary:hover .btn-icon {
+            color: white;
+        }
+
+        .esc-btn.danger {
+            border-color: rgba(180, 50, 50, 0.3);
+            background: rgba(40, 10, 10, 0.4);
+        }
+
+        .esc-btn.danger .btn-text {
+            color: #bd5555;
+        }
+
+        .esc-btn.danger:hover {
+            border-color: var(--red-bright);
+            background: rgba(80, 20, 20, 0.6);
+        }
+
+        .esc-btn.danger:hover .btn-text {
+            color: var(--red-bright);
+        }
+
+        .esc-btn.danger .btn-icon {
+            color: #bd5555;
+        }
+
+        .esc-btn.danger:hover .btn-icon {
+            color: var(--red-bright);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SVG gradients -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="holdGradGreen" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6aaa4a" />
+                <stop offset="100%" stop-color="#8acc6a" />
+            </linearGradient>
+            <linearGradient id="holdGradYellow" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#d4a040" />
+                <stop offset="100%" stop-color="#e8b850" />
+            </linearGradient>
+            <linearGradient id="holdGradRed" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#a83030" />
+                <stop offset="100%" stop-color="#d44040" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <div class="container">
+        <div class="style-guide-card">
+
+            <!-- HERO -->
+            <div class="hero">
+                <div class="hero-tag">W.O.O.D. // DOCUMENTATION</div>
+                <h1 class="hero-title">HUD Elements</h1>
+                <p class="hero-desc">Interactive interface components for player feedback, environmental cues, and
+                    high-fidelity status tracking.</p>
+            </div>
+
+            <!-- SECTION: COLOR PALETTE -->
+            <div class="section-header" style="margin-top: 20px;">
+                <h2>Color Palette</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Core colors used across HUD elements</span>
+                <div class="demo-container">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; width: 100%; max-width: 800px;">
+                        <!-- Background Colors -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #1a1512;"></div>
+                            <div class="color-label">BG Dark</div>
+                            <div class="color-value">#1a1512</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #231E1A;"></div>
+                            <div class="color-label">BG Mid</div>
+                            <div class="color-value">#231E1A</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #2a221d;"></div>
+                            <div class="color-label">BG Warm</div>
+                            <div class="color-value">#2a221d</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: rgba(12, 10, 8, 0.85);"></div>
+                            <div class="color-label">BG Overlay</div>
+                            <div class="color-value">rgba(12,10,8,0.85)</div>
+                        </div>
+
+                        <!-- Paper Colors -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #d4b9a0;"></div>
+                            <div class="color-label">Paper</div>
+                            <div class="color-value">#d4b9a0</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #e8d5c4;"></div>
+                            <div class="color-label">Paper Light</div>
+                            <div class="color-value">#e8d5c4</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #b0957c;"></div>
+                            <div class="color-label">Paper Dark</div>
+                            <div class="color-value">#b0957c</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #8a7660;"></div>
+                            <div class="color-label">Paper Shadow</div>
+                            <div class="color-value">#8a7660</div>
+                        </div>
+
+                        <!-- Border Color -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #b4967a;"></div>
+                            <div class="color-label">Border Tan</div>
+                            <div class="color-value">#b4967a</div>
+                        </div>
+
+                        <!-- Yellow Colors -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #d4a040;"></div>
+                            <div class="color-label">Yellow</div>
+                            <div class="color-value">#d4a040</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #e8b850;"></div>
+                            <div class="color-label">Yellow Bright</div>
+                            <div class="color-value">#e8b850</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: rgba(212, 160, 64, 0.2);"></div>
+                            <div class="color-label">Yellow Glow</div>
+                            <div class="color-value">rgba(212,160,64,0.2)</div>
+                        </div>
+
+                        <!-- Red Colors -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #5a1a1a;"></div>
+                            <div class="color-label">Red Dark</div>
+                            <div class="color-value">#5a1a1a</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #8a2828;"></div>
+                            <div class="color-label">Red Mid</div>
+                            <div class="color-value">#8a2828</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #a83030;"></div>
+                            <div class="color-label">Red Bar</div>
+                            <div class="color-value">#a83030</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #d44040;"></div>
+                            <div class="color-label">Red Bright</div>
+                            <div class="color-value">#d44040</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #ff3030;"></div>
+                            <div class="color-label">Red Critical</div>
+                            <div class="color-value">#ff3030</div>
+                        </div>
+
+                        <!-- Green Colors -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #6aaa4a;"></div>
+                            <div class="color-label">Green</div>
+                            <div class="color-value">#6aaa4a</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #8acc6a;"></div>
+                            <div class="color-label">Green Bright</div>
+                            <div class="color-value">#8acc6a</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: rgba(106, 170, 74, 0.25);"></div>
+                            <div class="color-label">Green Glow</div>
+                            <div class="color-value">rgba(106,170,74,0.25)</div>
+                        </div>
+
+                        <!-- Text Colors -->
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #e8ddd0;"></div>
+                            <div class="color-label">Text Bright</div>
+                            <div class="color-value">#e8ddd0</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #b8a898;"></div>
+                            <div class="color-label">Text Mid</div>
+                            <div class="color-value">#b8a898</div>
+                        </div>
+                        <div class="color-swatch">
+                            <div class="color-box" style="background: #70655c;"></div>
+                            <div class="color-label">Text Dim</div>
+                            <div class="color-value">#70655c</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: PAY BAR -->
+            <div class="section-header" style="margin-top: 20px;">
+                <div class="section-header-tag">PATTERN 01 // EARNINGS TRACKER</div>
+                <h2>Pay Bar</h2>
+                <p class="section-header-desc">Tracks player earnings during shift with animated fill states and
+                    critical threshold warnings.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Tracks player earnings during shift</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #5a1a1a;" title="Red Dark"></span>
+                    <span class="chip" style="background: #8a2828;" title="Red Mid"></span>
+                    <span class="chip" style="background: #a83030;" title="Red Bar"></span>
+                    <span class="chip" style="background: #ff3030;" title="Red Critical"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper"></span>
+                    <span class="chip" style="background: #70655c;" title="Text Dim"></span>
+                    <span class="chip" style="background: rgba(0, 0, 0, 0.5); border: 1px solid #70655c;"
+                        title="Track BG: rgba(0,0,0,0.5)"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.12); border: 1px solid #b4967a;"
+                        title="Track Border: rgba(180,150,120,0.12)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; flex-direction: column; gap: 30px; width: 100%; max-width: 500px;">
+                        <!-- Critical Pay State -->
+                        <div class="paybar">
+                            <div class="paybar-label">Shift Pay — Critical</div>
+                            <div class="paybar-container">
+                                <span class="paybar-amount">$18</span>
+                                <div class="paybar-track">
+                                    <div class="paybar-fill critical" style="width: 15%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Low Pay State -->
+                        <div class="paybar">
+                            <div class="paybar-label">Shift Pay — Low</div>
+                            <div class="paybar-container">
+                                <span class="paybar-amount">$32</span>
+                                <div class="paybar-track">
+                                    <div class="paybar-fill low" style="width: 25%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Medium Pay State -->
+                        <div class="paybar">
+                            <div class="paybar-label">Shift Pay — Medium</div>
+                            <div class="paybar-container">
+                                <span class="paybar-amount">$87</span>
+                                <div class="paybar-track">
+                                    <div class="paybar-fill medium" style="width: 68%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- High Pay State -->
+                        <div class="paybar">
+                            <div class="paybar-label">Shift Pay — High</div>
+                            <div class="paybar-container">
+                                <span class="paybar-amount">$142</span>
+                                <div class="paybar-track">
+                                    <div class="paybar-fill high" style="width: 95%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="section-label" style="margin-top: 40px;">Pay notifications for player actions</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #8acc6a;" title="Green Bright"></span>
+                    <span class="chip" style="background: #d44040;" title="Red Bright"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (icon fill)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; flex-direction: column; gap: 20px; align-items: flex-start;">
+                        <div class="pay-notification negative">
+                            <span class="pay-notification-amount">-$5</span>
+                            <span class="pay-notification-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" fill="currentColor" />
+                                    <path d="M8 12h8" stroke="#1a1512" stroke-width="2.5" stroke-linecap="round" />
+                                </svg>
+                            </span>
+                            <span class="pay-notification-text">multiple breakdowns</span>
+                        </div>
+
+                        <div class="pay-notification positive">
+                            <span class="pay-notification-amount">+$60</span>
+                            <span class="pay-notification-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" fill="currentColor" />
+                                    <path d="M7 12l4 4 6-7" stroke="#1a1512" stroke-width="2.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <span class="pay-notification-text">fuse panel restored</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: CIRCULAR HOLD PROGRESS -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 02 // INTERACTION FEEDBACK</div>
+                <h2>Hold Interaction</h2>
+                <p class="section-header-desc">Radial progress indicators for hold-to-interact mechanics with
+                    color-coded action types and animated completion states.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Radial progress for hold-to-interact mechanics — Click to activate</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #6aaa4a;" title="Green"></span>
+                    <span class="chip" style="background: #8acc6a;" title="Green Bright"></span>
+                    <span class="chip" style="background: #d4a040;" title="Yellow"></span>
+                    <span class="chip" style="background: #e8b850;" title="Yellow Bright"></span>
+                    <span class="chip" style="background: #a83030;" title="Red Bar"></span>
+                    <span class="chip" style="background: #d44040;" title="Red Bright"></span>
+                    <span class="chip" style="background: rgba(46, 38, 32, 0.85); border: 1px solid #2e2620;"
+                        title="BG Warm: rgba(46,38,32,0.85)"></span>
+                    <span class="chip" style="background: #70655c;" title="Text Dim (key bg)"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (key text)"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.2); border: 1px solid #b4967a;"
+                        title="Border: rgba(180,150,120,0.2)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; gap: 60px; flex-wrap: wrap; justify-content: center;">
+
+                        <!-- Green Variant (Repair) -->
+                        <div class="hold-demo-wrapper" onclick="activateHold('hold-green')">
+                            <div class="hold-ring" id="hold-green">
+                                <svg class="hold-ring-track" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" />
+                                </svg>
+                                <svg class="hold-ring-progress" viewBox="0 0 120 120">
+                                    <circle class="progress-green" cx="60" cy="60" r="54" />
+                                </svg>
+                                <div class="hold-ring-inner">
+                                    <span class="hold-ring-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                                                stroke="#6aaa4a" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="hold-ring-key">E</span>
+                                </div>
+                                <div class="hold-ring-check">
+                                    <svg width="48" height="48" viewBox="0 0 36 36" fill="none">
+                                        <circle cx="18" cy="18" r="14" fill="rgba(106,170,74,0.15)" />
+                                        <path d="M12 18l4 4 8-9" stroke="#8acc6a" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="hold-ring-label">
+                                <div class="hold-ring-label-title">Repair</div>
+                                <div class="hold-ring-label-hint">Hold E to fix</div>
+                            </div>
+                        </div>
+
+                        <!-- Yellow Variant (Unlock) -->
+                        <div class="hold-demo-wrapper" onclick="activateHold('hold-yellow')">
+                            <div class="hold-ring" id="hold-yellow">
+                                <svg class="hold-ring-track" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" />
+                                </svg>
+                                <svg class="hold-ring-progress" viewBox="0 0 120 120">
+                                    <circle class="progress-yellow" cx="60" cy="60" r="54" />
+                                </svg>
+                                <div class="hold-ring-inner">
+                                    <span class="hold-ring-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <rect x="5" y="11" width="14" height="10" rx="2" stroke="#d4a040"
+                                                stroke-width="2" fill="none" />
+                                            <path d="M8 11V7a4 4 0 018 0v4" stroke="#d4a040" stroke-width="2"
+                                                fill="none" />
+                                            <circle cx="12" cy="16" r="1.5" fill="#d4a040" />
+                                        </svg>
+                                    </span>
+                                    <span class="hold-ring-key">E</span>
+                                </div>
+                                <div class="hold-ring-check">
+                                    <svg width="48" height="48" viewBox="0 0 36 36" fill="none">
+                                        <circle cx="18" cy="18" r="14" fill="rgba(212,160,64,0.15)" />
+                                        <path d="M12 18l4 4 8-9" stroke="#e8b850" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="hold-ring-label">
+                                <div class="hold-ring-label-title">Unlock</div>
+                                <div class="hold-ring-label-hint">Hold E to open</div>
+                            </div>
+                        </div>
+
+                        <!-- Red Variant (Danger) -->
+                        <div class="hold-demo-wrapper" onclick="activateHold('hold-red')">
+                            <div class="hold-ring" id="hold-red">
+                                <svg class="hold-ring-track" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" />
+                                </svg>
+                                <svg class="hold-ring-progress" viewBox="0 0 120 120">
+                                    <circle class="progress-red" cx="60" cy="60" r="54" />
+                                </svg>
+                                <div class="hold-ring-inner">
+                                    <span class="hold-ring-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 3L2 21h20L12 3z" fill="none" stroke="#a83030" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <line x1="12" y1="10" x2="12" y2="15" stroke="#a83030" stroke-width="2"
+                                                stroke-linecap="round" />
+                                            <circle cx="12" cy="18" r="0.5" fill="#a83030" stroke="#a83030"
+                                                stroke-width="1" />
+                                        </svg>
+                                    </span>
+                                    <span class="hold-ring-key">E</span>
+                                </div>
+                                <div class="hold-ring-check">
+                                    <svg width="48" height="48" viewBox="0 0 36 36" fill="none">
+                                        <circle cx="18" cy="18" r="14" fill="rgba(212,64,64,0.15)" />
+                                        <path d="M12 18l4 4 8-9" stroke="#d44040" stroke-width="3"
+                                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="hold-ring-label">
+                                <div class="hold-ring-label-title">Override</div>
+                                <div class="hold-ring-label-hint">Hold E to force</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: ACTION KEYS -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 03 // CONTEXTUAL CONTROLS</div>
+                <h2>Action Keys</h2>
+                <p class="section-header-desc">Contextual action prompts with keybinds that appear when holding
+                    interactive objects.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Contextual action prompts with keybinds</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4a040;" title="Yellow"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (key text)"></span>
+                    <span class="chip" style="background: #e8ddd0;" title="Text Bright"></span>
+                </div>
+                <div class="demo-container">
+                    <div class="hud-actions">
+                        <div class="hud-action-row">
+                            <span class="hud-action-label">Drop</span>
+                            <span class="hud-action-key">Tap</span>
+                        </div>
+                        <div class="hud-action-row">
+                            <span class="hud-action-label">Throw</span>
+                            <span class="hud-action-key">Hold</span>
+                        </div>
+                        <div class="hud-action-row">
+                            <span class="hud-action-label">Inspect</span>
+                            <span class="hud-action-key">R</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: INTERACTION PROMPT -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 04 // WORLD INTERACTION</div>
+                <h2>Interaction Prompt</h2>
+                <p class="section-header-desc">Appears when player can interact with objects in the environment, showing
+                    the required key and action type.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Appears when player can interact with objects</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4a040;" title="Yellow"></span>
+                    <span class="chip" style="background: #6aaa4a;" title="Green"></span>
+                    <span class="chip" style="background: #a83030;" title="Red Bar"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (key text)"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.2); border: 1px solid #b4967a;"
+                        title="Border: rgba(180,150,120,0.2)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+                        <div class="interaction-prompt green">
+                            <span class="key-badge">E</span>
+                            <span class="action-text">Hold to Repair</span>
+                        </div>
+                        <div class="interaction-prompt">
+                            <span class="key-badge">E</span>
+                            <span class="action-text">Hold to Unlock</span>
+                        </div>
+                        <div class="interaction-prompt red">
+                            <span class="key-badge">E</span>
+                            <span class="action-text">Hold to Override</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: TIMER & LOCATION -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 05 // SPATIAL AWARENESS</div>
+                <h2>Timer & Location</h2>
+                <p class="section-header-desc">Displays current shift time and player location within the facility for
+                    navigation and time tracking.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Displays current time and player location</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #e8ddd0;" title="Text Bright"></span>
+                    <span class="chip" style="background: #70655c;" title="Text Dim"></span>
+                    <span class="chip" style="background: #d4a040;" title="Yellow"></span>
+                </div>
+                <div class="element-grid">
+                    <div class="element-card">
+                        <div class="hud-timer">04:32</div>
+                    </div>
+                    <div class="element-card">
+                        <div class="hud-location">Storage B-04 // Supply Wing</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: VOICE INDICATOR -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 06 // COMMUNICATION STATUS</div>
+                <h2>Voice Indicator</h2>
+                <p class="section-header-desc">Shows when voice chat is active with animated waveforms, distinguishing
+                    between radio and local communication.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Shows when voice chat is active</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #8acc6a;" title="Green Bright"></span>
+                    <span class="chip" style="background: #e8b850;" title="Yellow Bright"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+                        <div class="voice-indicator radio">
+                            <div class="voice-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                                </svg>
+                            </div>
+                            <div class="voice-waves">
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                            </div>
+                            <span class="voice-label">Radio</span>
+                        </div>
+
+                        <div class="voice-indicator local">
+                            <div class="voice-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                                </svg>
+                            </div>
+                            <div class="voice-waves">
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                            </div>
+                            <span class="voice-label">Local</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: HOTKEY HINTS -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 07 // QUICK ACCESS</div>
+                <h2>Hotkey Hints</h2>
+                <p class="section-header-desc">Quick access menu shortcuts for essential tools and interfaces during
+                    gameplay.</p>
+            </div>
+
+            <div class="showcase" style="margin-bottom: 0;">
+                <span class="section-label">Quick access menu shortcuts</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4a040;" title="Yellow"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (key text)"></span>
+                    <span class="chip" style="background: #b8a898;" title="Text Mid"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.15); border: 1px solid #b4967a;"
+                        title="Border: rgba(180,150,120,0.15)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                        <div class="hotkey-hint">
+                            <span class="key">H</span>
+                            <span class="label">Walkie</span>
+                        </div>
+                        <div class="hotkey-hint">
+                            <span class="key">Tab</span>
+                            <span class="label">Tablet</span>
+                        </div>
+                        <div class="hotkey-hint">
+                            <span class="key">F</span>
+                            <span class="label">Monitor</span>
+                        </div>
+                        <div class="hotkey-hint">
+                            <span class="key">Esc</span>
+                            <span class="label">Menu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: BUTTONS -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 08 // UI CONTROLS</div>
+                <h2>Buttons</h2>
+                <p class="section-header-desc">Dialog and modal action buttons with distinct visual states for
+                    confirmation, cancellation, and danger actions.</p>
+            </div>
+
+            <div class="showcase">
+                <span class="section-label">Dialog and modal action buttons</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4b9a0;" title="Paper"></span>
+                    <span class="chip" style="background: #e8d5c4;" title="Paper Light"></span>
+                    <span class="chip" style="background: #b0957c;" title="Paper Dark"></span>
+                    <span class="chip" style="background: #8a7660;" title="Paper Shadow"></span>
+                    <span class="chip" style="background: #231E1A;" title="BG Mid"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark"></span>
+                    <span class="chip" style="background: #b8a898;" title="Text Mid"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.2); border: 1px solid #b4967a;"
+                        title="Border: rgba(180,150,120,0.2)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                        <button class="modal-btn confirm">Confirm</button>
+                        <button class="modal-btn cancel">Cancel</button>
+                    </div>
+                </div>
+
+                <span class="section-label" style="margin-top: 40px;">Escape menu buttons</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #5a1a1a;" title="Red Dark"></span>
+                    <span class="chip" style="background: #8a2828;" title="Red Mid"></span>
+                    <span class="chip" style="background: #d44040;" title="Red Bright"></span>
+                    <span class="chip" style="background: #bd5555;" title="Danger Text"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper"></span>
+                    <span class="chip" style="background: #231E1A;" title="BG Mid"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark"></span>
+                    <span class="chip" style="background: #e8ddd0;" title="Text Bright"></span>
+                    <span class="chip" style="background: #b8a898;" title="Text Mid"></span>
+                    <span class="chip" style="background: #70655c;" title="Text Dim"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.15); border: 1px solid #b4967a;"
+                        title="Border: rgba(180,150,120,0.15)"></span>
+                </div>
+                <div class="demo-container">
+                    <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px;">
+                        <button class="esc-btn primary">
+                            <span class="btn-text">RESUME</span>
+                            <span class="btn-icon">▶</span>
+                        </button>
+                        <button class="esc-btn">
+                            <span class="btn-text">SETTINGS</span>
+                            <span class="btn-icon">⚙</span>
+                        </button>
+                        <button class="esc-btn">
+                            <span class="btn-text">HOW TO PLAY</span>
+                            <span class="btn-icon">?</span>
+                        </button>
+                        <button class="esc-btn danger">
+                            <span class="btn-text">LEAVE SHIFT</span>
+                            <span class="btn-icon">✕</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="style-guide-footer"
+                style="padding: 40px; text-align: center; border-top: 1px solid rgba(212, 160, 64, 0.1); font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase;">
+                W.O.O.D. — Facility Management Prototype
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function activateHold(ringId) {
+            const ring = document.getElementById(ringId);
+
+            // Reset if already completed
+            if (ring.classList.contains('completed')) {
+                ring.classList.remove('completed');
+                ring.classList.remove('active');
+                setTimeout(() => activateHold(ringId), 100);
+                return;
+            }
+
+            // Start animation
+            ring.classList.add('active');
+
+            // Complete after 2 seconds
+            setTimeout(() => {
+                ring.classList.add('completed');
+
+                // Reset after 1.5 seconds
+                setTimeout(() => {
+                    ring.classList.remove('completed');
+                    ring.classList.remove('active');
+                }, 1500);
+            }, 2000);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.O.O.D. — Visual Language Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1a1512;
+            --bg-mid: #231e1a;
+            --bg-warm: #2e2620;
+            --bg-overlay: rgba(12, 10, 8, 0.85);
+            --paper: #d4b9a0;
+            --paper-light: #e0cbb8;
+            --paper-dark: #b89a7e;
+            --paper-shadow: #8a7660;
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bar: #a83030;
+            --red-bright: #d44040;
+            --red-critical: #ff3030;
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --green-glow: rgba(106, 170, 74, 0.25);
+            --yellow: #d4a040;
+            --yellow-bright: #e8b850;
+            --yellow-glow: rgba(212, 160, 64, 0.2);
+            --text-bright: #e8ddd0;
+            --text-mid: #b8a898;
+            --text-dim: #7a6a5a;
+            --text-dark: #3a2e24;
+            --font-display: 'Boogaloo', cursive;
+            --font-handwritten: 'Amatic SC', cursive;
+            --font-scrawl: 'Caveat', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-ui: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-bright);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            padding: 60px 20px;
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(212, 160, 64, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(212, 64, 64, 0.02) 0%, transparent 40%);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes borderGlow {
+
+            0%,
+            100% {
+                border-color: rgba(212, 160, 64, 0.1);
+            }
+
+            50% {
+                border-color: rgba(212, 160, 64, 0.25);
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .style-guide-card {
+            background: var(--bg-mid);
+            border: 2px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), borderGlow 4s infinite;
+        }
+
+        .style-guide-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.5;
+            mix-blend-mode: overlay;
+        }
+
+        .hero {
+            padding: 100px 40px 80px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(212, 160, 64, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(212, 160, 64, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 160, 64, 0.2), transparent);
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.9;
+            animation: fadeIn 1s ease-out 0.3s both;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 72px;
+            color: var(--paper-light);
+            text-shadow:
+                0 4px 0 rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(212, 160, 64, 0.1);
+            line-height: 1;
+            margin-bottom: 18px;
+            animation: slideUp 0.6s ease-out;
+            letter-spacing: 1px;
+        }
+
+        .hero-desc {
+            font-family: var(--font-scrawl);
+            font-size: 28px;
+            color: var(--text-dim);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.4;
+            animation: fadeIn 1s ease-out 0.6s both;
+            opacity: 0.9;
+        }
+
+        .section-header {
+            padding: 60px 40px 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header .section-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 38px;
+            color: var(--paper);
+            text-shadow: 0 3px 0 rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .section-header .section-desc {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-mid);
+            max-width: 500px;
+            margin-top: 5px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .section-separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 160, 64, 0.2) 20%, rgba(212, 160, 64, 0.2) 80%, transparent);
+            margin: 60px 0 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: rgba(212, 160, 64, 0.1);
+            border-top: 1px solid rgba(212, 160, 64, 0.1);
+            border-bottom: 1px solid rgba(212, 160, 64, 0.1);
+        }
+
+        .font-block {
+            background: var(--bg-mid);
+            padding: 50px 40px;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        .font-block:hover {
+            background: var(--bg-warm);
+        }
+
+        .font-meta {
+            margin-bottom: 30px;
+        }
+
+        .font-role {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .font-name-large {
+            font-family: var(--font-ui);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--paper-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .font-badge {
+            font-size: 10px;
+            background: rgba(106, 170, 74, 0.1);
+            color: var(--green-bright);
+            padding: 2px 8px;
+            border: 1px solid rgba(106, 170, 74, 0.2);
+            border-radius: 20px;
+        }
+
+        .font-sample-main {
+            margin-bottom: 20px;
+        }
+
+        .sample-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .sample-display {
+            font-family: var(--font-display);
+            font-size: 64px;
+            line-height: 1;
+            color: var(--paper);
+            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .sample-body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.6;
+            color: var(--text-mid);
+        }
+
+        .sample-mono {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            color: var(--yellow);
+        }
+
+        .sample-ui {
+            font-family: var(--font-ui);
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-bright);
+        }
+
+        .sample-hand {
+            font-family: var(--font-scrawl);
+            font-size: 32px;
+            color: var(--text-bright);
+        }
+
+        .font-details {
+            font-size: 13px;
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .palette-section {
+            padding: 60px 40px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .color-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .color-swatch {
+            height: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .color-swatch::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+        }
+
+        .color-info {
+            font-family: var(--font-mono);
+        }
+
+        .color-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-mid);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .color-hex {
+            font-size: 10px;
+            color: var(--text-dim);
+        }
+
+        .footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(212, 160, 64, 0.1);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="style-guide-card">
+
+            <!-- HERO -->
+            <div class="hero">
+                <div class="hero-tag">W.O.O.D. // DOCUMENTATION</div>
+                <h1 class="hero-title">Visual Language</h1>
+                <p class="hero-desc">A premium visual system blending playful charm with industrial polish for an
+                    atmospheric horror-comedy experience.</p>
+            </div>
+
+            <!-- SECTION: PRIMARY STACK -->
+            <div class="section-header">
+                <div class="section-tag">GUIDELINES // TYPOGRAPHY</div>
+                <h2>The Font Stack</h2>
+                <p class="section-desc">Comprehensive typography system defining the project's visual soul through
+                    curated font pairings.</p>
+            </div>
+
+            <div class="grid">
+                <!-- Boogaloo -->
+                <div class="font-block">
+                    <div class="font-meta">
+                        <div class="font-role">Titles & Values</div>
+                        <div class="font-name-large">Boogaloo <span class="font-badge">Primary</span></div>
+                    </div>
+                    <div class="font-sample-main">
+                        <span class="sample-label">Sample Display</span>
+                        <div class="sample-display">Shift Payslip</div>
+                    </div>
+                </div>
+
+                <!-- Caveat -->
+                <div class="font-block">
+                    <div class="font-meta">
+                        <div class="font-role">Notes & Anomalies</div>
+                        <div class="font-name-large">Caveat <span class="font-badge">Accent</span></div>
+                    </div>
+                    <div class="font-sample-main">
+                        <span class="sample-label">Sample Hand</span>
+                        <div class="sample-hand">I think I saw something move...</div>
+                    </div>
+                </div>
+
+                <!-- Rajdhani -->
+                <div class="font-block">
+                    <div class="font-meta">
+                        <div class="font-role">UI Elements</div>
+                        <div class="font-name-large">Rajdhani <span class="font-badge">HUD</span></div>
+                    </div>
+                    <div class="font-sample-main">
+                        <span class="sample-label">Sample UI</span>
+                        <div class="sample-ui">REPORT ANOMALY</div>
+                    </div>
+                </div>
+
+                <!-- Nunito -->
+                <div class="font-block">
+                    <div class="font-meta">
+                        <div class="font-role">Body Text</div>
+                        <div class="font-name-large">Nunito <span class="font-badge">Body</span></div>
+                    </div>
+                    <div class="font-sample-main">
+                        <span class="sample-label">Sample Text</span>
+                        <div class="sample-body">Keep the facility running smoothly. Report issues promptly.</div>
+                    </div>
+                </div>
+
+                <!-- Space Mono -->
+                <div class="font-block">
+                    <div class="font-meta">
+                        <div class="font-role">Technical Info</div>
+                        <div class="font-name-large">Space Mono <span class="font-badge">System</span></div>
+                    </div>
+                    <div class="font-sample-main">
+                        <span class="sample-label">Sample Code/Data</span>
+                        <div class="sample-mono">CAM-04 : 12:45AM</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: COLOR PALETTE -->
+            <div class="section-header" style="margin-top: 40px;">
+                <div class="section-tag">ATMOSPHERE // PALETTE</div>
+                <h2>Color Palette</h2>
+                <p class="section-desc">Curated color tokens designed to evoke retro-industrial tension and premium
+                    comic aesthetics.</p>
+            </div>
+
+            <div class="palette-section">
+                <!-- Backgrounds -->
+                <span class="sample-label">Background Tones</span>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #1a1512"></div>
+                        <div class="color-info">
+                            <div class="color-name">--bg-dark</div>
+                            <div class="color-hex">#1a1512</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #231e1a"></div>
+                        <div class="color-info">
+                            <div class="color-name">--bg-mid</div>
+                            <div class="color-hex">#231e1a</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #2e2620"></div>
+                        <div class="color-info">
+                            <div class="color-name">--bg-warm</div>
+                            <div class="color-hex">#2e2620</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accents -->
+                <span class="sample-label" style="margin-top: 30px;">Yellows (Paper / Light)</span>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #d4b9a0"></div>
+                        <div class="color-info">
+                            <div class="color-name">--paper</div>
+                            <div class="color-hex">#d4b9a0</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #e0cbb8"></div>
+                        <div class="color-info">
+                            <div class="color-name">--paper-light</div>
+                            <div class="color-hex">#e0cbb8</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #b89a7e"></div>
+                        <div class="color-info">
+                            <div class="color-name">--paper-dark</div>
+                            <div class="color-hex">#b89a7e</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #8a7660"></div>
+                        <div class="color-info">
+                            <div class="color-name">--paper-shadow</div>
+                            <div class="color-hex">#8a7660</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #b4967a"></div>
+                        <div class="color-info">
+                            <div class="color-name">--border-tan</div>
+                            <div class="color-hex">#b4967a</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #d4a040"></div>
+                        <div class="color-info">
+                            <div class="color-name">--yellow</div>
+                            <div class="color-hex">#d4a040</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #e8b850"></div>
+                        <div class="color-info">
+                            <div class="color-name">--yellow-bright</div>
+                            <div class="color-hex">#e8b850</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: rgba(212, 160, 64, 0.2)"></div>
+                        <div class="color-info">
+                            <div class="color-name">--yellow-glow</div>
+                            <div class="color-hex">rgba(212, 160, 64, 0.2)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overlays & Alerts -->
+                <span class="sample-label" style="margin-top: 30px;">Special (Overlays / Alerts)</span>
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: rgba(12, 10, 8, 0.85)"></div>
+                        <div class="color-info">
+                            <div class="color-name">--bg-overlay</div>
+                            <div class="color-hex">rgba(12, 10, 8, 0.85)</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #5a1a1a"></div>
+                        <div class="color-info">
+                            <div class="color-name">--red-dark</div>
+                            <div class="color-hex">#5a1a1a</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #a83030"></div>
+                        <div class="color-info">
+                            <div class="color-name">--red-bar</div>
+                            <div class="color-hex">#a83030</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #8a2828"></div>
+                        <div class="color-info">
+                            <div class="color-name">--red-mid</div>
+                            <div class="color-hex">#8a2828</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #d44040"></div>
+                        <div class="color-info">
+                            <div class="color-name">--red-bright</div>
+                            <div class="color-hex">#d44040</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #ff3030"></div>
+                        <div class="color-info">
+                            <div class="color-name">--red-critical</div>
+                            <div class="color-hex">#ff3030</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #6aaa4a"></div>
+                        <div class="color-info">
+                            <div class="color-name">--green</div>
+                            <div class="color-hex">#6aaa4a</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #8acc6a"></div>
+                        <div class="color-info">
+                            <div class="color-name">--green-bright</div>
+                            <div class="color-hex">#8acc6a</div>
+                        </div>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: rgba(106, 170, 74, 0.25)"></div>
+                        <div class="color-info">
+                            <div class="color-name">--green-glow</div>
+                            <div class="color-hex">rgba(106, 170, 74, 0.25)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-separator"></div>
+
+            <!-- FOOTER -->
+            <div class="footer">
+                W.O.O.D. — Facility Management Prototype
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

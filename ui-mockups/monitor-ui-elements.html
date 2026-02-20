@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOOD — Monitor UI Elements</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #120e0c;
+            --bg-mid: #231E1A;
+            --bg-warm: #2a221d;
+
+            --paper: #d4b9a0;
+            --paper-light: #e8d5c4;
+            --paper-dark: #b0957c;
+            --paper-shadow: #8a7660;
+
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bar: #a83030;
+            --red-bright: #d44040;
+            --red-critical: #ff3030;
+
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --green-glow: rgba(106, 170, 74, 0.25);
+
+            --yellow: #d4a040;
+            --yellow-bright: #e8b850;
+            --yellow-glow: rgba(212, 160, 64, 0.2);
+
+            --bg-overlay: rgba(12, 10, 8, 0.85);
+
+            --text-bright: #e8ddd0;
+            --text-mid: #b8a898;
+            --text-dim: #70655c;
+            --text-dark: #3a2e24;
+
+            --font-display: 'Boogaloo', cursive;
+            --font-scrawl: 'Caveat', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-ui: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: var(--text-bright);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            padding: 60px 20px;
+        }
+
+        /* ─── GUIDE WRAPPER ─── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .style-guide-card {
+            background: var(--bg-mid);
+            border: 2px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes borderGlow {
+
+            0%,
+            100% {
+                border-color: rgba(212, 160, 64, 0.1);
+            }
+
+            50% {
+                border-color: rgba(212, 160, 64, 0.3);
+            }
+        }
+
+        .style-guide-card {
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), borderGlow 4s infinite;
+        }
+
+        .style-guide-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.4;
+            mix-blend-mode: overlay;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            padding: 80px 40px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(212, 160, 64, 0.05) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+            z-index: 60;
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            color: var(--paper);
+            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 160, 64, 0.15);
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .hero-desc {
+            font-family: var(--font-scrawl);
+            font-size: 26px;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .showcase-container {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            position: relative;
+            z-index: 60;
+        }
+
+        .showcase-section {
+            background: transparent;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            padding: 0 0 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(212, 160, 64, 0.3), transparent);
+        }
+
+        /* ─── FPS VIEW CONTAINER ─── */
+        .fps-view {
+            transform-style: preserve-3d;
+            transform: rotateX(2deg) rotateY(0deg);
+            filter: drop-shadow(0 50px 80px rgba(0, 0, 0, 0.95));
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* MONITOR BODY */
+        .device-body {
+            /* 16:9 aspect ratio */
+            width: 900px;
+            height: 506px;
+            background: #252528;
+            border: 24px solid #1a1a1c;
+            border-bottom-width: 48px;
+            border-radius: 4px;
+            box-shadow:
+                inset 0 0 0 2px #3a3a3c,
+                inset 0 0 60px rgba(0, 0, 0, 0.9),
+                0 0 0 4px #0a0a0c,
+                0 0 100px rgba(0, 0, 0, 0.6);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+        }
+
+        /* LOGO */
+        .device-logo {
+            position: absolute;
+            bottom: -32px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.15);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        /* POWER LED */
+        .power-led {
+            position: absolute;
+            bottom: -30px;
+            right: 40px;
+            width: 8px;
+            height: 2px;
+            background: var(--green);
+            box-shadow: 0 0 4px var(--green-bright);
+            opacity: 0.8;
+            border-radius: 1px;
+        }
+
+        /* MONITOR STAND */
+        .device-stand {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25%;
+            height: 60px;
+            background: linear-gradient(to bottom, #111, #1a1a1c);
+            clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+            z-index: -1;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        /* SCREEN CONTAINER */
+        .device-screen-encasing {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Scanline Effects Disabled as requested in conversation */
+        /* .device-screen-encasing::after { ... } */
+        .device-screen-encasing::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        /* ─── MONITOR CONTENT ─── */
+        .monitor-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: #050505;
+        }
+
+        /* Header Bar */
+        .monitor-header {
+            height: 36px;
+            background: #0f0f0f;
+            border-bottom: 1px solid rgba(180, 150, 120, 0.15);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 16px;
+        }
+
+        .header-title {
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-mid);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: var(--yellow);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--yellow-glow);
+        }
+
+        .header-info {
+            margin-left: auto;
+            display: flex;
+            gap: 20px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* Main View */
+        .monitor-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fullscreen Camera Feed */
+        .camera-feed {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #111, #050505);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            color: #333;
+        }
+
+        /* Overlay UI on top of camera */
+        .camera-overlay {
+            position: absolute;
+            inset: 0;
+            padding: 24px;
+            pointer-events: none;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+        }
+
+        .cam-tag-tl {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cam-id {
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-bright);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .cam-loc {
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: var(--yellow);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            margin-top: -4px;
+        }
+
+        .cam-tag-tr {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Consistent Button Styles */
+        .btn {
+            font-family: var(--font-display);
+            font-size: 18px;
+            padding: 8px 20px;
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
+            color: var(--text-mid);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            min-width: 140px;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        .btn:hover {
+            transform: scale(1.03) rotate(-0.5deg);
+            background: linear-gradient(to bottom, var(--paper), #cbb094);
+            color: var(--bg-dark);
+            border-color: var(--paper);
+            text-shadow: none;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            z-index: 5;
+        }
+
+        /* ─── STRESS MONITOR ─── */
+        .stress-monitor {
+            position: absolute;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(to bottom, #1a1613, #110e0c);
+            border: 1px solid rgba(180, 150, 120, 0.15);
+            padding: 6px 14px;
+            border-radius: 4px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 50;
+        }
+
+        .stress-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .stress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100px;
+            margin-bottom: 2px;
+        }
+
+        .stress-label {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            line-height: 1;
+        }
+
+        .stress-value {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--green-bright);
+            line-height: 1;
+        }
+
+        .stress-track {
+            width: 100px;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(180, 150, 120, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .stress-fill {
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, var(--green-bright) 0%, var(--yellow) 50%, var(--red-bright) 100%);
+            background-size: 100px 100%;
+            box-shadow: 0 0 8px rgba(212, 160, 64, 0.4);
+            transition: width 0.3s ease-out;
+        }
+
+        .monitor-footer {
+            height: 64px;
+            background: #111;
+            border-top: 1px solid rgba(180, 150, 120, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .pills-action {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(to bottom, #231E1A, #15120f);
+            border: 2px solid rgba(106, 170, 74, 0.4);
+            border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+            padding: 6px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .pills-action:hover {
+            transform: scale(1.03) rotate(1deg);
+            border-color: var(--green-bright);
+            box-shadow: 0 8px 16px rgba(106, 170, 74, 0.2);
+            background: linear-gradient(to bottom, #2c2520, #1a1613);
+        }
+
+        .pills-count {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--green-bright);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="style-guide-card">
+
+            <!-- HERO -->
+            <div class="hero">
+                <div class="hero-tag">System Documentation</div>
+                <h1 class="hero-title">Monitor Elements</h1>
+                <p class="hero-desc">The primary interface elements for the Security Monitor interaction point built in
+                    the Goofy Premium aesthetic.</p>
+            </div>
+
+            <div class="showcase-container">
+
+                <div class="section-header">
+                    <h2>1. Monitor Desktop View</h2>
+                    <div class="line"></div>
+                </div>
+
+                <div class="showcase-section">
+                    <div class="fps-view">
+                        <div class="device-body">
+                            <div class="device-logo">WOOD</div>
+                            <div class="power-led"></div>
+
+                            <div class="device-screen-encasing">
+                                <div class="monitor-content">
+                                    <!-- Header Bar -->
+                                    <div class="monitor-header">
+                                        <div class="header-title">OBSERVEOS V2.4</div>
+                                        <div class="header-info">
+                                            <span>MEM: 14%</span>
+                                            <span>SYS: OK</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Main Viewport containing Camera -->
+                                    <div class="monitor-viewport">
+                                        <div class="camera-feed">[CAMERA STREAM: WAREHOUSE]</div>
+
+                                        <div class="camera-overlay">
+                                            <div class="cam-tag-tl">
+                                                <div class="cam-id">CAM - 02</div>
+                                                <div class="cam-loc">NORTH CORRIDOR</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Monitor Footer -->
+                                    <div class="monitor-footer">
+                                        <div class="stress-monitor">
+                                            <div class="stress-info">
+                                                <div class="stress-header">
+                                                    <span class="stress-label">STRESS</span>
+                                                    <span class="stress-value">34%</span>
+                                                </div>
+                                                <div class="stress-track">
+                                                    <div class="stress-fill"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn active">Camera View</button>
+                                        <button class="btn">Camera Grid</button>
+
+                                        <div class="pills-action">
+                                            <div class="pills-count">x3</div>
+                                            <span
+                                                style="font-family:var(--font-ui); font-size:12px; font-weight:bold; color:var(--text-bright);">TAKE
+                                                PILLS [Q]</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="device-stand"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

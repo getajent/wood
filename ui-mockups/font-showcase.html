@@ -408,6 +408,29 @@
                 font-size: 48px;
             }
         }
+
+        .color-tooltip {
+            position: fixed;
+            background: var(--bg-mid);
+            border: 1px solid var(--yellow);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--yellow-bright);
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-tooltip.visible {
+            display: block;
+        }
+
+        .chip {
+            cursor: help;
+        }
     </style>
 </head>
 
@@ -671,6 +694,57 @@
 
         </div>
     </div>
+
+    <div class="color-tooltip" id="colorTooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('colorTooltip');
+
+        document.querySelectorAll('.color-card, .color-swatch').forEach(card => {
+            card.addEventListener('mouseover', (e) => {
+                const swatch = card.querySelector('.color-swatch, .color-box');
+                if (!swatch) return;
+                
+                const bg = swatch.style.background;
+                const nameEl = card.querySelector('.color-name');
+                const hexEl = card.querySelector('.color-hex');
+                
+                let hex = bg;
+                if (bg.startsWith('rgba')) {
+                    const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        hex = '#' + [match[1], match[2], match[3]].map(x => {
+                            const h = parseInt(x).toString(16);
+                            return h.length === 1 ? '0' + h : h;
+                        }).join('');
+                    }
+                } else if (bg.startsWith('rgb')) {
+                    const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        hex = '#' + [match[1], match[2], match[3]].map(x => {
+                            const h = parseInt(x).toString(16);
+                            return h.length === 1 ? '0' + h : h;
+                        }).join('');
+                    }
+                }
+                
+                const name = nameEl ? nameEl.textContent : '';
+                tooltip.textContent = `${hex} - ${name}`;
+                tooltip.classList.add('visible');
+            });
+
+            card.addEventListener('mousemove', (e) => {
+                if (tooltip.classList.contains('visible')) {
+                    tooltip.style.left = (e.clientX + 15) + 'px';
+                    tooltip.style.top = (e.clientY + 15) + 'px';
+                }
+            });
+
+            card.addEventListener('mouseout', () => {
+                tooltip.classList.remove('visible');
+            });
+        });
+    </script>
 
 </body>
 

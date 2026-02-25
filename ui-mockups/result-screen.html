@@ -655,6 +655,37 @@
       margin-top: 4px;
     }
 
+    /* Technical Illustration Icons */
+    .tech-icon {
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+      stroke-width: 1.5px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .tech-icon.large {
+      width: 40px;
+      height: 40px;
+      stroke-width: 1.2px;
+    }
+
+    .tech-icon.mini {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2px;
+      opacity: 0.7;
+    }
+
+    .stat-card:hover .tech-icon {
+      transform: scale(1.15) rotate(5deg);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+    }
+
     /* Breakdown column */
     .breakdown-col {
       flex: 1;
@@ -884,41 +915,158 @@
       border: 1px solid rgba(212, 185, 160, 0.1);
     }
 
-    .rating-stars {
+    .rating-doodle {
       display: flex;
-      gap: 4px;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      animation: doodlePop 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) 1.2s both;
     }
 
-    .rating-stars svg {
-      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+    .doodle-face {
+      font-size: 32px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+      animation: doodleWobble 3s ease-in-out infinite;
     }
 
-    .star-filled {
-      opacity: 1;
+    .doodle-caption {
+      font-family: var(--font-scrawl);
+      font-size: 16px;
+      color: var(--paper-dark);
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     }
 
-    .star-empty {
-      opacity: 0.15;
+    @keyframes doodlePop {
+      0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+      }
+
+      60% {
+        transform: scale(1.2) rotate(5deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
     }
 
-    .star-filled:nth-child(1) {
-      animation: starPop 0.4s ease-out 1.0s both;
+    @keyframes doodleWobble {
+
+      0%,
+      100% {
+        transform: rotate(0deg);
+      }
+
+      25% {
+        transform: rotate(-5deg);
+      }
+
+      75% {
+        transform: rotate(5deg);
+      }
     }
 
-    .star-filled:nth-child(2) {
-      animation: starPop 0.4s ease-out 1.1s both;
+    .mgmt-watermark {
+      position: absolute;
+      top: 50%;
+      left: 58%;
+      transform: translate(-50%, -50%) rotate(-18deg);
+      z-index: 12;
+      pointer-events: none;
+      animation: watermarkSlam 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) 1.6s both;
     }
 
-    .star-filled:nth-child(3) {
-      animation: starPop 0.4s ease-out 1.2s both;
+    .watermark-inner {
+      border: 4px solid rgba(106, 170, 74, 0.35);
+      border-radius: 8px;
+      padding: 10px 28px;
+      position: relative;
     }
 
-    .star-filled:nth-child(4) {
-      animation: starPop 0.4s ease-out 1.3s both;
+    .watermark-inner::before {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(106, 170, 74, 0.15);
+      border-radius: 5px;
     }
 
-    .star-empty:nth-child(5) {
-      animation: fadeIn 0.3s ease-out 1.4s both;
+    .watermark-text {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 6px;
+      color: rgba(106, 170, 74, 0.4);
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(106, 170, 74, 0.15);
+      white-space: nowrap;
+    }
+
+    .watermark-sub {
+      font-family: var(--font-scrawl);
+      font-size: 14px;
+      color: rgba(106, 170, 74, 0.3);
+      text-align: center;
+      margin-top: -2px;
+      letter-spacing: 2px;
+    }
+
+    @keyframes watermarkSlam {
+      0% {
+        transform: translate(-50%, -50%) rotate(-18deg) scale(2.5);
+        opacity: 0;
+        filter: blur(6px);
+      }
+
+      50% {
+        transform: translate(-50%, -50%) rotate(-16deg) scale(0.95);
+        opacity: 0.10;
+        filter: blur(0);
+      }
+
+      70% {
+        transform: translate(-50%, -50%) rotate(-19deg) scale(1.05);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotate(-18deg) scale(1);
+        opacity: 0.10;
+      }
+    }
+
+    .stamp-circle-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .stamp-hand-circle {
+      position: absolute;
+      inset: -14px -20px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .stamp-hand-circle svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .stamp-hand-circle .circle-path {
+      fill: none;
+      stroke: rgba(212, 64, 64, 0.5);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      animation: drawCircle 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.0s forwards;
+    }
+
+    @keyframes drawCircle {
+      to {
+        stroke-dashoffset: 0;
+      }
     }
 
     .button-group {
@@ -1012,6 +1160,39 @@
       opacity: 0.9;
     }
 
+    /* ─── COLOR CHIPS ─── */
+    .color-chips {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(180, 150, 120, 0.3);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      cursor: help;
+      transition: transform 0.2s;
+    }
+
+    .chip:hover {
+      transform: scale(1.2);
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: block;
+      text-align: center;
+    }
+
     /* ─── FOOTER ─── */
     .footer {
       text-align: center;
@@ -1024,6 +1205,25 @@
       border-top: 1px solid rgba(180, 150, 120, 0.04);
       flex-shrink: 0;
       text-transform: uppercase;
+    }
+
+    .color-tooltip {
+      position: fixed;
+      background: var(--bg-mid);
+      border: 1px solid var(--yellow);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--yellow-bright);
+      pointer-events: none;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .color-tooltip.visible {
+      display: block;
     }
   </style>
 </head>
@@ -1050,10 +1250,66 @@
             thresholds, hover-reactive stat cards, and physical-grade rating stamps.</p>
         </div>
 
+        <span class="section-label">Container & header colors</span>
+        <div class="color-chips">
+          <span class="chip" style="background: #1e1a17;" title="Result BG (#1e1a17)"></span>
+          <span class="chip" style="background: #d4b9a0;" title="Paper (title, stamp)"></span>
+          <span class="chip" style="background: #7a6a5a;" title="Text Dim (tag, labels)"></span>
+          <span class="chip" style="background: rgba(212, 160, 64, 0.08); border: 1px solid #d4a040;"
+            title="Header gradient: rgba(212,160,64,0.08)"></span>
+          <span class="chip" style="background: rgba(180, 150, 120, 0.12); border: 1px solid #b4967a;"
+            title="Border: rgba(180,150,120,0.12)"></span>
+        </div>
+
+        <span class="section-label">Pay bar colors</span>
+        <div class="color-chips">
+          <span class="chip" style="background: #8acc6a;" title="Green Bright (pay amount)"></span>
+          <span class="chip" style="background: rgba(106, 170, 74, 0.25); border: 1px solid #6aaa4a;"
+            title="Green Glow"></span>
+          <span class="chip" style="background: #5a1a1a;" title="Red Dark (track bg)"></span>
+          <span class="chip" style="background: #8a2828;" title="Red Mid (fill start)"></span>
+          <span class="chip" style="background: #a83030;" title="Red Bar (fill mid)"></span>
+          <span class="chip" style="background: #d44040;" title="Red Bright (fill end)"></span>
+          <span class="chip" style="background: #d4a040;" title="Yellow (threshold marker)"></span>
+          <span class="chip" style="background: rgba(212, 160, 64, 0.2); border: 1px solid #d4a040;"
+            title="Yellow Glow (threshold)"></span>
+        </div>
+
+        <span class="section-label">Stats & breakdown colors</span>
+        <div class="color-chips">
+          <span class="chip" style="background: #231e1a;" title="BG Mid (stat cards)"></span>
+          <span class="chip" style="background: #2e2620;" title="BG Warm (card hover)"></span>
+          <span class="chip" style="background: #d4b9a0;" title="Paper (stat values)"></span>
+          <span class="chip" style="background: #d44040;" title="Red Bright (bad stat)"></span>
+          <span class="chip" style="background: #d4a040;" title="Yellow (warn stat)"></span>
+          <span class="chip" style="background: #8acc6a;" title="Green Bright (plus amounts)"></span>
+          <span class="chip" style="background: #b8a898;" title="Text Mid (breakdown text)"></span>
+          <span class="chip" style="background: #b89a7e;" title="Paper Dark (breakdown title)"></span>
+        </div>
+
+        <span class="section-label">Rating, buttons & sticky note</span>
+        <div class="color-chips">
+          <span class="chip" style="background: #d4a040;" title="Yellow (stars, key badge)"></span>
+          <span class="chip" style="background: #b89a7e;" title="Paper Dark (stamp border, star stroke)"></span>
+          <span class="chip" style="background: #8a7660;" title="Paper Shadow (primary btn shadow)"></span>
+          <span class="chip" style="background: #e0cbb8;" title="Paper Light (primary btn hover)"></span>
+          <span class="chip" style="background: #eadaa2;" title="Sticky Note BG (#eadaa2)"></span>
+          <span class="chip" style="background: #3e3228;" title="Sticky Note Text (#3e3228)"></span>
+          <span class="chip" style="background: #1a1512;" title="BG Dark (btn text, key text)"></span>
+        </div>
+
         <div class="result-screen" id="main-result">
           <!-- Premium Sticky Note -->
           <div class="rs-sticky-note">
             <div class="note-text">Satisfactory... <br>for now.</div>
+          </div>
+
+          <!-- MANAGEMENT WATERMARK -->
+          <div class="mgmt-watermark">
+            <div class="watermark-inner">
+              <div class="watermark-text">Approved</div>
+              <div class="watermark-sub">— Management Dept.</div>
+            </div>
           </div>
 
           <!-- HEADER -->
@@ -1066,13 +1322,11 @@
           <!-- PAY ROW -->
           <div class="pay-row">
             <div class="pay-icon">
-              <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
-                <path d="M14 8c1-3 7-3 8 0" stroke="#d4a040" stroke-width="2.5" stroke-linecap="round" fill="none" />
-                <path d="M12 12c-4 4-6 10-5 16 1 4 5 5 11 5s10-1 11-5c1-6-1-12-5-16z" fill="#d4a040" stroke="#b89a7e"
-                  stroke-width="1.5" />
-                <path d="M18 17v10M15 20h6M15 24h6" stroke="#3a2e24" stroke-width="2" stroke-linecap="round" />
-                <circle cx="15" cy="10" r="1.5" fill="#e8b850" />
-                <circle cx="21" cy="10" r="1.5" fill="#e8b850" />
+              <!-- Technical Currency Seal -->
+              <svg class="tech-icon large" style="color: var(--yellow-bright);" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                <path d="M12 6v2m0 8v2" />
               </svg>
             </div>
             <div class="pay-bar-area">
@@ -1093,13 +1347,11 @@
               <!-- Anomalies Found -->
               <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.3s both;">
                 <div class="stat-icon-wrap">
-                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <ellipse cx="14" cy="14" rx="12" ry="8" stroke="#d4b9a0" stroke-width="2.5" fill="none"
-                      stroke-linecap="round" />
-                    <circle cx="14" cy="14" r="4.5" fill="#d4b9a0" />
-                    <circle cx="14" cy="14" r="2" fill="#1a1512" />
-                    <path d="M2 14c3-7 9-10 12-10s9 3 12 10" stroke="#d4b9a0" stroke-width="1" opacity="0.3"
-                      fill="none" />
+                  <!-- Detailed Eye Aperture Icon -->
+                  <svg class="tech-icon" style="color: var(--paper);" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M12 5V2M12 22v-3M5 12H2m20 0h-3M18 6l-2 2M8 16l-2 2M18 18l-2-2M8 8L6 6" opacity="0.4" />
                   </svg>
                 </div>
                 <div class="stat-value">5</div>
@@ -1109,15 +1361,13 @@
               <!-- False Reports -->
               <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.4s both;">
                 <div class="stat-icon-wrap">
-                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <circle cx="14" cy="12" r="9" stroke="#d4a040" stroke-width="2.5" fill="none"
-                      stroke-linecap="round" />
-                    <path d="M10 10l2 2-2 2" stroke="#d4a040" stroke-width="2" stroke-linecap="round" fill="none" />
-                    <path d="M18 10l-2 2 2 2" stroke="#d4a040" stroke-width="2" stroke-linecap="round" fill="none" />
-                    <path d="M10 18c1 2 3 3 4 3s3-1 4-3" stroke="#d4a040" stroke-width="2" stroke-linecap="round"
-                      fill="none" />
-                    <line x1="14" y1="22" x2="14" y2="26" stroke="#d4a040" stroke-width="2" stroke-linecap="round" />
-                    <path d="M11 26h6" stroke="#d4a040" stroke-width="2" stroke-linecap="round" />
+                  <!-- Technical Warning/False Report Icon -->
+                  <svg class="tech-icon" style="color: var(--yellow);" viewBox="0 0 24 24">
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                    <path d="M7 18h10" opacity="0.3" />
                   </svg>
                 </div>
                 <div class="stat-value warn">1</div>
@@ -1127,13 +1377,10 @@
               <!-- Stuff Fixed -->
               <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.5s both;">
                 <div class="stat-icon-wrap">
-                  <!-- Premium wrench-checkmark icon -->
-                  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                  <!-- Clean Precision Wrench Icon -->
+                  <svg class="tech-icon" style="color: var(--green-bright);" viewBox="0 0 24 24">
                     <path
-                      d="M26.5 6.5C25.5 5.5 24 5 22.5 5C19.5 5 17 7.5 17 10.5C17 11.5 17.3 12.5 17.8 13.3L8 23V27H12L21.7 17.2C22.5 17.7 23.5 18 24.5 18C27.5 18 30 15.5 30 12.5C30 11 29.5 9.5 28.5 8.5L26.5 10.5L24.5 8.5L26.5 6.5Z"
-                      fill="#d4b9a0" stroke="#3a2e24" stroke-width="1.5" />
-                    <path d="M5 21L10 26L20 16" stroke="#8acc6a" stroke-width="3" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                      d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
                   </svg>
                 </div>
                 <div class="stat-value">8</div>
@@ -1143,15 +1390,11 @@
               <!-- Intruders -->
               <div class="stat-card" style="animation: slideUp 0.5s ease-out 0.6s both;">
                 <div class="stat-icon-wrap">
-                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <circle cx="14" cy="10" r="7" stroke="#d44040" stroke-width="2.5" fill="none"
-                      stroke-linecap="round" />
-                    <circle cx="11" cy="9" r="1.5" fill="#d44040" />
-                    <circle cx="17" cy="9" r="1.5" fill="#d44040" />
-                    <path d="M10 14h8" stroke="#d44040" stroke-width="2" stroke-linecap="round" />
-                    <path d="M8 4l3 3M20 4l-3 3" stroke="#d44040" stroke-width="2" stroke-linecap="round" />
-                    <path d="M11 18v5M17 18v5M9 23h4M15 23h4" stroke="#d44040" stroke-width="2"
-                      stroke-linecap="round" />
+                  <!-- Technical Security Breach Icon -->
+                  <svg class="tech-icon" style="color: var(--red-bright);" viewBox="0 0 24 24">
+                    <path d="M18 20v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="11" cy="7" r="4" />
+                    <path d="M16 11l5 5m0-5l-5 5" stroke-width="2" opacity="0.8" />
                   </svg>
                 </div>
                 <div class="stat-value bad">2</div>
@@ -1163,34 +1406,27 @@
               <div class="breakdown-title">How'd you earn it?</div>
               <div class="breakdown-list">
                 <div class="bd-item" style="animation: slideUp 0.4s ease-out 0.7s both;">
-                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <rect x="2" y="6" width="12" height="8" rx="1" stroke="#7a6a5a" stroke-width="1.5" fill="none" />
-                    <path d="M5 6V4a3 3 0 016 0v2" stroke="#7a6a5a" stroke-width="1.5" fill="none" />
+                  <svg class="tech-icon mini" style="color: var(--text-dim);" viewBox="0 0 24 24">
+                    <path d="M6 3h12l2 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7l2-4z" />
+                    <path d="M4 7h16" />
                   </svg>
                   <span class="bd-text">Base shift pay</span>
                   <span class="bd-amount plus">+$500</span>
                 </div>
                 <div class="bd-item" style="animation: slideUp 0.4s ease-out 0.8s both;">
                   <!-- Premium wrench-checkmark icon (mini) -->
-                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 32 32" fill="none">
+                  <svg class="tech-icon mini" style="color: var(--text-dim);" viewBox="0 0 24 24">
                     <path
-                      d="M26.5 6.5C25.5 5.5 24 5 22.5 5C19.5 5 17 7.5 17 10.5C17 11.5 17.3 12.5 17.8 13.3L8 23V27H12L21.7 17.2C22.5 17.7 23.5 18 24.5 18C27.5 18 30 15.5 30 12.5C30 11 29.5 9.5 28.5 8.5L26.5 10.5L24.5 8.5L26.5 6.5Z"
-                      fill="#7a6a5a" stroke="#3a2e24" stroke-width="1.5" />
-                    <path d="M5 21L10 26L20 16" stroke="#8acc6a" stroke-width="3" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                      d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
                   </svg>
                   <span class="bd-text">Breakdowns repaired (×8)</span>
                   <span class="bd-amount plus">+$480</span>
                 </div>
                 <div class="bd-item" style="animation: slideUp 0.4s ease-out 0.9s both;">
                   <!-- Premium eye-glow icon (mini) -->
-                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 28 28" fill="none">
-                    <ellipse cx="14" cy="14" rx="12" ry="8" stroke="#7a6a5a" stroke-width="2.5" fill="none"
-                      stroke-linecap="round" />
-                    <circle cx="14" cy="14" r="4.5" fill="#7a6a5a" />
-                    <circle cx="14" cy="14" r="2" fill="#1e1a17" />
-                    <path d="M2 14c3-7 9-10 12-10s9 3 12 10" stroke="#7a6a5a" stroke-width="1" opacity="0.3"
-                      fill="none" />
+                  <svg class="tech-icon mini" style="color: var(--text-dim);" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
                   </svg>
                   <span class="bd-text">Anomalies resolved (×5)</span>
                   <span class="bd-amount plus">+$150</span>
@@ -1198,26 +1434,18 @@
                 <div class="bd-divider"></div>
                 <div class="bd-item" style="animation: slideUp 0.4s ease-out 1.0s both;">
                   <!-- Premium face-penalty icon (mini) -->
-                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 28 28" fill="none">
-                    <circle cx="14" cy="12" r="9" stroke="#7a6a5a" stroke-width="2.5" fill="none"
-                      stroke-linecap="round" />
-                    <path d="M10 10l2 2-2 2" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" fill="none" />
-                    <path d="M18 10l-2 2 2 2" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" fill="none" />
-                    <path d="M10 18c1 2 3 3 4 3s3-1 4-3" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round"
-                      fill="none" />
+                  <svg class="tech-icon mini" style="color: var(--text-dim);" viewBox="0 0 24 24">
+                    <path
+                      d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
                   </svg>
                   <span class="bd-text">False report penalty (×1)</span>
                   <span class="bd-amount minus">−$75</span>
                 </div>
                 <div class="bd-item" style="animation: slideUp 0.4s ease-out 1.1s both;">
                   <!-- Premium intruder icon (mini) -->
-                  <svg class="bd-icon" width="16" height="16" viewBox="0 0 28 28" fill="none">
-                    <circle cx="14" cy="10" r="7" stroke="#7a6a5a" stroke-width="2.5" fill="none"
-                      stroke-linecap="round" />
-                    <circle cx="11" cy="9" r="1.5" fill="#7a6a5a" />
-                    <circle cx="17" cy="9" r="1.5" fill="#7a6a5a" />
-                    <path d="M10 14h8" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" />
-                    <path d="M11 18v5L9 23M17 18v5L19 23" stroke="#7a6a5a" stroke-width="2" stroke-linecap="round" />
+                  <svg class="tech-icon mini" style="color: var(--text-dim);" viewBox="0 0 24 24">
+                    <path d="M18 20v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="11" cy="7" r="4" />
                   </svg>
                   <span class="bd-text">Breakdown damage</span>
                   <span class="bd-amount minus">−$208</span>
@@ -1234,28 +1462,27 @@
           <div class="bottom-row">
             <div class="rating-area">
               <span class="rating-label">Rating:</span>
-              <div class="rating-stamp">B+</div>
-              <div class="rating-stars">
-                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
-                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
-                    stroke="#b89a7e" stroke-width="0.5" />
-                </svg>
-                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
-                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
-                    stroke="#b89a7e" stroke-width="0.5" />
-                </svg>
-                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
-                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
-                    stroke="#b89a7e" stroke-width="0.5" />
-                </svg>
-                <svg class="star-filled" width="20" height="20" viewBox="0 0 18 18">
-                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
-                    stroke="#b89a7e" stroke-width="0.5" />
-                </svg>
-                <svg class="star-empty" width="20" height="20" viewBox="0 0 18 18">
-                  <path d="M9 2l2.2 4.5 5 .7-3.6 3.5.8 5L9 13.5 4.6 15.7l.8-5L1.8 7.2l5-.7z" fill="#d4a040"
-                    stroke="#b89a7e" stroke-width="0.5" />
-                </svg>
+              <div class="stamp-circle-wrap">
+                <div class="rating-stamp">B+</div>
+                <div class="stamp-hand-circle">
+                  <svg viewBox="0 0 120 80" preserveAspectRatio="none">
+                    <path class="circle-path"
+                      d="M10,40 C10,15 30,5 60,5 C90,5 110,15 110,40 C110,65 90,75 60,75 C30,75 10,65 10,40 C10,20 35,8 55,6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="rating-doodle">
+                <span class="doodle-face">
+                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <circle cx="18" cy="18" r="15" fill="#d4a040" stroke="#b89a7e" stroke-width="1.5" />
+                    <circle cx="13" cy="15" r="2" fill="#3a2e24" />
+                    <circle cx="23" cy="15" r="2" fill="#3a2e24" />
+                    <path d="M12 23 C14 27, 22 27, 24 23" stroke="#3a2e24" stroke-width="2" stroke-linecap="round"
+                      fill="none" />
+                    <path d="M25 10 L28 7 M27 10 L30 9" stroke="#d4a040" stroke-width="1.5" stroke-linecap="round" />
+                  </svg>
+                </span>
+                <span class="doodle-caption">not bad!</span>
               </div>
             </div>
             <div class="button-group">
@@ -1348,7 +1575,64 @@
         setTimeout(() => p.remove(), 1500);
       }
     }
-  </script>
-</body>
+    </script>
+
+    <div class="color-tooltip" id="colorTooltip"></div>
+
+    <script>
+      const tooltip = document.getElementById('colorTooltip');
+
+      document.querySelectorAll('.color-chips').forEach(chipContainer => {
+        chipContainer.addEventListener('mouseover', (e) => {
+          const chip = e.target.closest('.chip');
+          if (!chip) return;
+          
+          chip.dataset.originalTitle = chip.getAttribute('title');
+          chip.removeAttribute('title');
+          
+          const bg = chip.style.background;
+          const title = chip.dataset.originalTitle || '';
+          
+          let hex = bg;
+          if (bg.startsWith('rgba')) {
+            const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
+            if (match) {
+              hex = '#' + [match[1], match[2], match[3]].map(x => {
+                const h = parseInt(x).toString(16);
+                return h.length === 1 ? '0' + h : h;
+              }).join('');
+            }
+          } else if (bg.startsWith('rgb')) {
+            const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+            if (match) {
+              hex = '#' + [match[1], match[2], match[3]].map(x => {
+                const h = parseInt(x).toString(16);
+                return h.length === 1 ? '0' + h : h;
+              }).join('');
+            }
+          }
+          
+          tooltip.textContent = `${hex} - ${title}`;
+          tooltip.classList.add('visible');
+        });
+
+        chipContainer.addEventListener('mousemove', (e) => {
+          if (tooltip.classList.contains('visible')) {
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY + 15) + 'px';
+          }
+        });
+
+        chipContainer.addEventListener('mouseout', (e) => {
+          const chip = e.target.closest('.chip');
+          if (chip && chip.dataset.originalTitle) {
+            chip.setAttribute('title', chip.dataset.originalTitle);
+            delete chip.dataset.originalTitle;
+          }
+          tooltip.classList.remove('visible');
+        });
+      });
+    </script>
+  </body>
 
 </html>

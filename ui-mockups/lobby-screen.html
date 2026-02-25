@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOOD — Matchmaking Lobby</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1a1512;
+            --bg-mid: #231e1a;
+            --bg-warm: #2e2620;
+            --bg-overlay: rgba(12, 10, 8, 0.8);
+            --paper: #d4b9a0;
+            --paper-light: #e0cbb8;
+            --paper-dark: #b89a7e;
+            --paper-shadow: #8a7660;
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bar: #a83030;
+            --red-bright: #d44040;
+            --red-critical: #ff3030;
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --green-glow: rgba(106, 170, 74, 0.25);
+            --yellow: #d4a040;
+            --yellow-bright: #e8b850;
+            --yellow-glow: rgba(212, 160, 64, 0.2);
+            --text-bright: #e8ddd0;
+            --text-mid: #b8a898;
+            --text-dim: #7a6a5a;
+            --text-dark: #3a2e24;
+
+            --font-display: 'Boogaloo', cursive;
+            --font-handwritten: 'Amatic SC', cursive;
+            --font-scrawl: 'Caveat', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-ui: 'Rajdhani', sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: var(--font-body);
+            color: var(--text-mid);
+        }
+
+        /* ═══════════════════════════════════════════
+           FULL-SCREEN BACKGROUND
+           ═══════════════════════════════════════════ */
+        .menu-viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .menu-viewport .bg-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.35) contrast(1.1) saturate(0.7);
+            transform: scale(1.05);
+            animation: bgSlowDrift 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgSlowDrift {
+            0% {
+                transform: scale(1.05) translate(0, 0);
+            }
+
+            100% {
+                transform: scale(1.08) translate(-0.5%, -0.3%);
+            }
+        }
+
+        /* Heavy vignette */
+        .menu-viewport::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.85) 100%);
+        }
+
+        /* Paper grain */
+        .menu-viewport::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 128px;
+            opacity: 0.5;
+            mix-blend-mode: overlay;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.015) 2px, rgba(0, 0, 0, 0.015) 4px);
+        }
+
+        /* ═══════════════════════════════════════════
+           LOBBY CONTAINER
+           ═══════════════════════════════════════════ */
+        .lobby-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            padding: 4vw 6vw;
+        }
+
+        /* ── HEADER ── */
+        .lobby-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease-out both;
+        }
+
+        .lobby-title {
+            font-family: var(--font-display);
+            font-size: 72px;
+            color: var(--paper);
+            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 160, 64, 0.1);
+            line-height: 0.8;
+            letter-spacing: 4px;
+        }
+
+        .lobby-subtitle {
+            font-family: var(--font-scrawl);
+            font-size: 24px;
+            color: var(--yellow);
+            opacity: 0.8;
+            margin-top: 10px;
+            padding-left: 5px;
+        }
+
+        .nav-back {
+            font-family: var(--font-ui);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--paper-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+            padding: 10px;
+        }
+
+        .nav-back:hover {
+            color: var(--paper-light);
+            text-shadow: 0 0 10px rgba(212, 185, 160, 0.3);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── LOBBY PANELS ── */
+        .lobby-content {
+            display: flex;
+            gap: 40px;
+            flex: 1;
+            height: 100%;
+        }
+
+        .panel {
+            background: rgba(26, 21, 18, 0.65);
+            border: 1px solid rgba(184, 154, 126, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(0, 0, 0, 0.6);
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+            position: relative;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 185, 160, 0.5), transparent);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-title {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--paper-dark);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(184, 154, 126, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--red-mid);
+            border-radius: 50%;
+        }
+
+        /* LEFT PANEL: MATCH SETTINGS */
+        .settings-panel {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .setting-label {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .toggle-options {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(184, 154, 126, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .toggle-options.grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            background: transparent;
+            color: var(--text-mid);
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(184, 154, 126, 0.05);
+            padding: 10px 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 44px;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(212, 185, 160, 0.05);
+            color: var(--paper);
+        }
+
+        .toggle-btn.active {
+            background: rgba(212, 185, 160, 0.15);
+            color: var(--paper);
+            box-shadow: inset 0 2px 0 var(--paper);
+        }
+
+        .setting-desc {
+            font-family: var(--font-handwritten);
+            font-size: 20px;
+            color: var(--yellow);
+            opacity: 0.7;
+            margin-top: -5px;
+        }
+
+        /* RIGHT PANEL: PLAYERS */
+        .players-panel {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .players-body {
+            padding: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .player-slot {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(184, 154, 126, 0.1);
+            border-radius: 4px;
+            padding: 16px 20px;
+            gap: 20px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .player-slot::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--text-dim);
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .player-slot.is-ready::before {
+            background: var(--green);
+        }
+
+        .player-slot.is-host::before {
+            background: var(--yellow);
+        }
+
+        .player-slot:hover {
+            border-color: rgba(184, 154, 126, 0.25);
+            background: rgba(212, 185, 160, 0.03);
+        }
+
+        .player-avatar {
+            width: 48px;
+            height: 48px;
+            background: #111;
+            border: 1px solid var(--text-dim);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            color: var(--paper-dark);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .player-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .player-name {
+            font-family: var(--font-ui);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--paper);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .host-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: rgba(212, 160, 64, 0.2);
+            color: var(--yellow);
+            border: 1px solid var(--yellow);
+            border-radius: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .player-role {
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        /* Custom Dropdown */
+        .custom-dropdown {
+            position: relative;
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            user-select: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .dropdown-selected {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--paper-dark);
+            color: var(--paper);
+            padding: 8px 12px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+
+        .dropdown-selected:hover {
+            border-color: var(--paper-light);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .dropdown-selected span {
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+
+        .custom-dropdown.open .dropdown-selected {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-color: var(--paper-light);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .custom-dropdown.open .dropdown-selected span {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(16, 13, 11, 0.95);
+            border: 1px solid var(--paper-dark);
+            border-top: none;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            display: none;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .custom-dropdown.open .dropdown-options {
+            display: flex;
+        }
+
+        .dropdown-option {
+            padding: 10px 12px;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+
+        .dropdown-option:hover {
+            background: rgba(212, 185, 160, 0.1);
+            color: var(--paper-light);
+            padding-left: 16px;
+        }
+
+        .dropdown-option.selected {
+            color: var(--paper);
+            background: rgba(212, 160, 64, 0.15);
+            border-left: 2px solid var(--yellow);
+        }
+
+        .status-badge {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 12px;
+            border-radius: 2px;
+        }
+
+        .status-ready {
+            color: var(--green);
+            background: rgba(106, 170, 74, 0.1);
+            border: 1px solid rgba(106, 170, 74, 0.3);
+        }
+
+        .status-waiting {
+            color: var(--text-dim);
+            background: rgba(122, 106, 90, 0.1);
+            border: 1px solid rgba(122, 106, 90, 0.2);
+        }
+
+        /* empty slot */
+        .player-slot.empty {
+            border-style: dashed;
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        .player-slot.empty:hover {
+            opacity: 1;
+            border-color: var(--paper-dark);
+        }
+
+        .player-slot.empty .player-avatar {
+            border-style: dashed;
+            background: transparent;
+        }
+
+        .invite-text {
+            font-family: var(--font-ui);
+            font-size: 16px;
+            color: var(--paper-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        /* ── FOOTER ACTIONS ── */
+        .lobby-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .chat-hint {
+            font-family: var(--font-scrawl);
+            font-size: 20px;
+            color: var(--text-dim);
+            opacity: 0.5;
+            transform: rotate(-1deg);
+            cursor: pointer;
+            transition: opacity 0.2s, color 0.2s;
+            position: relative;
+        }
+
+        .chat-hint:hover {
+            opacity: 1;
+            color: var(--paper-light);
+        }
+
+        .chat-hint.has-new {
+            color: var(--paper);
+            opacity: 1;
+            text-shadow: 0 0 10px rgba(212, 185, 160, 0.5);
+            animation: pulseHint 2s infinite alternate;
+        }
+
+        .chat-hint.has-new::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            width: 10px;
+            height: 10px;
+            background: var(--red-bright);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--red-bright);
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes pulseHint {
+            0% {
+                transform: rotate(-1deg) scale(1);
+            }
+
+            100% {
+                transform: rotate(-1deg) scale(1.05);
+            }
+        }
+
+        @keyframes ping {
+
+            75%,
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* ── CHAT UI ── */
+        .chat-container {
+            position: absolute;
+            left: 6vw;
+            bottom: 120px;
+            width: 380px;
+            background: rgba(16, 13, 11, 0.85);
+            border: 1px solid rgba(184, 154, 126, 0.3);
+            border-radius: 4px;
+            display: none;
+            flex-direction: column;
+            padding: 12px;
+            z-index: 50;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .chat-container.active {
+            display: flex;
+            animation: fadeInChat 0.2s ease-out;
+        }
+
+        @keyframes fadeInChat {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-messages {
+            height: 180px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+        }
+
+        .chat-message {
+            color: var(--paper-light);
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .chat-author {
+            color: var(--yellow);
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .chat-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(184, 154, 126, 0.2);
+            color: var(--paper);
+            font-family: var(--font-ui);
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 3px;
+            outline: none;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .chat-input:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 10px rgba(212, 160, 64, 0.15);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--paper-dark);
+            border-radius: 2px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: var(--paper-dark);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px 30px;
+            position: relative;
+            transition: all 0.2s;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 60%;
+            background: var(--paper);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn:hover {
+            color: var(--paper);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 160, 64, 0.08);
+            padding-left: 40px;
+        }
+
+        .btn:hover::before {
+            width: 3px;
+        }
+
+        .btn-primary {
+            color: var(--paper);
+            font-size: 38px;
+        }
+
+        .btn-primary:hover {
+            color: var(--paper-light);
+            text-shadow: 0 0 20px rgba(212, 160, 64, 0.2);
+        }
+
+        .btn-primary::before {
+            background: var(--green);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu-viewport">
+        <!-- Background -->
+        <img src="background10.png" alt="" class="bg-img">
+        <div class="scanlines"></div>
+
+        <div class="lobby-layer">
+
+            <!-- HEADER -->
+            <header class="lobby-header">
+                <div>
+                    <h1 class="lobby-title">SHIFT LOBBY</h1>
+                    <p class="lobby-subtitle">Connecting to corporate mainframe...</p>
+                </div>
+                <a href="main-menu.html" class="nav-back">
+                    &lt; Back to Menu
+                </a>
+            </header>
+
+            <!-- MAIN CONTENT -->
+            <div class="lobby-content">
+
+                <!-- SETTINGS PANEL -->
+                <div class="panel settings-panel">
+                    <div class="panel-title">Contract Parameters</div>
+                    <div class="settings-body">
+
+                        <div class="setting-group">
+                            <span class="setting-label">Game Mode</span>
+                            <div class="toggle-options">
+                                <button class="toggle-btn active" id="mode-single"
+                                    onclick="setMode('single')">Singleplayer</button>
+                                <button class="toggle-btn" id="mode-coop" onclick="setMode('coop')">Co-op Squad</button>
+                            </div>
+                            <span class="setting-desc" id="mode-desc">Working alone minimizes sudden anomalous
+                                outbreaks.</span>
+                        </div>
+
+                        <div class="setting-group">
+                            <span class="setting-label">Shift Location</span>
+                            <div class="toggle-options grid-2">
+                                <button class="toggle-btn active"
+                                    onclick="setLocation(this, 'supermarket')">Supermarket</button>
+                                <button class="toggle-btn" onclick="setLocation(this, 'logistics')">Logistics
+                                    Center</button>
+                                <button class="toggle-btn" onclick="setLocation(this, 'research')">Research Lab</button>
+                                <button class="toggle-btn" onclick="setLocation(this, 'foundry')">Foundry</button>
+                            </div>
+                            <span class="setting-desc" id="loc-desc">A vast 24-hour retail space. Ideal for long-range
+                                surveillance.</span>
+                        </div>
+
+                        <div class="setting-group" style="margin-top:auto;">
+                            <span class="setting-label">Lobby Privacy</span>
+                            <div class="toggle-options">
+                                <button class="toggle-btn active">Friends Only</button>
+                                <button class="toggle-btn">Public</button>
+                                <button class="toggle-btn">Invite Only</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PLAYERS PANEL -->
+                <div class="panel players-panel">
+                    <div class="panel-title">Assigned Personnel (1/4)</div>
+                    <div class="players-body">
+
+                        <!-- Local Player (Host) -->
+                        <div class="player-slot is-host" id="local-player-slot">
+                            <div class="player-avatar">M</div>
+                            <div class="player-info">
+                                <div class="player-name">
+                                    You (Manager)
+                                    <span class="host-badge">Host</span>
+                                </div>
+                                <div class="player-role">Observing from the monitor room.</div>
+                            </div>
+
+                            <div class="custom-dropdown" tabindex="0">
+                                <div class="dropdown-selected">MANAGER <span>▼</span></div>
+                                <div class="dropdown-options">
+                                    <div class="dropdown-option selected" data-value="manager">MANAGER</div>
+                                    <div class="dropdown-option" data-value="handyman">HANDYMAN</div>
+                                </div>
+                            </div>
+
+                            <div class="status-badge status-waiting" id="local-ready-badge">Not Ready</div>
+                        </div>
+
+                        <!-- Empty Slot -->
+                        <div class="player-slot empty coop-only" style="display:none;" onclick="inviteFriend()">
+                            <div class="player-avatar">+</div>
+                            <div class="player-info">
+                                <div class="invite-text">Invite Player</div>
+                            </div>
+                        </div>
+
+                        <!-- Empty Slot -->
+                        <div class="player-slot empty coop-only" style="display:none;" onclick="inviteFriend()">
+                            <div class="player-avatar">+</div>
+                            <div class="player-info">
+                                <div class="invite-text">Invite Player</div>
+                            </div>
+                        </div>
+
+                        <!-- Empty Slot -->
+                        <div class="player-slot empty coop-only" style="display:none;" onclick="inviteFriend()">
+                            <div class="player-avatar">+</div>
+                            <div class="player-info">
+                                <div class="invite-text">Invite Player</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CHAT CONTAINER -->
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message"><span class="chat-author">System:</span> Connected to local area channel.
+                    </div>
+                </div>
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..." maxlength="120">
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="lobby-footer">
+                <div class="chat-hint" id="chatHintToggle">Press 'T' to open area chat...</div>
+
+                <div class="action-buttons">
+                    <button class="btn" onclick="toggleReady(this)">
+                        Terminal Ready
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='loading-briefing.html'">
+                        Sign In For Shift
+                    </button>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- UI Sounds (from main menu logic) -->
+    <audio id="bgMusic" loop></audio>
+    <audio id="uiClick" src="../audio/uiclick.mp3"></audio>
+
+    <script>
+        // Continuous Music Logic
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.10;
+        const storedMusic = sessionStorage.getItem('bgMusicSrc');
+        let storedTime = sessionStorage.getItem('bgMusicTime');
+
+        // Check if page was reloaded
+        const navEntries = performance.getEntriesByType("navigation");
+        if (navEntries.length > 0 && navEntries[0].type === "reload") {
+            storedTime = null; // start music over
+        }
+
+        if (storedMusic) {
+            bgMusic.src = storedMusic;
+            if (storedTime) {
+                bgMusic.currentTime = parseFloat(storedTime);
+            }
+            const tryPlay = () => {
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        const startAudio = () => { bgMusic.play(); document.removeEventListener('click', startAudio); };
+                        document.addEventListener('click', startAudio);
+                    });
+                }
+            };
+            tryPlay();
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (bgMusic.src) {
+                sessionStorage.setItem('bgMusicTime', bgMusic.currentTime);
+                sessionStorage.setItem('bgMusicSrc', bgMusic.src);
+            }
+        });
+
+        // Sound logic
+        const uiClick = document.getElementById('uiClick');
+        if (uiClick) uiClick.volume = 0.4;
+        function playClick() {
+            if (!uiClick) return;
+            uiClick.currentTime = 0;
+            uiClick.play().catch(() => { });
+        }
+        document.querySelectorAll('button, select, .player-slot.empty').forEach(el => {
+            el.addEventListener('click', playClick);
+            el.addEventListener('change', playClick);
+        });
+
+        // Mode Switching
+        function setMode(mode) {
+            const btnSingle = document.getElementById('mode-single');
+            const btnCoop = document.getElementById('mode-coop');
+            const desc = document.getElementById('mode-desc');
+            const coopSlots = document.querySelectorAll('.coop-only');
+            const panelTitle = document.querySelector('.players-panel .panel-title');
+
+            if (mode === 'single') {
+                btnSingle.classList.add('active');
+                btnCoop.classList.remove('active');
+                desc.textContent = "Working alone minimizes sudden anomalous outbreaks.";
+                coopSlots.forEach(slot => slot.style.display = 'none');
+                panelTitle.textContent = "Assigned Personnel (1/1)";
+            } else {
+                btnCoop.classList.add('active');
+                btnSingle.classList.remove('active');
+                desc.textContent = "Team effort increases efficiency, but stirs more aggressive anomalies.";
+                coopSlots.forEach(slot => slot.style.display = 'flex');
+                panelTitle.textContent = "Assigned Personnel (1/4)";
+            }
+        }
+
+        // Location Switching
+        function setLocation(btn, loc) {
+            const buttons = btn.parentElement.querySelectorAll('.toggle-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const desc = document.getElementById('loc-desc');
+            const descriptions = {
+                'supermarket': 'A vast 24-hour retail space. Ideal for long-range surveillance.',
+                'logistics': 'High-ceiling warehouse with complex shelving mazes.',
+                'research': 'State-of-the-art labs with restricted access zones.',
+                'foundry': 'Intense heat and industrial noise mask many movements.'
+            };
+
+            if (descriptions[loc]) {
+                desc.textContent = descriptions[loc];
+            }
+        }
+
+        // Toggle Ready state for a visually pleasing UI interaction
+        function toggleReady(btn) {
+            const playerSlot = document.getElementById('local-player-slot');
+            const readyBadge = document.getElementById('local-ready-badge');
+
+            if (btn.textContent.includes('Terminal Ready')) {
+                // Set to Ready
+                btn.textContent = 'Cancel Ready';
+                btn.style.color = 'var(--text-dim)';
+
+                playerSlot.classList.add('is-ready');
+                readyBadge.classList.replace('status-waiting', 'status-ready');
+                readyBadge.textContent = 'Ready';
+            } else {
+                // Cancel Ready
+                btn.textContent = 'Terminal Ready';
+                btn.style.color = 'var(--paper-dark)';
+
+                playerSlot.classList.remove('is-ready');
+                readyBadge.classList.replace('status-ready', 'status-waiting');
+                readyBadge.textContent = 'Not Ready';
+            }
+        }
+
+        // Simulate Invite
+        function inviteFriend() {
+            alert("Invite dialog would appear here connecting to Steam/Epic API.");
+        }
+
+        // Custom Dropdown Logic
+        const dropdown = document.querySelector('.custom-dropdown');
+        const dropdownSelected = dropdown.querySelector('.dropdown-selected');
+        const dropdownOptions = dropdown.querySelector('.dropdown-options');
+        const options = dropdown.querySelectorAll('.dropdown-option');
+
+        dropdownSelected.addEventListener('click', (e) => {
+            dropdown.classList.toggle('open');
+            playClick();
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                // Update selected text
+                dropdownSelected.innerHTML = option.textContent + ' <span>▼</span>';
+
+                // Update UI roles/icons depending on choice
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+
+                // Optional: Update player avatar and description based on role
+                const playerRoleText = document.querySelector('.player-role');
+                const playerAvatar = document.querySelector('.player-avatar');
+                const playerNameText = document.querySelector('.player-name');
+                if (option.dataset.value === 'manager') {
+                    playerRoleText.textContent = 'Observing from the monitor room.';
+                    playerAvatar.textContent = 'M';
+                    playerNameText.innerHTML = 'You (Manager) <span class="host-badge">Host</span>';
+                } else {
+                    playerRoleText.textContent = 'Fixing anomalies on the ground.';
+                    playerAvatar.textContent = 'H';
+                    playerNameText.innerHTML = 'You (Handyman) <span class="host-badge">Host</span>';
+                }
+
+                dropdown.classList.remove('open');
+                playClick();
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        // Area Chat Logic
+        const chatContainer = document.getElementById('chatContainer');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatHintToggle = document.getElementById('chatHintToggle');
+
+        function openChat() {
+            if (!chatContainer.classList.contains('active')) {
+                chatContainer.classList.add('active');
+                chatInput.focus();
+                // Clear new message indicator when opened
+                chatHintToggle.classList.remove('has-new');
+            }
+        }
+
+        function closeChat() {
+            chatContainer.classList.remove('active');
+            chatInput.blur();
+        }
+
+        // Simulating receiving a message from someone else
+        function receiveMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-message';
+
+            const authorSpan = document.createElement('span');
+            authorSpan.className = 'chat-author';
+            authorSpan.style.color = 'var(--text-mid)';
+            authorSpan.textContent = sender + ':';
+
+            const textNode = document.createTextNode(' ' + text);
+
+            msgDiv.appendChild(authorSpan);
+            msgDiv.appendChild(textNode);
+
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if (!chatContainer.classList.contains('active')) {
+                // Show notification if chat is closed
+                chatHintToggle.classList.add('has-new');
+            }
+        }
+
+        // For demo purposes, receive a message after 10 seconds
+        setTimeout(() => {
+            receiveMessage('Handyman_89', 'Anyone have eyes on Sector 4?');
+        }, 10000);
+
+        function closeChat() {
+            chatContainer.classList.remove('active');
+            chatInput.blur();
+        }
+
+        chatHintToggle.addEventListener('click', openChat);
+
+        document.addEventListener('keydown', (e) => {
+            // Don't trigger if user is already typing in another input (if any exist)
+            if (e.target.tagName === 'INPUT' && e.target !== chatInput) return;
+
+            if (e.key.toLowerCase() === 't' && !chatContainer.classList.contains('active')) {
+                e.preventDefault();
+                openChat();
+            } else if (e.key === 'Escape' && chatContainer.classList.contains('active')) {
+                closeChat();
+            } else if (e.key === 'Enter' && chatContainer.classList.contains('active')) {
+                const text = chatInput.value.trim();
+                if (text) {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = 'chat-message';
+
+                    const authorSpan = document.createElement('span');
+                    authorSpan.className = 'chat-author';
+                    authorSpan.textContent = 'You:';
+
+                    const textNode = document.createTextNode(' ' + text);
+
+                    msgDiv.appendChild(authorSpan);
+                    msgDiv.appendChild(textNode);
+
+                    chatMessages.appendChild(msgDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    chatInput.value = '';
+                } else {
+                    closeChat();
+                }
+            }
+        });
+
+        // Close chat when clicking outside
+        document.addEventListener('click', (e) => {
+            if (chatContainer.classList.contains('active') && !chatContainer.contains(e.target) && e.target !== chatHintToggle) {
+                if (chatInput.value.trim() === '') {
+                    closeChat();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

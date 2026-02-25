@@ -791,13 +791,38 @@
                 { img: 'background6.png', music: '../audio/mainmenu.mp3' },
                 { img: 'background7.png', music: '../audio/mainmenu2.mp3' }
             ];
-            const selectedBg = bgOptions[Math.floor(Math.random() * bgOptions.length)];
+
+            // Check if page was reloaded
+            const navEntries = performance.getEntriesByType("navigation");
+            const isReload = navEntries.length > 0 && navEntries[0].type === "reload";
+
+            if (isReload) {
+                sessionStorage.removeItem('bgMusicSrc');
+                sessionStorage.removeItem('bgMusicTime');
+                sessionStorage.removeItem('bgImgSrc');
+            }
+
+            // Try to restore from session storage
+            const storedMusic = sessionStorage.getItem('bgMusicSrc');
+            const storedTime = sessionStorage.getItem('bgMusicTime');
+            const storedBg = sessionStorage.getItem('bgImgSrc');
+
+            let selectedBg;
+            if (storedMusic && storedBg) {
+                selectedBg = { img: storedBg, music: storedMusic };
+            } else {
+                selectedBg = bgOptions[Math.floor(Math.random() * bgOptions.length)];
+            }
 
             document.getElementById('dynamicBg').src = selectedBg.img;
 
             const bgMusic = document.getElementById('bgMusic');
             bgMusic.src = selectedBg.music;
             bgMusic.volume = 0.10; // Lowered default volume
+
+            if (storedTime) {
+                bgMusic.currentTime = parseFloat(storedTime);
+            }
 
             // Handle browser autoplay policies
             const tryPlay = () => {
@@ -816,6 +841,13 @@
                 }
             };
             tryPlay();
+
+            // Save state before navigating away
+            window.addEventListener('beforeunload', () => {
+                sessionStorage.setItem('bgMusicSrc', bgMusic.src);
+                sessionStorage.setItem('bgMusicTime', bgMusic.currentTime);
+                sessionStorage.setItem('bgImgSrc', selectedBg.img);
+            });
         </script>
 
         <!-- Ambient light effect -->
@@ -840,7 +872,7 @@
                 <!-- Menu Options -->
                 <nav class="menu-list" id="mainMenuList">
                     <div class="menu-item primary" id="menu-start" tabindex="0"
-                        onclick="window.location.href='game-screen.html'">
+                        onclick="window.location.href='lobby-screen.html'">
                         <span class="menu-item-label">Start Shift</span>
                         <span class="menu-item-desc">Begin a new night</span>
                     </div>
@@ -906,6 +938,8 @@
                     <button class="showcase-btn" onclick="loadContent('font-showcase.html', this)">Fonts</button>
                     <button class="showcase-btn" onclick="loadContent('hud-elements.html', this)">HUD</button>
                     <button class="showcase-btn" onclick="loadContent('result-screen.html', this)">Results</button>
+                    <button class="showcase-btn" onclick="loadContent('monitor-ui-elements.html', this)">Monitor
+                        UI</button>
                 </nav>
                 <button class="showcase-close" onclick="closeShowcase()">&times;</button>
             </div>

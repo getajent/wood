@@ -276,6 +276,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #040404;
         }
 
         /* Fullscreen Camera Feed */
@@ -285,6 +286,141 @@
             object-fit: cover;
             filter: sepia(0.2) contrast(1.1) brightness(0.8);
             opacity: 0.8;
+        }
+
+        .multifeed-view {
+            position: absolute;
+            inset: 0;
+            display: none;
+            padding: 14px;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(80, 190, 120, 0.08), transparent 40%),
+                linear-gradient(180deg, #020504 0%, #050a07 100%);
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.9);
+        }
+
+        .multifeed-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .multi-tile {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(106, 170, 74, 0.45);
+            background: #040705;
+            cursor: pointer;
+            transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+        }
+
+        .multi-tile:hover {
+            transform: scale(1.015);
+            border-color: rgba(138, 204, 106, 0.9);
+            box-shadow: 0 0 12px rgba(138, 204, 106, 0.35);
+            z-index: 2;
+        }
+
+        .multi-tile.static-channel {
+            cursor: default;
+            border-color: rgba(138, 204, 106, 0.55);
+            background:
+                radial-gradient(circle at 22% 28%, rgba(138, 204, 106, 0.18), transparent 36%),
+                radial-gradient(circle at 75% 64%, rgba(106, 170, 74, 0.12), transparent 40%),
+                linear-gradient(180deg, #07100b 0%, #050a07 100%);
+        }
+
+        .multi-tile.static-channel:hover {
+            transform: none;
+            box-shadow: 0 0 12px rgba(138, 204, 106, 0.2);
+        }
+
+        .multi-tile-static-grid {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to right, rgba(138, 204, 106, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(138, 204, 106, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .multi-tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.25) contrast(1.25) brightness(0.75) hue-rotate(70deg) saturate(1.1);
+            opacity: 0.85;
+        }
+
+        .multi-tile::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.2) 2px, rgba(0, 0, 0, 0.2) 4px);
+            pointer-events: none;
+        }
+
+        .multi-tile-meta {
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: rgba(182, 235, 168, 0.95);
+            letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+            z-index: 2;
+        }
+
+        .static-channel-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: rgba(190, 240, 176, 0.95);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            z-index: 2;
+        }
+
+        .multi-feed-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(138, 204, 106, 0.95);
+            border: 1px solid rgba(138, 204, 106, 0.5);
+            background: rgba(10, 30, 14, 0.55);
+            padding: 3px 8px;
+            letter-spacing: 1px;
+            z-index: 3;
+        }
+
+        .monitor-viewport.multi-layout .camera-feed,
+        .monitor-viewport.multi-layout .camera-overlay {
+            display: none;
+        }
+
+        .monitor-viewport.multi-layout .multifeed-view {
+            display: block;
+        }
+
+        .monitor-viewport.multi-layout #overlay-anomaly {
+            display: none !important;
         }
 
         /* Overlay UI on top of camera */
@@ -506,6 +642,28 @@
             transform: translateY(2px);
             border-bottom-width: 1px;
             pointer-events: none;
+        }
+
+        .btn-layout {
+            min-width: 128px;
+            border-color: rgba(106, 170, 74, 0.3);
+            color: rgba(156, 209, 135, 0.9);
+            background: linear-gradient(to bottom, #172117, #101710);
+            text-shadow: 0 0 8px rgba(106, 170, 74, 0.2);
+        }
+
+        .btn-layout:hover {
+            background: linear-gradient(to bottom, #203020, #172217);
+            color: #c8efbb;
+            border-color: rgba(138, 204, 106, 0.7);
+            text-shadow: 0 0 10px rgba(138, 204, 106, 0.45);
+        }
+
+        .btn-layout.layout-active {
+            background: linear-gradient(to bottom, #2a4026, #1c2b1a);
+            color: #d8f5ce;
+            border-color: rgba(138, 204, 106, 0.9);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35), 0 0 14px rgba(138, 204, 106, 0.25);
         }
 
         /* CRT Scanline Animation */
@@ -1663,12 +1821,24 @@
         .context-menu {
             position: absolute;
             /* Allow manual positioning */
-            width: 240px;
-            background: var(--bg-warm);
-            border: 2px solid rgba(180, 150, 120, 0.2);
+            width: 252px;
+            background: linear-gradient(to bottom, #1a1613, #110e0c);
+            border: 1px solid rgba(180, 150, 120, 0.22);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.55);
+            border-radius: 4px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.55), 0 14px 30px rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(2px);
             animation: modalPop 0.35s ease-out;
+        }
+
+        .context-menu::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+            opacity: 0.6;
         }
 
         @keyframes modalPop {
@@ -1684,26 +1854,34 @@
         }
 
         .context-header {
-            padding: 10px 14px;
-            border-bottom: 2px solid rgba(180, 150, 120, 0.08);
-            background: rgba(212, 160, 64, 0.06);
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(180, 150, 120, 0.14);
+            background: linear-gradient(to right, rgba(106, 170, 74, 0.1), rgba(212, 160, 64, 0.06));
+            position: relative;
+            z-index: 1;
         }
 
         .context-header-text {
-            font-family: var(--font-display);
-            font-size: 17px;
-            color: var(--yellow);
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-mid);
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
         }
 
         .context-item {
-            padding: 9px 14px;
+            padding: 9px 12px;
             display: flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border-bottom: 1px solid rgba(180, 150, 120, 0.05);
+            transition: background 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.12s;
+            border-bottom: 1px solid rgba(180, 150, 120, 0.08);
+            border-left: 2px solid transparent;
             background: transparent;
+            position: relative;
+            z-index: 1;
         }
 
         .context-item:last-child {
@@ -1711,36 +1889,53 @@
         }
 
         .context-item:hover {
-            background: linear-gradient(to right, rgba(212, 160, 64, 0.1), transparent);
-            padding-left: 18px;
-            text-shadow: 0 0 8px rgba(212, 160, 64, 0.2);
+            background: linear-gradient(to right, rgba(106, 170, 74, 0.14), rgba(106, 170, 74, 0.02));
+            border-left-color: rgba(138, 204, 106, 0.85);
+            transform: translateX(2px);
         }
 
         .context-item:active {
-            background: linear-gradient(to right, rgba(212, 160, 64, 0.2), transparent);
+            background: linear-gradient(to right, rgba(106, 170, 74, 0.22), rgba(106, 170, 74, 0.04));
             transform: scale(0.99);
         }
 
-        .context-item:hover .ctx-label {
-            color: var(--paper);
+        .context-item:hover .ctx-label,
+        .context-item:hover .ctx-icon {
+            color: #c8efbb;
         }
 
         .ctx-icon {
             width: 20px;
             height: 20px;
             flex-shrink: 0;
+            color: var(--text-dim);
+            transition: color 0.12s;
         }
 
         .ctx-icon svg {
             display: block;
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ctx-icon svg .fill-current {
+            fill: currentColor;
+            stroke: none;
         }
 
         .ctx-label {
-            font-family: var(--font-body);
-            font-size: 13px;
+            font-family: var(--font-ui);
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-mid);
             flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: color 0.12s;
         }
 
@@ -1748,18 +1943,24 @@
             font-family: var(--font-mono);
             font-size: 10px;
             font-weight: 800;
-            color: var(--bg-dark);
+            color: var(--paper-light);
             width: 22px;
             height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-            background: var(--yellow);
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(180, 150, 120, 0.3);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.35);
+            background: linear-gradient(to bottom, #2a2520, #1a1613);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
             border-radius: 3px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .context-item:hover .ctx-key {
+            color: #d8f5ce;
+            border-color: rgba(138, 204, 106, 0.55);
+            background: linear-gradient(to bottom, #22331e, #162114);
         }
 
         /* ─── VOICE INDICATOR ─── */
@@ -2186,6 +2387,11 @@
                                     </div>
                                 </div>
 
+                                <div class="multifeed-view" id="multifeed-view">
+                                    <div class="multi-feed-badge">MULTI-FEED GREEN</div>
+                                    <div class="multifeed-grid" id="multifeed-grid"></div>
+                                </div>
+
                                 <!-- ═══ ANOMALY REPORT OVERLAY ═══ -->
                                 <div class="overlay" id="overlay-anomaly">
                                     <div class="context-menu">
@@ -2195,12 +2401,9 @@
                                         <div class="context-item" onclick="submitAnomalyReport('Extra Object')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
                                                     fill="none">
-                                                    <rect x="3" y="7" width="14" height="10" rx="1" stroke="#b8a898"
-                                                        stroke-width="1.5" fill="none" />
-                                                    <path d="M3 7l7-4 7 4" stroke="#b8a898" stroke-width="1.5"
-                                                        fill="none" />
-                                                    <line x1="10" y1="3" x2="10" y2="17" stroke="#b8a898"
-                                                        stroke-width="1" opacity="0.4" />
+                                                    <path d="M3 7l7-4 7 4v10H3z" />
+                                                    <path d="M10 3v14" opacity="0.45" />
+                                                    <path d="M3 11h14" opacity="0.45" />
                                                 </svg></span>
                                             <span class="ctx-label">Extra Object</span>
                                             <span class="ctx-key">1</span>
@@ -2208,11 +2411,9 @@
                                         <div class="context-item" onclick="submitAnomalyReport('Something Missing')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
                                                     fill="none">
-                                                    <circle cx="10" cy="10" r="7" stroke="#b8a898" stroke-width="1.5"
-                                                        fill="none" stroke-dasharray="4 3" />
-                                                    <path d="M8 7c0-1 1-2 2-2s2 1 2 2c0 1.5-2 2-2 3" stroke="#b8a898"
-                                                        stroke-width="1.5" stroke-linecap="round" fill="none" />
-                                                    <circle cx="10" cy="14" r="1" fill="#b8a898" />
+                                                    <circle cx="10" cy="10" r="7" stroke-dasharray="3 3" />
+                                                    <path d="M10 6v4" />
+                                                    <circle class="fill-current" cx="10" cy="13.6" r="1" />
                                                 </svg></span>
                                             <span class="ctx-label">Something Missing</span>
                                             <span class="ctx-key">2</span>
@@ -2220,12 +2421,10 @@
                                         <div class="context-item" onclick="submitAnomalyReport('Something Changed')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
                                                     fill="none">
-                                                    <path d="M14 6a5 5 0 01-8 4" stroke="#b8a898" stroke-width="1.5"
-                                                        stroke-linecap="round" fill="none" />
-                                                    <path d="M6 14a5 5 0 018-4" stroke="#b8a898" stroke-width="1.5"
-                                                        stroke-linecap="round" fill="none" />
-                                                    <path d="M14 6l-2 1 1-2" fill="#b8a898" />
-                                                    <path d="M6 14l2-1-1 2" fill="#b8a898" />
+                                                    <path d="M14.5 6.5a5 5 0 01-8 4" />
+                                                    <path d="M5.5 13.5a5 5 0 018-4" />
+                                                    <path d="M14.5 6.5l-2.3 0.6 0.7-2.2" class="fill-current" />
+                                                    <path d="M5.5 13.5l2.3-0.6-0.7 2.2" class="fill-current" />
                                                 </svg></span>
                                             <span class="ctx-label">Something Changed</span>
                                             <span class="ctx-key">3</span>
@@ -2233,10 +2432,9 @@
                                         <div class="context-item" onclick="submitAnomalyReport('Moved Object')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
                                                     fill="none">
-                                                    <path d="M4 10h10" stroke="#b8a898" stroke-width="1.5"
-                                                        stroke-linecap="round" />
-                                                    <path d="M12 7l3 3-3 3" stroke="#b8a898" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                                    <rect x="3" y="7" width="5" height="6" rx="1" />
+                                                    <path d="M8.8 10h7" />
+                                                    <path d="M13.5 7.4L16.2 10l-2.7 2.6" />
                                                 </svg></span>
                                             <span class="ctx-label">Moved Object</span>
                                             <span class="ctx-key">4</span>
@@ -2244,12 +2442,10 @@
                                         <div class="context-item" onclick="submitAnomalyReport('Intruder!')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
                                                     fill="none">
-                                                    <circle cx="10" cy="5" r="2.5" stroke="#b8a898" stroke-width="1.5"
-                                                        fill="none" />
-                                                    <path d="M10 8v5M7 18l3-5 3 5" stroke="#b8a898" stroke-width="1.5"
-                                                        stroke-linecap="round" stroke-linejoin="round" fill="none" />
-                                                    <path d="M6 11l4 2 4-2" stroke="#b8a898" stroke-width="1.5"
-                                                        stroke-linecap="round" fill="none" />
+                                                    <circle cx="10" cy="5" r="2.4" />
+                                                    <path d="M10 8v5" />
+                                                    <path d="M6.3 10.8L10 13l3.7-2.2" />
+                                                    <path d="M7 17.2l3-4.4 3 4.4" />
                                                 </svg></span>
                                             <span class="ctx-label">Intruder!</span>
                                             <span class="ctx-key">5</span>
@@ -2257,24 +2453,21 @@
                                         <div class="context-item" onclick="submitAnomalyReport('Camera Glitch')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
                                                     fill="none">
-                                                    <rect x="2" y="6" width="16" height="11" rx="1.5" stroke="#b8a898"
-                                                        stroke-width="1.5" fill="none" />
-                                                    <circle cx="10" cy="11" r="3.5" stroke="#b8a898" stroke-width="1.5"
-                                                        fill="none" />
-                                                    <circle cx="10" cy="11" r="1.5" fill="#b8a898" />
-                                                    <path d="M6 6l2-3h4l2 3" stroke="#b8a898" stroke-width="1.5"
-                                                        fill="none" />
+                                                    <rect x="2.5" y="6" width="15" height="11" rx="1.5" />
+                                                    <path d="M6.5 6l1.6-2.6h3.8L13.5 6" />
+                                                    <circle cx="10" cy="11.4" r="3.2" />
+                                                    <path d="M6.7 12.6l2-2 1.8 1.8 2.7-2.7" opacity="0.55" />
                                                 </svg></span>
                                             <span class="ctx-label">Camera Glitch</span>
                                             <span class="ctx-key">6</span>
                                         </div>
                                         <div class="context-item" onclick="submitAnomalyReport('Weird Text')">
                                             <span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20"
-                                                    fill="none"><text x="3" y="15" font-family="Boogaloo,cursive"
-                                                        font-size="14" fill="#b8a898"
-                                                        transform="rotate(-5 10 10)">Ab</text>
-                                                    <path d="M13 5l3 2-1 4" stroke="#b8a898" stroke-width="1"
-                                                        stroke-linecap="round" fill="none" opacity="0.5" />
+                                                    fill="none"><path d="M3 15h11" opacity="0.35" />
+                                                    <text x="3" y="14" font-family="Rajdhani, sans-serif"
+                                                        font-size="11" font-weight="700" fill="currentColor"
+                                                        transform="rotate(-4 10 10)">A?</text>
+                                                    <path d="M14 5.2l2.8 1.7-0.9 3.5" opacity="0.55" />
                                                 </svg></span>
                                             <span class="ctx-label">Weird Text</span>
                                             <span class="ctx-key">7</span>
@@ -2305,11 +2498,14 @@
                                     </div>
                                 </div>
 
-                                <button class="btn" onclick="switchCam(0)">CAM-01</button>
-                                <button class="btn" onclick="switchCam(1)">CAM-02</button>
-                                <button class="btn" onclick="switchCam(2)">CAM-03</button>
-                                <button class="btn" onclick="switchCam(3)">CAM-04</button>
-                                <button class="btn active" onclick="switchCam(4)">CAM-05</button>
+                                <button class="btn cam-btn" onclick="switchCam(0)">CAM-01</button>
+                                <button class="btn cam-btn" onclick="switchCam(1)">CAM-02</button>
+                                <button class="btn cam-btn" onclick="switchCam(2)">CAM-03</button>
+                                <button class="btn cam-btn" onclick="switchCam(3)">CAM-04</button>
+                                <button class="btn cam-btn active" onclick="switchCam(4)">CAM-05</button>
+                                <button class="btn btn-layout" id="back-to-multi-btn" onclick="setLayoutMode(true)"
+                                    style="display:none;">BACK TO MULTI-FEED</button>
+                                <button class="btn btn-layout" id="layout-toggle-btn" onclick="toggleLayoutMode()">MULTI-FEED</button>
 
                                 <!-- Payslip Display -->
                                 <div class="footer-pay" id="footer-pay">
@@ -2605,6 +2801,8 @@
             const incidentLogs = [];
             let reportTimeout = null;
             let currentPay = 847;
+            let isMultiLayout = false;
+            let focusedFromMultiFeed = false;
 
             function updatePay(amount = 0) {
                 currentPay += amount;
@@ -2641,9 +2839,105 @@
             // Store original menu content for restoration
             const originalAnomalyMenu = document.querySelector('#overlay-anomaly .context-menu').innerHTML;
 
+            function renderMultiFeedTiles() {
+                const grid = document.getElementById('multifeed-grid');
+                if (!grid) return;
+
+                const cameraTiles = Object.keys(cams).map((camKey) => {
+                    const idx = parseInt(camKey, 10);
+                    const cam = cams[idx];
+                    const view = cam.views[camIndices[idx]];
+                    return `
+                        <button class="multi-tile" onclick="focusFromMultiFeed(${idx})" title="Open ${cam.id}">
+                            <img src="${view.src}" alt="${cam.id} ${view.name}">
+                            <div class="multi-tile-meta">
+                                <span>${cam.id}</span>
+                                <span>${view.name}</span>
+                            </div>
+                        </button>
+                    `;
+                }).join('');
+
+                const signalTile = `
+                    <div class="multi-tile static-channel" title="Signal map channel">
+                        <div class="multi-tile-static-grid"></div>
+                        <div class="static-channel-label">SIG-MAP / CHANNEL-06</div>
+                        <div class="multi-tile-meta">
+                            <span>GRID LINK</span>
+                            <span>STABLE 98%</span>
+                        </div>
+                    </div>
+                `;
+
+                grid.innerHTML = cameraTiles + signalTile;
+            }
+
+            function updateLayoutControls() {
+                const camBtns = document.querySelectorAll('.monitor-footer .cam-btn');
+                const backBtn = document.getElementById('back-to-multi-btn');
+                const layoutBtn = document.getElementById('layout-toggle-btn');
+
+                const showCamButtons = !isMultiLayout && !focusedFromMultiFeed;
+                const showBackButton = !isMultiLayout && focusedFromMultiFeed;
+
+                camBtns.forEach((btn) => {
+                    btn.style.display = showCamButtons ? '' : 'none';
+                });
+
+                if (backBtn) {
+                    backBtn.style.display = showBackButton ? '' : 'none';
+                }
+
+                if (layoutBtn) {
+                    layoutBtn.style.display = showBackButton ? 'none' : '';
+                }
+            }
+
+            function setLayoutMode(enableMulti) {
+                isMultiLayout = enableMulti;
+
+                const viewport = document.getElementById('monitor-viewport');
+                const layoutBtn = document.getElementById('layout-toggle-btn');
+                const headerHint = document.querySelector('.header-hint');
+
+                viewport.classList.toggle('multi-layout', enableMulti);
+                layoutBtn.classList.toggle('layout-active', enableMulti);
+                layoutBtn.textContent = enableMulti ? 'SINGLE VIEW' : 'MULTI-FEED';
+                headerHint.textContent = enableMulti ? '[CLICK A FEED TO FOCUS CAMERA]' : '[DBL-CLICK TO REPORT ANOMALY]';
+
+                if (enableMulti) {
+                    focusedFromMultiFeed = false;
+                }
+
+                if (enableMulti) {
+                    if (reportTimeout) {
+                        clearTimeout(reportTimeout);
+                        reportTimeout = null;
+                    }
+                    const anomalyOverlay = document.getElementById('overlay-anomaly');
+                    anomalyOverlay.classList.remove('active');
+                    renderMultiFeedTiles();
+                }
+
+                updateLayoutControls();
+            }
+
+            function toggleLayoutMode() {
+                setLayoutMode(!isMultiLayout);
+            }
+
+            function focusFromMultiFeed(idx) {
+                focusedFromMultiFeed = true;
+                switchCam(idx);
+            }
+
             function switchCam(idx) {
+                if (isMultiLayout) {
+                    setLayoutMode(false);
+                }
+
                 // Update active button
-                const btns = document.querySelectorAll('.monitor-footer .btn');
+                const btns = document.querySelectorAll('.monitor-footer .cam-btn');
                 btns.forEach(b => b.classList.remove('active'));
                 if (btns[idx]) btns[idx].classList.add('active');
 
@@ -2665,6 +2959,14 @@
                         img.style.opacity = 0.8;
                     };
                 }, 100);
+
+                if (isMultiLayout) {
+                    renderMultiFeedTiles();
+                }
+
+                if (!isMultiLayout) {
+                    updateLayoutControls();
+                }
             }
 
             // Clock
@@ -2940,6 +3242,8 @@
             const monitorViewport = document.getElementById('monitor-viewport');
 
             monitorViewport.addEventListener('dblclick', function (e) {
+                if (isMultiLayout) return;
+
                 // Get viewport bounds
                 const rect = monitorViewport.getBoundingClientRect();
 

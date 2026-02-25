@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOOD — Shift Briefing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #1a1512;
+            --bg-mid: #231e1a;
+            --bg-warm: #2e2620;
+            --bg-overlay: rgba(12, 10, 8, 0.8);
+            --paper: #d4b9a0;
+            --paper-light: #e0cbb8;
+            --paper-dark: #b89a7e;
+            --paper-shadow: #8a7660;
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bar: #a83030;
+            --red-bright: #d44040;
+            --red-critical: #ff3030;
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --green-glow: rgba(106, 170, 74, 0.25);
+            --yellow: #d4a040;
+            --yellow-bright: #e8b850;
+            --yellow-glow: rgba(212, 160, 64, 0.2);
+            --text-bright: #e8ddd0;
+            --text-mid: #b8a898;
+            --text-dim: #7a6a5a;
+            --text-dark: #3a2e24;
+
+            --font-display: 'Boogaloo', cursive;
+            --font-handwritten: 'Amatic SC', cursive;
+            --font-scrawl: 'Caveat', cursive;
+            --font-body: 'Nunito', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-ui: 'Rajdhani', sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: var(--font-body);
+            color: var(--text-mid);
+            user-select: none;
+        }
+
+        /* ═══════════════════════════════════════════
+           FULL-SCREEN BACKGROUND
+           ═══════════════════════════════════════════ */
+        .menu-viewport {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .menu-viewport .bg-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.2) contrast(1.2) saturate(0.5);
+            transform: scale(1.05);
+            animation: bgSlowDrift 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgSlowDrift {
+            0% {
+                transform: scale(1.05) translate(0, 0);
+            }
+
+            100% {
+                transform: scale(1.08) translate(-0.5%, -0.3%);
+            }
+        }
+
+        /* Heavy vignette */
+        .menu-viewport::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.6) 60%, rgba(0, 0, 0, 0.95) 100%);
+        }
+
+        /* Paper grain */
+        .menu-viewport::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 128px;
+            opacity: 0.5;
+            mix-blend-mode: overlay;
+        }
+
+        /* Scanlines */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.02) 2px, rgba(0, 0, 0, 0.02) 4px);
+        }
+
+        /* ═══════════════════════════════════════════
+           LOADING LAYER & LAYOUT
+           ═══════════════════════════════════════════ */
+        .loading-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            padding: 4vw 6vw;
+        }
+
+        /* ── HEADER ── */
+        .lobby-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease-out both;
+        }
+
+        .lobby-title {
+            font-family: var(--font-display);
+            font-size: 72px;
+            color: var(--paper);
+            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 160, 64, 0.1);
+            line-height: 0.8;
+            letter-spacing: 4px;
+        }
+
+        .lobby-subtitle {
+            font-family: var(--font-scrawl);
+            font-size: 24px;
+            color: var(--yellow);
+            opacity: 0.8;
+            margin-top: 10px;
+            padding-left: 5px;
+        }
+
+        .shift-date {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--text-dim);
+            text-align: right;
+            border-bottom: 1px solid var(--text-dim);
+            padding-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── CONTENT PANELS ── */
+        .lobby-content {
+            display: flex;
+            gap: 40px;
+            flex: 1;
+            height: 100%;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .panel {
+            background: rgba(26, 21, 18, 0.65);
+            border: 1px solid rgba(184, 154, 126, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 185, 160, 0.5), transparent);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-title {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--paper-dark);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(184, 154, 126, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--red-mid);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--red-mid);
+        }
+
+        /* LEFT PANEL: DETAILS */
+        .details-panel {
+            flex: 1;
+        }
+
+        .details-body {
+            padding: 24px 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-family: var(--font-ui);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--paper-light);
+            letter-spacing: 1px;
+        }
+
+        .guidelines {
+            background: rgba(10, 8, 6, 0.6);
+            border: 1px solid rgba(184, 154, 126, 0.1);
+            border-left: 3px solid var(--red-mid);
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-top: auto;
+        }
+
+        .guideline-text {
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-mid);
+            margin-top: 10px;
+        }
+
+        .secret-note {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-family: var(--font-scrawl);
+            font-size: 28px;
+            color: rgba(90, 26, 26, 0.9);
+            transform: rotate(-3deg);
+            white-space: nowrap;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* RIGHT PANEL: BLUEPRINT MAP */
+        .map-panel {
+            flex: 1.4;
+            overflow: hidden;
+        }
+
+        .map-panel .panel-title {
+            background: rgba(0, 0, 0, 0.6);
+            border-color: rgba(184, 154, 126, 0.3);
+            color: var(--paper-light);
+        }
+
+        .map-panel .panel-title::before {
+            background: var(--paper);
+            box-shadow: 0 0 10px var(--paper);
+        }
+
+        .map-body {
+            flex: 1;
+            position: relative;
+            background-color: #0b0908;
+            background-image:
+                radial-gradient(rgba(212, 185, 160, 0.15) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px, 100px 100px, 100px 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .blueprint-grid {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 550px;
+            max-height: 400px;
+            z-index: 2;
+        }
+
+        .room {
+            position: absolute;
+            border: 2px solid rgba(212, 185, 160, 0.4);
+            background: rgba(212, 185, 160, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            color: rgba(212, 185, 160, 0.8);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-align: center;
+            box-shadow: inset 0 0 30px rgba(212, 185, 160, 0.03);
+            transition: all 0.3s;
+            z-index: 5;
+        }
+
+        .room span.label {
+            background: #0b0908;
+            padding: 2px 8px;
+            z-index: 2;
+        }
+
+        .room.active {
+            background: rgba(212, 185, 160, 0.15);
+            border-color: var(--paper-light);
+            color: var(--paper-light);
+            box-shadow: inset 0 0 30px rgba(212, 185, 160, 0.2), 0 0 15px rgba(212, 185, 160, 0.1);
+        }
+
+        .r-foyer {
+            bottom: 5%;
+            left: 30%;
+            width: 40%;
+            height: 25%;
+        }
+
+        .r-gallery {
+            bottom: 35%;
+            left: 5%;
+            width: 35%;
+            height: 40%;
+        }
+
+        .r-vip {
+            bottom: 35%;
+            right: 5%;
+            width: 35%;
+            height: 35%;
+        }
+
+        .r-bathrooms {
+            top: 5%;
+            left: 15%;
+            width: 25%;
+            height: 20%;
+        }
+
+        .r-basement {
+            top: 5%;
+            right: 15%;
+            width: 30%;
+            height: 20%;
+            border-color: rgba(212, 64, 64, 0.5);
+            background: rgba(212, 64, 64, 0.05);
+            color: rgba(212, 64, 64, 0.9);
+        }
+
+        .r-basement.active {
+            background: rgba(212, 64, 64, 0.2);
+            border-color: var(--red-bright);
+            box-shadow: inset 0 0 30px rgba(212, 64, 64, 0.2), 0 0 15px rgba(212, 64, 64, 0.2);
+        }
+
+        .corridor {
+            position: absolute;
+            background: rgba(212, 185, 160, 0.08);
+            z-index: 1;
+        }
+
+        /* Connections */
+        .c-1 {
+            bottom: 30%;
+            left: 45%;
+            width: 10%;
+            height: 15%;
+            border-left: 2px dashed rgba(212, 185, 160, 0.3);
+            border-right: 2px dashed rgba(212, 185, 160, 0.3);
+        }
+
+        .c-2 {
+            bottom: 45%;
+            left: 40%;
+            width: 10%;
+            height: 10%;
+            border-top: 2px dashed rgba(212, 185, 160, 0.3);
+            border-bottom: 2px dashed rgba(212, 185, 160, 0.3);
+        }
+
+        .c-3 {
+            bottom: 45%;
+            right: 40%;
+            width: 10%;
+            height: 10%;
+            border-top: 2px dashed rgba(212, 185, 160, 0.3);
+            border-bottom: 2px dashed rgba(212, 185, 160, 0.3);
+        }
+
+        .c-4 {
+            bottom: 50%;
+            left: 45%;
+            width: 10%;
+            height: 25%;
+            border-left: 2px dashed rgba(212, 185, 160, 0.3);
+            border-right: 2px dashed rgba(212, 185, 160, 0.3);
+        }
+
+        .map-scanner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(212, 185, 160, 0.8);
+            box-shadow: 0 0 15px rgba(212, 185, 160, 0.6), 0 50px 30px -20px rgba(212, 185, 160, 0.15);
+            animation: scanPulse 3s linear infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes scanPulse {
+            0% {
+                top: -10%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 110%;
+                opacity: 0;
+            }
+        }
+
+        /* ── FOOTER ── */
+        .lobby-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .loading-status-area {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .loading-text {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--yellow);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(212, 160, 64, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(212, 160, 64, 0.3);
+            border-top-color: var(--yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-bar-container {
+            height: 4px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .loading-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--yellow);
+            box-shadow: 0 0 10px var(--yellow-glow);
+            transition: width 0.1s linear, background-color 0.5s;
+        }
+
+        .btn {
+            font-family: var(--font-display);
+            font-size: 42px;
+            color: var(--paper-light);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px 40px;
+            position: relative;
+            transition: all 0.3s;
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 160, 64, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(20px);
+        }
+
+        .btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: var(--green);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 10px var(--green-glow);
+        }
+
+        .btn:hover {
+            color: var(--paper);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 30px rgba(106, 170, 74, 0.4);
+            padding-left: 55px;
+        }
+
+        .btn:hover::before {
+            height: 100%;
+        }
+
+        /* Flicker effect for random texts */
+        .flicker {
+            animation: textFlicker 0.1s infinite alternate;
+        }
+
+        @keyframes textFlicker {
+            0% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu-viewport">
+        <!-- Background -->
+        <img src="background10.png" alt="" class="bg-img">
+        <div class="scanlines"></div>
+
+        <div class="loading-layer">
+
+            <!-- HEADER -->
+            <header class="lobby-header">
+                <div>
+                    <h1 class="lobby-title">SHIFT BRIEFING</h1>
+                    <p class="lobby-subtitle" id="subtitle-text">Processing corporate assignment...</p>
+                </div>
+                <div class="shift-date">
+                    <span id="current-date">NOV 14, 1996</span>
+                    <br>
+                    <span style="font-size: 11px; opacity: 0.6;">SYSTEM V 2.4.1</span>
+                </div>
+            </header>
+
+            <!-- MAIN CONTENT -->
+            <div class="lobby-content">
+
+                <!-- DETAILS PANEL -->
+                <div class="panel details-panel">
+                    <div class="panel-title">LARGE-SCALE FACILITY CONTRACT</div>
+                    <div class="details-body">
+
+                        <div class="info-group">
+                            <div class="info-label">TARGET LOCATION</div>
+                            <div class="info-value">Supermarket - Sector 7 (24h)</div>
+                        </div>
+
+                        <div style="display: flex; gap: 50px;">
+                            <div class="info-group">
+                                <div class="info-label">SHIFT CLOCK</div>
+                                <div class="info-value" style="color: var(--yellow);">00:00 - 06:00</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">BASE PAY</div>
+                                <div class="info-value" style="color: var(--green);">$150.00 <span
+                                        style="font-size: 12px; color: var(--text-dim); font-family: var(--font-mono); vertical-align: middle; margin-left: 5px;">(PENALTIES
+                                        MAY APPLY)</span></div>
+                            </div>
+                        </div>
+
+                        <div class="info-group">
+                            <div class="info-label">YOUR ASSIGNMENT</div>
+                            <div class="info-value" style="color: var(--paper);">Manager (Monitor Duty)</div>
+                        </div>
+
+                        <!-- Guidelines -->
+                        <div class="guidelines">
+                            <div class="info-label" style="color: var(--red-bright);">CORPORATE MANDATE #402</div>
+                            <p class="guideline-text">
+                                "Employees are reminded that hallucinations are strictly considered a violation of the
+                                W.O.O.D. wellness policy. Do not trust what you see. Report all tangible anomalies to
+                                the system immediately. Failure to repair critical infrastructure will result in direct
+                                wage garnishment."
+                            </p>
+                        </div>
+
+                        <div class="secret-note">
+                            They don't tell you about the ones inside the cameras...
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- MAP PANEL -->
+                <div class="panel map-panel">
+                    <div class="panel-title">FACILITY SCHEMATIC :: MAIN FLOOR</div>
+                    <div class="map-body">
+
+                        <div class="blueprint-grid">
+                            <!-- Rooms -->
+                            <div class="room r-bathrooms"><span class="label">STAFF ROOM</span></div>
+                            <div class="room r-basement"><span class="label">FREEZER UNITS</span><span
+                                    style="font-size: 9px; color: var(--red-bright); margin-top: 2px;">[CRITICAL]</span>
+                            </div>
+                            <div class="room r-gallery"><span class="label">PRODUCE SECTOR</span></div>
+                            <div class="room r-vip"><span class="label">OFFICE</span></div>
+                            <div class="room r-foyer"><span class="label">LOADING DOCK</span></div>
+
+                            <!-- Corridors -->
+                            <div class="corridor c-1"></div>
+                            <div class="corridor c-2"></div>
+                            <div class="corridor c-3"></div>
+                            <div class="corridor c-4"></div>
+                        </div>
+
+                        <div class="map-scanner"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="lobby-footer">
+
+                <div class="loading-status-area">
+                    <div class="loading-text">
+                        <span class="loading-spinner" id="spinner"></span>
+                        <span id="loading-msg">Mounting external feeds...</span>
+                    </div>
+                    <div class="loading-bar-container">
+                        <div class="loading-bar-fill" id="loading-fill"></div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn" id="btn-proceed" onclick="window.location.href='game-screen.html'">
+                        BEGIN SHIFT &gt;
+                    </button>
+                </div>
+
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- UI Sounds (from main menu logic) -->
+    <audio id="uiClick" src="../audio/uiclick.mp3"></audio>
+    <audio id="staticSound" src="../audio/static.mp3" loop></audio> <!-- Optional ambiance -->
+
+    <script>
+        // Sound logic
+        const uiClick = document.getElementById('uiClick');
+        if (uiClick) uiClick.volume = 0.4;
+        function playClick() {
+            if (!uiClick) return;
+            uiClick.currentTime = 0;
+            uiClick.play().catch(() => { });
+        }
+
+        document.getElementById('btn-proceed').addEventListener('click', playClick);
+
+        // Map Random Highlight Logic
+        const rooms = document.querySelectorAll('.room');
+        setInterval(() => {
+            rooms.forEach(r => r.classList.remove('active'));
+            if (Math.random() > 0.3) {
+                const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
+                randomRoom.classList.add('active');
+            }
+        }, 800);
+
+        // Set Current Date
+        const dateSpan = document.getElementById('current-date');
+        const d = new Date();
+        const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        dateSpan.textContent = `${months[d.getMonth()]} ${d.getDate()}, 1996`;
+
+        // Loading Bar Sequence
+        const loadingFill = document.getElementById('loading-fill');
+        const loadingMsg = document.getElementById('loading-msg');
+        const subtitleText = document.getElementById('subtitle-text');
+        const spinner = document.getElementById('spinner');
+        const btnProceed = document.getElementById('btn-proceed');
+
+        const messages = [
+            "Mounting external camera feeds...",
+            "Validating employee vitals...",
+            "Bypassing corrupted sectors...",
+            "Decrypting encrypted anomalies...",
+            "Applying cognitive dissonance filters...",
+            "Finalizing connection protocol..."
+        ];
+
+        let progress = 0;
+        let messageIndex = 0;
+
+        const loadingInterval = setInterval(() => {
+            progress += Math.random() * 8 + 2; // Random jump between 2 and 10
+
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadingInterval);
+                finishLoading();
+            } else {
+                // Occasionally change text
+                if (Math.random() > 0.7 && messageIndex < messages.length - 1) {
+                    messageIndex++;
+                    loadingMsg.textContent = messages[messageIndex];
+                    loadingMsg.classList.add('flicker');
+                    setTimeout(() => loadingMsg.classList.remove('flicker'), 200);
+                }
+            }
+
+            loadingFill.style.width = progress + "%";
+        }, 300);
+
+        function finishLoading() {
+            loadingFill.style.backgroundColor = "var(--green)";
+            loadingFill.style.boxShadow = "0 0 10px var(--green-glow)";
+            loadingMsg.textContent = "FEEDS ESTABLISHED. AWAITING MANAGER CONFIRMATION.";
+            loadingMsg.style.color = "var(--green)";
+            spinner.style.borderColor = "rgba(106, 170, 74, 0.3)";
+            spinner.style.borderTopColor = "var(--green)";
+            spinner.style.animation = "none"; // Stop spinning
+
+            subtitleText.textContent = "Ready for deployment.";
+            subtitleText.style.color = "var(--green)";
+
+            // Show Proceed button
+            setTimeout(() => {
+                btnProceed.classList.add('visible');
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>

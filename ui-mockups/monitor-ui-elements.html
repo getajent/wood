@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WOOD — Monitor UI Elements</title>
-
+    <title>W.O.O.D. - Monitor UI Elements</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Amatic+SC:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&family=Caveat:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
+        /* ============================
+           DOC SHELL (same family as other ui-mockups docs)
+           ============================ */
         *,
         *::before,
         *::after {
@@ -21,30 +23,28 @@
         }
 
         :root {
-            --bg-dark: #120e0c;
-            --bg-mid: #231E1A;
+            --bg-dark: #1a1512;
+            --bg-mid: #231e1a;
             --bg-warm: #2a221d;
+            --bg-overlay: rgba(12, 10, 8, 0.85);
 
             --paper: #d4b9a0;
             --paper-light: #e8d5c4;
             --paper-dark: #b0957c;
             --paper-shadow: #8a7660;
 
-            --red-dark: #5a1a1a;
-            --red-mid: #8a2828;
-            --red-bar: #a83030;
-            --red-bright: #d44040;
-            --red-critical: #ff3030;
-
-            --green: #6aaa4a;
-            --green-bright: #8acc6a;
-            --green-glow: rgba(106, 170, 74, 0.25);
-
             --yellow: #d4a040;
             --yellow-bright: #e8b850;
             --yellow-glow: rgba(212, 160, 64, 0.2);
 
-            --bg-overlay: rgba(12, 10, 8, 0.85);
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bar: #a83030;
+            --red-bright: #d44040;
+
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --green-glow: rgba(106, 170, 74, 0.25);
 
             --text-bright: #e8ddd0;
             --text-mid: #b8a898;
@@ -59,27 +59,26 @@
         }
 
         body {
-            background: #000;
+            background: var(--bg-dark);
             color: var(--text-bright);
             font-family: var(--font-body);
             min-height: 100vh;
             padding: 60px 20px;
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(212, 160, 64, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(212, 64, 64, 0.02) 0%, transparent 40%);
         }
 
-        /* ─── GUIDE WRAPPER ─── */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
 
-        .style-guide-card {
-            background: var(--bg-mid);
-            border: 2px solid rgba(212, 160, 64, 0.1);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         @keyframes borderGlow {
@@ -90,12 +89,23 @@
             }
 
             50% {
-                border-color: rgba(212, 160, 64, 0.3);
+                border-color: rgba(212, 160, 64, 0.25);
             }
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .style-guide-card {
+            background: var(--bg-mid);
+            border: 2px solid rgba(212, 160, 64, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), borderGlow 4s infinite;
+            padding-bottom: 40px;
         }
 
         .style-guide-card::after {
@@ -104,19 +114,20 @@
             inset: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
-            z-index: 50;
-            opacity: 0.4;
+            z-index: 10;
+            opacity: 0.5;
             mix-blend-mode: overlay;
         }
 
-        /* ─── HERO ─── */
         .hero {
-            padding: 80px 40px 60px;
+            padding: 90px 40px 60px;
             text-align: center;
-            background: linear-gradient(180deg, rgba(212, 160, 64, 0.05) 0%, transparent 100%);
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(212, 160, 64, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(212, 160, 64, 0.05) 0%, transparent 100%);
             border-bottom: 1px solid rgba(212, 160, 64, 0.1);
             position: relative;
-            z-index: 60;
+            z-index: 20;
         }
 
         .hero-tag {
@@ -125,65 +136,178 @@
             color: var(--yellow);
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 16px;
-            opacity: 0.8;
+            margin-bottom: 12px;
+            opacity: 0.9;
         }
 
         .hero-title {
             font-family: var(--font-display);
-            font-size: 64px;
-            color: var(--paper);
-            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 160, 64, 0.15);
-            line-height: 0.9;
-            margin-bottom: 20px;
+            font-size: 68px;
+            color: var(--paper-light);
+            text-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 160, 64, 0.1);
+            line-height: 1;
+            margin-bottom: 14px;
         }
 
         .hero-desc {
             font-family: var(--font-scrawl);
             font-size: 26px;
             color: var(--text-dim);
-            max-width: 700px;
+            max-width: 820px;
             margin: 0 auto;
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
-        .showcase-container {
-            padding: 40px;
+        .toolbar {
+            margin-top: 18px;
             display: flex;
-            flex-direction: column;
-            gap: 40px;
-            position: relative;
-            z-index: 60;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .showcase-section {
-            background: transparent;
-            margin-bottom: 20px;
-        }
-
-        .section-header {
-            padding: 0 0 30px;
-            display: flex;
+        .toggle {
+            display: inline-flex;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            padding: 10px 14px;
+            cursor: pointer;
+            user-select: none;
         }
 
-        .section-header h2 {
-            font-family: var(--font-display);
-            font-size: 28px;
-            color: var(--yellow);
+        .toggle strong {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            color: var(--text-mid);
+        }
+
+        .toggle .pill {
+            font-family: var(--font-mono);
+            font-size: 10px;
             letter-spacing: 1px;
-            white-space: nowrap;
+            padding: 3px 8px;
+            border: 1px solid rgba(212, 160, 64, 0.35);
+            color: var(--yellow);
+            background: rgba(212, 160, 64, 0.06);
         }
 
-        .section-header .line {
-            flex: 1;
+        .color-chips {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid rgba(180, 150, 120, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+            cursor: help;
+            transition: transform 0.15s ease;
+        }
+
+        .chip:hover {
+            transform: scale(1.15);
+        }
+
+        .section {
+            padding: 56px 40px 0;
+            position: relative;
+            z-index: 20;
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .section-title {
+            margin-top: 10px;
+            font-family: var(--font-display);
+            font-size: 40px;
+            color: var(--paper);
+            text-shadow: 0 3px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .section-desc {
+            margin-top: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-mid);
+            opacity: 0.85;
+        }
+
+        .stage {
+            margin: 0 auto;
+            max-width: 980px;
+            background: transparent;
+            border: none;
+            padding: 0;
+            overflow: visible;
+            box-shadow: none;
+        }
+
+
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .stage.stage-showcase {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            overflow: visible;
+        }
+
+        .demo-box {
+            background: transparent;
+            border: none;
+            padding: 0;
+            overflow: visible;
+            min-height: 260px;
+            box-shadow: none;
+        }
+
+        .sep {
             height: 1px;
-            background: linear-gradient(90deg, rgba(212, 160, 64, 0.3), transparent);
+            margin: 56px 0 0;
+            background: linear-gradient(90deg, transparent, rgba(212, 160, 64, 0.25), transparent);
+            position: relative;
+            z-index: 20;
         }
 
-        /* ─── FPS VIEW CONTAINER ─── */
+        /* ============================
+           MONITOR-VIEW CSS (copied / aligned)
+           Goal: keep elements visually identical.
+           ============================ */
+
+        /* FPS VIEW CONTAINER */
         .fps-view {
             transform-style: preserve-3d;
             transform: rotateX(2deg) rotateY(0deg);
@@ -193,11 +317,10 @@
             justify-content: center;
         }
 
-        /* MONITOR BODY */
+        /* MONITOR BODY (fixed size for docs) */
         .device-body {
-            /* 16:9 aspect ratio */
-            width: 900px;
-            height: 506px;
+            width: 920px;
+            height: 518px;
             background: #252528;
             border: 24px solid #1a1a1c;
             border-bottom-width: 48px;
@@ -206,7 +329,7 @@
                 inset 0 0 0 2px #3a3a3c,
                 inset 0 0 60px rgba(0, 0, 0, 0.9),
                 0 0 0 4px #0a0a0c,
-                0 0 100px rgba(0, 0, 0, 0.6);
+                0 0 60px rgba(0, 0, 0, 0.4);
             position: relative;
             display: flex;
             align-items: center;
@@ -214,7 +337,6 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
         }
 
-        /* LOGO */
         .device-logo {
             position: absolute;
             bottom: -32px;
@@ -229,7 +351,6 @@
             pointer-events: none;
         }
 
-        /* POWER LED */
         .power-led {
             position: absolute;
             bottom: -30px;
@@ -242,7 +363,6 @@
             border-radius: 1px;
         }
 
-        /* MONITOR STAND */
         .device-stand {
             position: absolute;
             top: 100%;
@@ -256,7 +376,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
 
-        /* SCREEN CONTAINER */
         .device-screen-encasing {
             width: 100%;
             height: 100%;
@@ -266,8 +385,16 @@
             box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
         }
 
-        /* Scanline Effects Disabled as requested in conversation */
-        /* .device-screen-encasing::after { ... } */
+        .device-screen-encasing::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.15) 2px, rgba(0, 0, 0, 0.15) 4px), radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
+            pointer-events: none;
+            z-index: 100;
+            mix-blend-mode: overlay;
+        }
+
         .device-screen-encasing::before {
             content: '';
             position: absolute;
@@ -277,7 +404,12 @@
             z-index: 101;
         }
 
-        /* ─── MONITOR CONTENT ─── */
+        /* CRT OFF for docs (default) */
+        body.no-crt .device-screen-encasing::after,
+        body.no-crt .device-screen-encasing::before {
+            display: none;
+        }
+
         .monitor-content {
             width: 100%;
             height: 100%;
@@ -287,7 +419,6 @@
             background: #050505;
         }
 
-        /* Header Bar */
         .monitor-header {
             height: 36px;
             background: #0f0f0f;
@@ -296,6 +427,8 @@
             align-items: center;
             padding: 0 16px;
             gap: 16px;
+            position: relative;
+            z-index: 3;
         }
 
         .header-title {
@@ -329,7 +462,34 @@
             color: var(--text-dim);
         }
 
-        /* Main View */
+        .header-hint {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            opacity: 0.8;
+            animation: hintPulse 2s infinite ease-in-out;
+            letter-spacing: 1px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        @keyframes hintPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 8px var(--yellow-glow);
+            }
+        }
+
+        /* Monitor viewport (security app) */
         .monitor-viewport {
             flex: 1;
             position: relative;
@@ -339,20 +499,14 @@
             justify-content: center;
         }
 
-        /* Fullscreen Camera Feed */
         .camera-feed {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #111, #050505);
+            object-fit: cover;
+            filter: sepia(0.2) contrast(1.1) brightness(0.8);
             opacity: 0.8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-mono);
-            color: #333;
         }
 
-        /* Overlay UI on top of camera */
         .camera-overlay {
             position: absolute;
             inset: 0;
@@ -394,106 +548,52 @@
             gap: 12px;
         }
 
-        /* Consistent Button Styles */
-        .btn {
-            font-family: var(--font-display);
-            font-size: 18px;
-            padding: 8px 20px;
-            border: 2px solid rgba(180, 150, 120, 0.2);
-            border-bottom: 3px solid rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: relative;
+        .rec-badge {
+            background: rgba(212, 64, 64, 0.2);
+            border: 1px solid var(--red-bright);
+            color: var(--red-bright);
+            padding: 4px 12px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 2px;
             display: flex;
             align-items: center;
             gap: 8px;
-            letter-spacing: 0.5px;
-            background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
-            color: var(--text-mid);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
-            border-radius: 3px;
-            min-width: 140px;
-            justify-content: center;
-            pointer-events: auto;
+            animation: pulse-red 2s infinite;
         }
 
-        .btn:hover {
-            transform: scale(1.03) rotate(-0.5deg);
-            background: linear-gradient(to bottom, var(--paper), #cbb094);
-            color: var(--bg-dark);
-            border-color: var(--paper);
-            text-shadow: none;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-            z-index: 5;
+        .rec-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--red-bright);
+            border-radius: 50%;
         }
 
-        /* ─── STRESS MONITOR ─── */
-        .stress-monitor {
+        @keyframes pulse-red {
+
+            0%,
+            100% {
+                box-shadow: 0 0 4px rgba(212, 64, 64, 0.2);
+                opacity: 1;
+            }
+
+            50% {
+                box-shadow: 0 0 12px rgba(212, 64, 64, 0.6);
+                opacity: 0.7;
+            }
+        }
+
+        .cam-tag-bl {
             position: absolute;
-            left: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: linear-gradient(to bottom, #1a1613, #110e0c);
-            border: 1px solid rgba(180, 150, 120, 0.15);
-            padding: 6px 14px;
-            border-radius: 4px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.4);
-            z-index: 50;
-        }
-
-        .stress-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            justify-content: center;
-        }
-
-        .stress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100px;
-            margin-bottom: 2px;
-        }
-
-        .stress-label {
-            font-family: var(--font-ui);
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            line-height: 1;
-        }
-
-        .stress-value {
+            bottom: 24px;
+            left: 24px;
             font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--green-bright);
-            line-height: 1;
-        }
-
-        .stress-track {
-            width: 100px;
-            height: 6px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 3px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(180, 150, 120, 0.1);
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .stress-fill {
-            height: 100%;
-            width: 35%;
-            background: linear-gradient(90deg, var(--green-bright) 0%, var(--yellow) 50%, var(--red-bright) 100%);
-            background-size: 100px 100%;
-            box-shadow: 0 0 8px rgba(212, 160, 64, 0.4);
-            transition: width 0.3s ease-out;
+            font-size: 14px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            display: flex;
+            gap: 20px;
         }
 
         .monitor-footer {
@@ -506,6 +606,125 @@
             gap: 12px;
             padding: 0 20px;
             position: relative;
+        }
+
+        /* Camera footer controls (from monitor-view vibe) */
+        .btn {
+            font-family: var(--font-display);
+            font-size: 18px;
+            padding: 8px 20px;
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
+            color: var(--text-mid);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .btn.active {
+            background: var(--paper);
+            color: var(--bg-dark);
+            border-color: var(--paper-dark);
+            border-bottom-width: 1px;
+            text-shadow: none;
+        }
+
+        .stress-monitor {
+            position: absolute;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 14px;
+            border: 1px solid rgba(180, 150, 120, 0.15);
+            background: linear-gradient(to bottom, #1a1613, #110e0c);
+            border-radius: 4px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .stress-label {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-dim);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .stress-value {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--yellow);
+            line-height: 1;
+        }
+
+        .stress-track {
+            width: 100px;
+            height: 6px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 3px;
+            border: 1px solid rgba(180, 150, 120, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+            margin-top: 3px;
+            overflow: hidden;
+        }
+
+        .stress-fill {
+            height: 100%;
+            width: 36%;
+            background: linear-gradient(90deg, var(--green-bright), var(--yellow), var(--red-bright));
+            box-shadow: 0 0 8px rgba(212, 160, 64, 0.35);
+        }
+
+        .security-terminal {
+            width: 100%;
+            min-height: 620px;
+        }
+
+        .security-terminal .terminal-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-pay {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 15px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 0 10px;
+            min-width: 100px;
+            position: relative;
+        }
+
+        .footer-pay-label {
+            font-family: var(--font-ui);
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .footer-pay-value {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--green-bright);
+            text-shadow: 0 0 10px rgba(106, 170, 74, 0.3);
+            line-height: 1;
         }
 
         .pills-action {
@@ -531,85 +750,1186 @@
             background: linear-gradient(to bottom, #2c2520, #1a1613);
         }
 
-        .pills-count {
+        .pills-action:active {
+            transform: scale(0.98);
+            border-bottom-width: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .pill-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-bright);
+            filter: drop-shadow(0 0 4px rgba(106, 170, 74, 0.5));
+        }
+
+        .pill-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .pill-label {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            color: var(--green-bright);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+
+        .pill-count {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--text-bright);
+            line-height: 1;
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .pill-hotkey {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: #111;
+            background: var(--text-mid);
+            padding: 2px 6px;
+            border-radius: 2px;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+            margin-left: 4px;
+        }
+
+        /* Scan overlay/beam (also disabled by no-crt) */
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        .scan-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.1) 51%, transparent 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .scan-beam {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.05), transparent);
+            animation: scanline 6s linear infinite;
+            pointer-events: none;
+            z-index: 51;
+        }
+
+        body.no-crt .scan-overlay,
+        body.no-crt .scan-beam {
+            display: none;
+        }
+
+        /* Scoped token alignment (monitor-view exact palette) */
+        .monitor-skin {
+            --bg-dark: #120e0c;
+            --bg-mid: #231E1A;
+            --bg-warm: #2a221d;
+            --paper: #d4b9a0;
+            --paper-light: #e8d5c4;
+            --paper-dark: #b0957c;
+            --paper-shadow: #8a7660;
+            --red-dark: #5a1a1a;
+            --red-mid: #8a2828;
+            --red-bright: #d44040;
+            --green: #6aaa4a;
+            --green-bright: #8acc6a;
+            --yellow: #d4a040;
+            --yellow-bright: #e8b850;
+            --text-bright: #e8ddd0;
+            --text-mid: #b8a898;
+            --text-dim: #70655c;
+            --text-dark: #3a2e24;
+        }
+
+        /* Windowed apps (monitor-view) - doc layout override */
+        .doc-windows {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .app-window.doc {
+            position: relative;
+            inset: auto;
+            width: 100%;
+            height: 360px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .app-window.doc.tall {
+            height: 420px;
+        }
+
+        /* Desktop system */
+        .desktop-view {
+            position: absolute;
+            inset: 0;
+            background: #1a1e2a;
+            background-image:
+                radial-gradient(circle at 50% 50%, rgba(40, 50, 80, 0.5) 0%, transparent 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+            display: flex;
+            flex-direction: column;
+            z-index: 5;
+        }
+
+        .desktop-icons {
+            flex: 1;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 90px);
+            grid-template-rows: repeat(auto-fill, 100px);
+            gap: 20px;
+            align-content: flex-start;
+        }
+
+        .desktop-shortcut {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 4px;
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .desktop-shortcut:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .desktop-shortcut.active {
+            background: rgba(180, 150, 120, 0.2);
+            outline: 1px dotted rgba(180, 150, 120, 0.5);
+        }
+
+        .shortcut-icon {
+            width: 48px;
+            height: 48px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            transition: transform 0.1s;
+        }
+
+        .desktop-shortcut:active .shortcut-icon {
+            transform: scale(0.9);
+        }
+
+        .shortcut-label {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-bright);
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.5px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .taskbar {
+            height: 40px;
+            background: #0c0c0e;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            z-index: 100;
+        }
+
+        .start-btn {
+            height: 32px;
+            padding: 0 16px;
+            background: var(--bg-mid);
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            color: var(--paper);
+            font-family: var(--font-display);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            margin-right: 8px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .start-btn:hover {
+            background: var(--bg-warm);
+            border-color: var(--yellow);
+        }
+
+        .taskbar-items {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .task-item {
+            height: 32px;
+            min-width: 140px;
+            background: rgba(40, 45, 60, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-mid);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 8px;
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .task-item.active {
+            background: var(--bg-mid);
+            border-color: var(--yellow);
+            color: var(--text-bright);
+        }
+
+        .system-tray {
+            margin-left: auto;
+            padding: 0 12px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Start menu */
+        @keyframes startMenuPop {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .start-menu {
+            position: absolute;
+            bottom: 40px;
+            left: 4px;
+            width: 200px;
+            background: #1a1e22;
+            border: 2px solid var(--text-dim);
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.8);
+            z-index: 500;
+            display: none;
+            flex-direction: column;
+            animation: startMenuPop 0.2s ease-out;
+        }
+
+        .start-menu.active {
+            display: flex;
+        }
+
+        .start-menu-header {
+            padding: 12px;
+            background: var(--text-dim);
+            color: #120e0c;
+            font-family: var(--font-ui);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-menu-item {
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-mid);
+            font-family: var(--font-ui);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .start-menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-bright);
+        }
+
+        .start-menu-item.logout {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(212, 64, 64, 0.1);
+            color: var(--red-bright);
+            font-weight: 700;
+        }
+
+        .start-menu-item.logout:hover {
+            background: var(--red-mid);
+            color: white;
+        }
+
+        /* Context menu */
+        @keyframes modalPop {
+            from {
+                transform: scale(0.92) translateY(12px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .context-menu {
+            position: relative;
+            width: 252px;
+            background: linear-gradient(to bottom, #1a1613, #110e0c);
+            border: 1px solid rgba(180, 150, 120, 0.22);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.55);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.55), 0 14px 30px rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(2px);
+            animation: modalPop 0.35s ease-out;
+        }
+
+        .context-menu::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+            opacity: 0.6;
+        }
+
+        .context-header {
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(180, 150, 120, 0.14);
+            background: linear-gradient(to right, rgba(106, 170, 74, 0.1), rgba(212, 160, 64, 0.06));
+            position: relative;
+            z-index: 1;
+        }
+
+        .context-header-text {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-mid);
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .context-item {
+            padding: 9px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: background 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.12s;
+            border-bottom: 1px solid rgba(180, 150, 120, 0.08);
+            border-left: 2px solid transparent;
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .context-item:last-child {
+            border-bottom: none;
+        }
+
+        .context-item:hover,
+        .context-item.is-hover {
+            background: linear-gradient(to right, rgba(106, 170, 74, 0.14), rgba(106, 170, 74, 0.02));
+            border-left-color: rgba(138, 204, 106, 0.85);
+            transform: translateX(2px);
+        }
+
+        .context-item:active,
+        .context-item.is-pressed {
+            background: linear-gradient(to right, rgba(106, 170, 74, 0.22), rgba(106, 170, 74, 0.04));
+            transform: scale(0.99);
+        }
+
+        .ctx-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: var(--text-dim);
+            transition: color 0.12s;
+        }
+
+        .ctx-icon svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ctx-icon svg .fill-current {
+            fill: currentColor;
+            stroke: none;
+        }
+
+        .ctx-label {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-mid);
+            flex: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.12s;
+        }
+
+        .context-item:hover .ctx-label,
+        .context-item:hover .ctx-icon,
+        .context-item.is-hover .ctx-label,
+        .context-item.is-hover .ctx-icon,
+        .context-item.is-pressed .ctx-icon,
+        .context-item.is-pressed .ctx-label {
+            color: #c8efbb;
+        }
+
+        .ctx-key {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--paper-light);
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(180, 150, 120, 0.3);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.35);
+            background: linear-gradient(to bottom, #2a2520, #1a1613);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+            border-radius: 3px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .context-item:hover .ctx-key,
+        .context-item.is-hover .ctx-key,
+        .context-item.is-pressed .ctx-key {
+            color: #d8f5ce;
+            border-color: rgba(138, 204, 106, 0.55);
+            background: linear-gradient(to bottom, #22331e, #162114);
+        }
+
+        /* Reporting cards (screenshot layout) */
+        .report-card {
+            background: rgba(35, 30, 26, 0.95);
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            text-align: center;
+            padding: 26px 16px 18px;
+        }
+
+        .report-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 14px;
+            display: block;
+        }
+
+        .report-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .report-card.success .report-title {
+            color: var(--green-bright);
+        }
+
+        .report-card.fail .report-title {
+            color: var(--red-bright);
+        }
+
+        .report-id {
+            margin-top: 4px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            opacity: 0.9;
+        }
+
+        .report-sub {
+            margin-top: 5px;
+            font-family: var(--font-ui);
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .report-bar {
+            margin-top: 14px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .report-bar>span {
+            display: block;
+            height: 100%;
+            width: 60%;
+        }
+
+        .report-card.success .report-bar>span {
+            background: linear-gradient(90deg, var(--green), var(--green-bright));
+        }
+
+        .report-card.fail .report-bar>span {
+            background: linear-gradient(90deg, var(--red-dark), var(--red-bright));
+        }
+
+        /* Windowed apps (screenshot layout) */
+        .window {
+            background: #000;
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            display: flex;
+            flex-direction: column;
+            min-height: 220px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+        }
+
+        .app-header {
+            height: 30px;
+            background: linear-gradient(to bottom, #2a2a2e, #1a1a1c);
+            border-bottom: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            font-family: var(--font-ui);
+            font-size: 11px;
+            color: var(--text-mid);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .app-controls {
+            display: flex;
+            gap: 4px;
+        }
+
+        .ctrl {
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-dim);
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .window-content {
+            flex: 1;
+            padding: 12px;
+            background: #0a0a0c;
+            font-size: 12px;
+            color: var(--text-mid);
+        }
+
+        .log-entry {
+            padding: 8px;
+            border-left: 2px solid var(--text-dim);
+            background: rgba(184, 168, 152, 0.05);
+            margin-bottom: 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+        }
+
+        .log-entry.resolved {
+            border-left-color: var(--green);
+        }
+
+        .log-entry.rejected {
+            border-left-color: var(--red-bright);
+        }
+
+        .email-subject {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--text-bright);
+            margin-bottom: 6px;
+        }
+
+        .mgmt-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .mgmt-card {
+            padding: 10px;
+            background: #161a1e;
+            border: 1px solid rgba(184, 168, 152, 0.2);
+        }
+
+        .mgmt-title {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .mgmt-value {
+            font-family: var(--font-display);
+            font-size: 26px;
+            margin-top: 3px;
+            color: var(--text-bright);
+        }
+
+        .mgmt-value.money {
+            color: var(--green-bright);
+        }
+
+        /* Report confirm/fail (exact class names from monitor-view) */
+        @keyframes reportFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes scanConfirm {
+            from {
+                top: 0;
+                opacity: 0.6;
+            }
+
+            to {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        @keyframes barFill {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0%;
+            }
+        }
+
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .report-confirm,
+        .report-fail {
+            padding: 28px 20px 18px;
+            text-align: center;
+            animation: reportFadeIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(180, 150, 120, 0.15);
+        }
+
+        .report-confirm .scan-flash {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--green-bright), transparent);
+            animation: scanConfirm 0.6s ease-out 0.2s forwards;
+            pointer-events: none;
+        }
+
+        .report-fail .scan-flash {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--red-bright), transparent);
+            animation: scanConfirm 0.6s ease-out 0.2s forwards;
+            pointer-events: none;
+        }
+
+        .confirm-title {
             font-family: var(--font-display);
             font-size: 20px;
             color: var(--green-bright);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            animation: textReveal 0.3s ease-out 0.25s both;
+        }
+
+        .fail-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--red-bright);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            animation: textReveal 0.3s ease-out 0.25s both;
+        }
+
+        .confirm-id {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--yellow);
+            opacity: 0.85;
+            margin-bottom: 4px;
+            animation: textReveal 0.3s ease-out 0.4s both;
+        }
+
+        .confirm-sub {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            color: var(--text-dim);
+            animation: textReveal 0.3s ease-out 0.55s both;
+        }
+
+        .confirm-bar-track {
+            margin-top: 16px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 1px;
+            overflow: hidden;
+            animation: textReveal 0.2s ease-out 0.6s both;
+        }
+
+        .confirm-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--green-bright));
+            border-radius: 1px;
+            animation: barFill 4.3s linear 0.65s forwards;
+        }
+
+        .fail-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--red-dark), var(--red-bright));
+            border-radius: 1px;
+            animation: barFill 4.3s linear 0.65s forwards;
+        }
+
+        /* System dialog */
+        .dialog-box {
+            width: 320px;
+            background: #1a1e22;
+            border: 2px solid var(--text-dim);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dialog-header {
+            background: var(--text-dim);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dialog-title {
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 800;
+            color: #120e0c;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex: 1;
+        }
+
+        .dialog-body {
+            padding: 24px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
+        }
+
+        .dialog-msg {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--text-mid);
+            line-height: 1.5;
+        }
+
+        .dialog-footer {
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dialog-btn {
+            padding: 6px 24px;
+            background: var(--bg-warm);
+            border: 1px solid var(--text-dim);
+            color: var(--text-mid);
+            font-family: var(--font-ui);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .dialog-btn:hover {
+            background: var(--text-dim);
+            color: #120e0c;
+        }
+
+        /* Voice indicator */
+        .voice-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+        }
+
+        .voice-indicator.radio {
+            border-color: rgba(106, 170, 74, 0.4);
+            background: rgba(106, 170, 74, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 12px rgba(106, 170, 74, 0.1);
+        }
+
+        .voice-icon {
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-bright);
+            filter: drop-shadow(0 0 4px var(--green-bright));
+        }
+
+        .voice-waves {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 14px;
+        }
+
+        @keyframes soundWave {
+            0% {
+                height: 4px;
+            }
+
+            100% {
+                height: 14px;
+            }
+        }
+
+        .wave {
+            width: 3px;
+            height: 4px;
+            border-radius: 1.5px;
+            background: var(--green-bright);
+            box-shadow: 0 0 6px var(--green-bright);
+            animation: soundWave 0.2s alternate infinite;
+        }
+
+        .wave:nth-child(2) {
+            animation-duration: 0.25s;
+            animation-delay: 0.05s;
+        }
+
+        .wave:nth-child(3) {
+            animation-duration: 0.18s;
+            animation-delay: 0.1s;
+        }
+
+        .wave:nth-child(4) {
+            animation-duration: 0.22s;
+            animation-delay: 0.15s;
+        }
+
+        .voice-label {
+            font-family: var(--font-ui);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-left: 2px;
+            color: var(--green-bright);
+        }
+
+        @media (max-width: 1060px) {
+            .device-body {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16 / 9;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+        }
+
+        .color-tooltip {
+            position: fixed;
+            background: var(--bg-mid);
+            border: 1px solid var(--yellow);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--yellow-bright);
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-tooltip.visible {
+            display: block;
         }
     </style>
 </head>
 
-<body>
-
+<body class="no-crt">
     <div class="container">
         <div class="style-guide-card">
-
-            <!-- HERO -->
             <div class="hero">
-                <div class="hero-tag">System Documentation</div>
-                <h1 class="hero-title">Monitor Elements</h1>
-                <p class="hero-desc">The primary interface elements for the Security Monitor interaction point built in
-                    the Goofy Premium aesthetic.</p>
+                <div class="hero-tag">W.O.O.D. // DOCUMENTATION</div>
+                <h1 class="hero-title">Monitor UI Elements</h1>
+                <p class="hero-desc">A comprehensive showcase of monitor UI elements designed for facility security systems, featuring camera feeds, control panels, and real-time monitoring interfaces that blend industrial functionality with atmospheric horror-comedy aesthetics.</p>
+                <div class="toolbar">
+                    <div class="toggle" id="crtToggle" role="button" tabindex="0">
+                        <strong>CRT Effects</strong>
+                        <span class="pill" id="crtState">OFF</span>
+                        <span class="pill" style="border-color:rgba(184,168,152,0.25);color:var(--text-mid);background:rgba(0,0,0,0.18)">Toggle</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="showcase-container">
-
-                <div class="section-header">
-                    <h2>1. Monitor Desktop View</h2>
-                    <div class="line"></div>
+            <div class="section">
+                <div class="section-head">
+                    <div class="section-tag">PATTERN 01 // SECURITY TERMINAL</div>
+                    <div class="section-title">Camera Security Terminal</div>
+                    <div class="section-desc">Primary live feed window with camera overlay tags and footer controls.</div>
+                    <div class="color-chips">
+                        <span class="chip" style="background:#120e0c;" title="Monitor Skin BG"></span>
+                        <span class="chip" style="background:#231e1a;" title="Button BG"></span>
+                        <span class="chip" style="background:#d4b9a0;" title="Active Button"></span>
+                        <span class="chip" style="background:#d4a040;" title="Header Dot, Camera ID"></span>
+                        <span class="chip" style="background:#6aaa4a;" title="Signal Text"></span>
+                        <span class="chip" style="background:#8acc6a;" title="Footer Pay Value"></span>
+                        <span class="chip" style="background:#d44040;" title="REC Badge"></span>
+                        <span class="chip" style="background:#e8ddd0;" title="Camera ID Text"></span>
+                        <span class="chip" style="background:#b8a898;" title="Header Title Text"></span>
+                        <span class="chip" style="background:#111;" title="Monitor Footer BG"></span>
+                        <span class="chip" style="background:#0f0f0f;" title="Terminal Header BG"></span>
+                    </div>
                 </div>
+                <div class="stage stage-showcase">
+                    <div class="window security-terminal monitor-skin">
+                        <div class="app-header">SECURITY TERMINAL - V2.4.0 <span class="app-controls"><span class="ctrl">_</span><span class="ctrl">x</span></span></div>
+                        <div class="terminal-body">
+                            <div class="monitor-header">
+                                <div class="header-title">LIVE FEED</div>
+                                <div class="header-hint">[DBL-CLICK TO REPORT ANOMALY]</div>
+                                <div class="header-info"><span>17:50:55</span><span style="color:var(--green)">SIGNAL: STRONG</span></div>
+                            </div>
+                            <div class="monitor-viewport">
+                                <img src="background6.png" alt="Camera Feed" class="camera-feed">
+                                <div class="camera-overlay">
+                                    <div class="cam-tag-tl">
+                                        <span class="cam-id">CAM-05</span>
+                                        <span class="cam-loc">LOBBY DESK</span>
+                                    </div>
+                                    <div class="cam-tag-tr">
+                                        <div class="rec-badge"><span class="rec-dot"></span>REC</div>
+                                    </div>
+                                    <div class="cam-tag-bl"><span>ISO 800</span><span>F/2.4</span><span>1/60</span></div>
+                                </div>
+                                <div class="scan-overlay"></div>
+                                <div class="scan-beam"></div>
+                            </div>
+                            <div class="monitor-footer">
+                                <div class="stress-monitor">
+                                    <div>
+                                        <div class="stress-label">STRESS</div>
+                                        <div class="stress-track"><div class="stress-fill"></div></div>
+                                    </div>
+                                    <div class="stress-value">36%</div>
+                                </div>
+                                <button class="btn">CAM-04</button>
+                                <button class="btn active">CAM-05</button>
+                                <div class="footer-pay">
+                                    <div class="footer-pay-label">SHIFT PAYSLIP</div>
+                                    <div class="footer-pay-value">$847</div>
+                                </div>
+                                <div class="pills-action">
+                                    <div class="pill-icon" aria-hidden="true">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 21s-7-4.4-9.5-9.1C.7 8.3 2.2 5.7 4.7 5 6.4 4.5 8.3 5.2 9.4 6.5L12 9.4l2.6-2.9c1.1-1.3 3-2 4.7-1.5 2.5.7 4 3.3 2.2 6.9C19 16.6 12 21 12 21z" opacity="0.15"/>
+                                            <path d="M9 12l2 2 4-4"/>
+                                        </svg>
+                                    </div>
+                                    <div class="pill-info">
+                                        <div class="pill-label">SANITY PILLS</div>
+                                        <div class="pill-count">x3 <span class="pill-hotkey">Q</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <div class="showcase-section">
+            <div class="sep"></div>
+
+            <div class="section">
+                <div class="section-head">
+                    <div class="section-tag">PATTERN 02 // DESKTOP SYSTEM</div>
+                    <div class="section-title">Shortcuts + Taskbar + Start</div>
+                    <div class="section-desc">Hover and selected states work like the live monitor UI.</div>
+                    <div class="color-chips">
+                        <span class="chip" style="background:#1a1e2a;" title="Desktop Background"></span>
+                        <span class="chip" style="background:#0c0c0e;" title="Taskbar BG"></span>
+                        <span class="chip" style="background:#231e1a;" title="Start Button BG"></span>
+                        <span class="chip" style="background:#1a1e22;" title="Start Menu BG"></span>
+                        <span class="chip" style="background:#d4a040;" title="Start Button Hover"></span>
+                        <span class="chip" style="background:#d4b9a0;" title="Start Button Text"></span>
+                        <span class="chip" style="background:#e8ddd0;" title="Shortcut Label"></span>
+                        <span class="chip" style="background:#b8a898;" title="Task Item Text"></span>
+                        <span class="chip" style="background:#70655c;" title="Start Menu Header BG"></span>
+                        <span class="chip" style="background:#8a2828;" title="Logout Hover BG"></span>
+                        <span class="chip" style="background:#d44040;" title="Logout Text"></span>
+                    </div>
+                </div>
+                <div class="stage">
                     <div class="fps-view">
                         <div class="device-body">
-                            <div class="device-logo">WOOD</div>
+                            <div class="device-logo">WOOD SYS</div>
                             <div class="power-led"></div>
-
                             <div class="device-screen-encasing">
                                 <div class="monitor-content">
-                                    <!-- Header Bar -->
-                                    <div class="monitor-header">
-                                        <div class="header-title">OBSERVEOS V2.4</div>
-                                        <div class="header-info">
-                                            <span>MEM: 14%</span>
-                                            <span>SYS: OK</span>
-                                        </div>
-                                    </div>
+                                    <div class="desktop-view">
+                                        <div class="desktop-icons">
+                                            <div class="desktop-shortcut active">
+                                                <svg class="shortcut-icon" viewBox="0 0 48 48" fill="none">
+                                                    <rect x="4" y="8" width="40" height="32" rx="2" stroke="var(--yellow)" stroke-width="2"
+                                                        fill="rgba(212, 160, 64, 0.1)" />
+                                                    <circle cx="24" cy="24" r="8" stroke="var(--yellow)" stroke-width="2" />
+                                                    <path d="M24 16v16M16 24h16" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round"
+                                                        opacity="0.5" />
+                                                    <circle cx="24" cy="24" r="2" fill="var(--yellow)" />
+                                                </svg>
+                                                <span class="shortcut-label">Security.exe</span>
+                                            </div>
 
-                                    <!-- Main Viewport containing Camera -->
-                                    <div class="monitor-viewport">
-                                        <div class="camera-feed">[CAMERA STREAM: WAREHOUSE]</div>
+                                            <div class="desktop-shortcut">
+                                                <svg class="shortcut-icon" viewBox="0 0 48 48" fill="none">
+                                                    <rect x="6" y="12" width="36" height="24" rx="2" stroke="var(--text-mid)" stroke-width="2" />
+                                                    <path d="M6 14l18 12 18-12" stroke="var(--text-mid)" stroke-width="2" />
+                                                </svg>
+                                                <span class="shortcut-label">Inbox</span>
+                                            </div>
 
-                                        <div class="camera-overlay">
-                                            <div class="cam-tag-tl">
-                                                <div class="cam-id">CAM - 02</div>
-                                                <div class="cam-loc">NORTH CORRIDOR</div>
+                                            <div class="desktop-shortcut">
+                                                <svg class="shortcut-icon" viewBox="0 0 48 48" fill="none">
+                                                    <path d="M10 10v28h28V14L32 8H10z" stroke="var(--text-mid)" stroke-width="2" />
+                                                    <rect x="16" y="16" width="16" height="2" fill="var(--text-mid)" />
+                                                    <rect x="16" y="22" width="16" height="2" fill="var(--text-mid)" />
+                                                    <rect x="16" y="28" width="10" height="2" fill="var(--text-mid)" />
+                                                </svg>
+                                                <span class="shortcut-label">Incident_Logs</span>
+                                            </div>
+
+                                            <div class="desktop-shortcut">
+                                                <svg class="shortcut-icon" viewBox="0 0 48 48" fill="none">
+                                                    <path d="M12 10h24v30a2 2 0 01-2 2H14a2 2 0 01-2-2V10z" stroke="var(--text-dim)" stroke-width="2" />
+                                                    <path d="M8 10h32M18 4h12" stroke="var(--text-dim)" stroke-width="2" />
+                                                    <line x1="20" y1="18" x2="20" y2="34" stroke="var(--text-dim)" stroke-width="2" />
+                                                    <line x1="28" y1="18" x2="28" y2="34" stroke="var(--text-dim)" stroke-width="2" />
+                                                </svg>
+                                                <span class="shortcut-label">Recycle Bin</span>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!-- Monitor Footer -->
-                                    <div class="monitor-footer">
-                                        <div class="stress-monitor">
-                                            <div class="stress-info">
-                                                <div class="stress-header">
-                                                    <span class="stress-label">STRESS</span>
-                                                    <span class="stress-value">34%</span>
-                                                </div>
-                                                <div class="stress-track">
-                                                    <div class="stress-fill"></div>
-                                                </div>
+                                        <div class="taskbar">
+                                            <div class="start-btn">
+                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                                                </svg>
+                                                <span>WOOD</span>
                                             </div>
+                                            <div class="taskbar-items">
+                                                <div class="task-item">Logs.exe</div>
+                                                <div class="task-item active">Inbox</div>
+                                            </div>
+                                            <div class="system-tray"><span style="color:var(--green)">Online</span><span>03:24</span></div>
                                         </div>
 
-                                        <button class="btn active">Camera View</button>
-                                        <button class="btn">Camera Grid</button>
-
-                                        <div class="pills-action">
-                                            <div class="pills-count">x3</div>
-                                            <span
-                                                style="font-family:var(--font-ui); font-size:12px; font-weight:bold; color:var(--text-bright);">TAKE
-                                                PILLS [Q]</span>
+                                        <div class="start-menu active">
+                                            <div class="start-menu-header">WOOD SYSTEMS v2.4</div>
+                                            <div class="start-menu-item">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                                </svg>
+                                                User Settings
+                                            </div>
+                                            <div class="start-menu-item">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <circle cx="12" cy="12" r="3" />
+                                                    <path
+                                                        d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                                                </svg>
+                                                System Config
+                                            </div>
+                                            <div class="start-menu-item logout">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 01-2-2h4M16 17l5-5-5-5M21 12H9" />
+                                                </svg>
+                                                Stand Up (Logout)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -618,11 +1938,267 @@
                         <div class="device-stand"></div>
                     </div>
                 </div>
-
             </div>
 
+            <div class="sep"></div>
+
+            <div class="section">
+                <div class="section-head">
+                    <div class="section-tag">PATTERN 03 // REPORTING OVERLAYS</div>
+                    <div class="section-title">Context + Feedback States</div>
+                    <div class="section-desc">Anomaly context menu and both report outcomes used after submission.</div>
+                    <div class="color-chips">
+                        <span class="chip" style="background:#23211c;" title="Report Card BG"></span>
+                        <span class="chip" style="background:#1a1613;" title="Context Menu BG Top"></span>
+                        <span class="chip" style="background:#110e0c;" title="Context Menu BG Bottom"></span>
+                        <span class="chip" style="background:#d4a040;" title="Report ID Text"></span>
+                        <span class="chip" style="background:#8acc6a;" title="Success Title"></span>
+                        <span class="chip" style="background:#d44040;" title="Fail Title"></span>
+                        <span class="chip" style="background:#e8d5c4;" title="Context Key Text"></span>
+                        <span class="chip" style="background:#b8a898;" title="Context Label Text"></span>
+                        <span class="chip" style="background:#70655c;" title="Confirm Sub Text"></span>
+                        <span class="chip" style="background:#c8efbb;" title="Context Hover Text"></span>
+                        <span class="chip" style="background:#d8f5ce;" title="Context Hover Key"></span>
+                        <span class="chip" style="background:rgba(106,170,74,0.14);" title="Menu Item Hover BG"></span>
+                        <span class="chip" style="background:rgba(180,150,120,0.22);" title="Context Menu Border"></span>
+                    </div>
+                </div>
+                <div class="stage stage-showcase">
+                    <div class="grid-3">
+                        <div class="demo-box" style="display:flex;align-items:center;justify-content:center;padding:24px;">
+                            <div class="context-menu">
+                                <div class="context-header"><div class="context-header-text">What'd you see?</div></div>
+                                <div class="context-item"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 7l7-4 7 4v10H3z" /><path d="M10 3v14" opacity="0.45" /><path d="M3 11h14" opacity="0.45" /></svg></span><span class="ctx-label">Extra Object</span><span class="ctx-key">1</span></div>
+                                <div class="context-item"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke-dasharray="3 3" /><path d="M10 6v4" /><circle class="fill-current" cx="10" cy="13.6" r="1" /></svg></span><span class="ctx-label">Something Missing</span><span class="ctx-key">2</span></div>
+                                <div class="context-item"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M14.5 6.5a5 5 0 01-8 4" /><path d="M5.5 13.5a5 5 0 018-4" /><path d="M14.5 6.5l-2.3 0.6 0.7-2.2" class="fill-current" /><path d="M5.5 13.5l2.3-0.6-0.7 2.2" class="fill-current" /></svg></span><span class="ctx-label">Something Changed</span><span class="ctx-key">3</span></div>
+                                <div class="context-item is-hover"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="7" width="5" height="6" rx="1" /><path d="M8.8 10h7" /><path d="M13.5 7.4L16.2 10l-2.7 2.6" /></svg></span><span class="ctx-label">Moved Object</span><span class="ctx-key">4</span></div>
+                                <div class="context-item"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="5" r="2.4" /><path d="M10 8v5" /><path d="M6.3 10.8L10 13l3.7-2.2" /><path d="M7 17.2l3-4.4 3 4.4" /></svg></span><span class="ctx-label">Intruder!</span><span class="ctx-key">5</span></div>
+                                <div class="context-item"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="6" width="15" height="11" rx="1.5" /><path d="M6.5 6l1.6-2.6h3.8L13.5 6" /><circle cx="10" cy="11.4" r="3.2" /><path d="M6.7 12.6l2-2 1.8 1.8 2.7-2.7" opacity="0.55" /></svg></span><span class="ctx-label">Camera Glitch</span><span class="ctx-key">6</span></div>
+                                <div class="context-item is-pressed"><span class="ctx-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 15h11" opacity="0.35" /><text x="3" y="14" font-family="Rajdhani, sans-serif" font-size="11" font-weight="700" fill="currentColor" transform="rotate(-4 10 10)">A?</text><path d="M14 5.2l2.8 1.7-0.9 3.5" opacity="0.55" /></svg></span><span class="ctx-label">Weird Text</span><span class="ctx-key">7</span></div>
+                            </div>
+                        </div>
+
+                        <div class="demo-box" style="display:flex;align-items:center;justify-content:center;padding:24px;">
+                            <div class="report-card success">
+                                <svg class="report-icon" viewBox="0 0 52 52" aria-hidden="true">
+                                    <circle cx="26" cy="26" r="25" fill="none" stroke="var(--green-bright)" stroke-width="1.5" />
+                                    <path d="M15 27l7 7 15-15" fill="none" stroke="var(--green-bright)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="report-title">REPORT FILED</div>
+                                <div class="report-id">INC-3841 - Extra Object</div>
+                                <div class="report-sub">CAM-05 - LOBBY ENTRY</div>
+                                <div class="report-bar"><span></span></div>
+                            </div>
+                        </div>
+
+                        <div class="demo-box" style="display:flex;align-items:center;justify-content:center;padding:24px;">
+                            <div class="report-card fail">
+                                <svg class="report-icon" viewBox="0 0 52 52" aria-hidden="true">
+                                    <circle cx="26" cy="26" r="25" fill="none" stroke="var(--red-bright)" stroke-width="1.5" />
+                                    <path d="M18 18l16 16M34 18l-16 16" fill="none" stroke="var(--red-bright)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="report-title">REPORT REJECTED</div>
+                                <div class="report-id">INC-7720 - INVALID</div>
+                                <div class="report-sub" style="color:var(--red-bright)">FALSE ALARM DETECTED</div>
+                                <div class="report-bar"><span></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sep"></div>
+
+            <div class="section">
+                <div class="section-head">
+                    <div class="section-tag">PATTERN 04 // WINDOWED APPS</div>
+                    <div class="section-title">Security, Logs, Inbox, Management</div>
+                    <div class="section-desc">Shared application frame and in-app modules used by each monitor desktop utility.</div>
+                    <div class="color-chips">
+                        <span class="chip" style="background:#000;" title="Window Frame BG"></span>
+                        <span class="chip" style="background:#0a0a0c;" title="Window Content BG"></span>
+                        <span class="chip" style="background:#2a2a2e;" title="App Header Top"></span>
+                        <span class="chip" style="background:#1a1a1c;" title="App Header Bottom"></span>
+                        <span class="chip" style="background:#6aaa4a;" title="Log Resolved Border"></span>
+                        <span class="chip" style="background:#d44040;" title="Log Rejected Border"></span>
+                        <span class="chip" style="background:#d4a040;" title="Email Subject"></span>
+                        <span class="chip" style="background:#8acc6a;" title="Mgmt Value Money"></span>
+                        <span class="chip" style="background:#b8a898;" title="Log Entry Text"></span>
+                        <span class="chip" style="background:#161a1e;" title="Mgmt Card BG"></span>
+                    </div>
+                </div>
+                <div class="stage stage-showcase">
+                    <div class="grid-2">
+                        <div class="window">
+                            <div class="app-header">Incident Observer - Log Viewer <span class="app-controls"><span class="ctrl">_</span><span class="ctrl">x</span></span></div>
+                            <div class="window-content">
+                                <div class="log-entry resolved">03:12 - INC-1832 - Extra Object - FIXED</div>
+                                <div class="log-entry rejected">03:14 - INC-1835 - Intruder! - REJECTED</div>
+                                <div class="log-entry">03:18 - INC-1841 - Camera Glitch - PENDING</div>
+                            </div>
+                        </div>
+
+                        <div class="window">
+                            <div class="app-header">WOOD Mail - Connected <span class="app-controls"><span class="ctrl">_</span><span class="ctrl">x</span></span></div>
+                            <div class="window-content">
+                                <div class="email-subject">Night Shift Protocol</div>
+                                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);margin-bottom:10px;">From: M. Woodman - Yesterday, 22:15</div>
+                                <div>Do not open the basement door. No matter what sounds you hear.</div>
+                            </div>
+                        </div>
+
+                        <div class="window" style="grid-column:1 / -1;min-height:240px;">
+                            <div class="app-header">Management Console - Shift Observer v1.2 <span class="app-controls"><span class="ctrl">_</span><span class="ctrl">x</span></span></div>
+                            <div class="window-content">
+                                <div class="mgmt-grid">
+                                    <div class="mgmt-card"><div class="mgmt-title">Payslip</div><div class="mgmt-value money">$847</div></div>
+                                    <div class="mgmt-card"><div class="mgmt-title">Performance</div><div class="mgmt-value" style="color:var(--yellow)">B-</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sep"></div>
+
+            <div class="section">
+                <div class="section-head">
+                    <div class="section-tag">PATTERN 05 // GLOBAL FEEDBACK</div>
+                    <div class="section-title">System Dialog + Voice Indicator</div>
+                    <div class="section-desc">Modal message box and voice speaking widget.</div>
+                    <div class="color-chips">
+                        <span class="chip" style="background:#1a1e22;" title="Dialog Box BG"></span>
+                        <span class="chip" style="background:#70655c;" title="Dialog Header BG"></span>
+                        <span class="chip" style="background:#2a221d;" title="Dialog Button BG"></span>
+                        <span class="chip" style="background:#b8a898;" title="Dialog Button Text"></span>
+                        <span class="chip" style="background:#e8ddd0;" title="Dialog Title Text"></span>
+                        <span class="chip" style="background:#8acc6a;" title="Voice Icon/Waves"></span>
+                        <span class="chip" style="background:rgba(106,170,74,0.15);" title="Radio Indicator BG"></span>
+                        <span class="chip" style="background:rgba(180,150,120,0.2);" title="Voice Indicator Border"></span>
+                        <span class="chip" style="background:#120e0c;" title="Dialog Title Text Dark"></span>
+                    </div>
+                </div>
+                <div class="stage stage-showcase">
+                    <div class="grid-2">
+                        <div class="demo-box" style="display:flex;justify-content:center;align-items:center;padding:24px;">
+                            <div class="dialog-box">
+                                <div class="dialog-header">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                                        <path
+                                            d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                                        <line x1="12" y1="9" x2="12" y2="13" />
+                                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                                    </svg>
+                                    <span class="dialog-title">System Message</span>
+                                </div>
+                                <div class="dialog-body">
+                                    <p class="dialog-msg">System Configuration is restricted to Level 4 Personnel only.</p>
+                                </div>
+                                <div class="dialog-footer"><button class="dialog-btn">OK</button></div>
+                            </div>
+                        </div>
+                        <div class="demo-box" style="display:flex;justify-content:center;align-items:center;padding:24px;">
+                            <div class="voice-indicator radio">
+                                <div class="voice-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                                    </svg>
+                                </div>
+                                <div class="voice-waves"><div class="wave"></div><div class="wave"></div><div class="wave"></div><div class="wave"></div></div>
+                                <span class="voice-label">Radio</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        const body = document.body;
+        const crtToggle = document.getElementById('crtToggle');
+        const crtState = document.getElementById('crtState');
+
+        function setCrt(off) {
+            body.classList.toggle('no-crt', off);
+            crtState.textContent = off ? 'OFF' : 'ON';
+        }
+
+        setCrt(true);
+
+        function toggleCrt() {
+            setCrt(!body.classList.contains('no-crt'));
+        }
+
+        crtToggle.addEventListener('click', toggleCrt);
+        crtToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleCrt();
+            }
+        });
+    </script>
+
+    <div class="color-tooltip" id="colorTooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('colorTooltip');
+
+        document.querySelectorAll('.color-chips').forEach(chipContainer => {
+            chipContainer.addEventListener('mouseover', (e) => {
+                const chip = e.target.closest('.chip');
+                if (!chip) return;
+                
+                chip.dataset.originalTitle = chip.getAttribute('title');
+                chip.removeAttribute('title');
+                
+                const bg = chip.style.background;
+                const title = chip.dataset.originalTitle || '';
+                
+                let hex = bg;
+                if (bg.startsWith('rgba')) {
+                    const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        hex = '#' + [match[1], match[2], match[3]].map(x => {
+                            const h = parseInt(x).toString(16);
+                            return h.length === 1 ? '0' + h : h;
+                        }).join('');
+                    }
+                } else if (bg.startsWith('rgb')) {
+                    const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        hex = '#' + [match[1], match[2], match[3]].map(x => {
+                            const h = parseInt(x).toString(16);
+                            return h.length === 1 ? '0' + h : h;
+                        }).join('');
+                    }
+                }
+                
+                tooltip.textContent = `${hex} - ${title}`;
+                tooltip.classList.add('visible');
+            });
+
+            chipContainer.addEventListener('mousemove', (e) => {
+                if (tooltip.classList.contains('visible')) {
+                    tooltip.style.left = (e.clientX + 15) + 'px';
+                    tooltip.style.top = (e.clientY + 15) + 'px';
+                }
+            });
+
+            chipContainer.addEventListener('mouseout', (e) => {
+                const chip = e.target.closest('.chip');
+                if (chip && chip.dataset.originalTitle) {
+                    chip.setAttribute('title', chip.dataset.originalTitle);
+                    delete chip.dataset.originalTitle;
+                }
+                tooltip.classList.remove('visible');
+            });
+        });
+    </script>
 </body>
 
 </html>

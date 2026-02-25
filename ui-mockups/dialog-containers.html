@@ -21,13 +21,13 @@
 
         :root {
             --bg-dark: #1a1512;
-            --bg-mid: #231E1A;
-            --bg-warm: #2a221d;
-            --bg-overlay: rgba(12, 10, 8, 0.85);
+            --bg-mid: #231e1a;
+            --bg-warm: #2e2620;
+            --bg-overlay: rgba(12, 10, 8, 0.8);
 
             --paper: #d4b9a0;
-            --paper-light: #e8d5c4;
-            --paper-dark: #b0957c;
+            --paper-light: #e0cbb8;
+            --paper-dark: #b89a7e;
             --paper-shadow: #8a7660;
 
             --yellow: #d4a040;
@@ -45,7 +45,7 @@
 
             --text-bright: #e8ddd0;
             --text-mid: #b8a898;
-            --text-dim: #70655c;
+            --text-dim: #7a6a5a;
             --text-dark: #3a2e24;
 
             --font-display: 'Boogaloo', cursive;
@@ -251,6 +251,27 @@
             display: block;
         }
 
+        .color-chips {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .chip {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid rgba(180, 150, 120, 0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            cursor: help;
+            transition: transform 0.2s;
+        }
+
+        .chip:hover {
+            transform: scale(1.2);
+        }
+
         /* ═══════════════════════════════════════════
            1. ACTION BUTTONS (MOCKUP STYLES REUSED)
            ═══════════════════════════════════════════ */
@@ -302,6 +323,7 @@
 
         .modal-btn.confirm:hover {
             background: var(--paper-light);
+            color: var(--bg-dark);
             transform: scale(1.04) rotate(1deg);
             box-shadow: 0 6px 0 var(--paper-shadow), 0 12px 24px rgba(0, 0, 0, 0.4);
         }
@@ -339,6 +361,7 @@
             position: absolute;
             inset: 0;
             background: var(--bg-overlay);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -377,6 +400,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            align-items: center;
+        }
+
+        .modal-icon {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
         }
 
         .modal-title {
@@ -398,12 +428,197 @@
             font-weight: 600;
         }
 
+        .modal-body .highlight {
+            color: var(--yellow-bright);
+            font-weight: 800;
+        }
+
         .modal-footer {
             padding: 14px 20px;
             display: flex;
             gap: 12px;
             justify-content: flex-end;
             border-top: 2px solid rgba(180, 150, 120, 0.08);
+        }
+
+        .modal-btn.danger {
+            background: linear-gradient(to bottom, #c34747, #992f2f);
+            color: #fff2f0;
+            border-color: rgba(255, 207, 200, 0.35);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 0 #762424, 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-btn.danger:hover {
+            background: linear-gradient(to bottom, #e05c5c, #b03636);
+            color: var(--bg-dark);
+            transform: scale(1.04) rotate(-1deg);
+            box-shadow: 0 6px 0 #762424, 0 12px 22px rgba(212, 64, 64, 0.28);
+            text-shadow: none;
+        }
+
+        .modal-btn.safe {
+            background: linear-gradient(to bottom, var(--bg-mid), #2a2520);
+            color: var(--text-bright);
+            border-color: rgba(106, 170, 74, 0.45);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(106, 170, 74, 0.08);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.45);
+        }
+
+        .modal-btn.safe:hover {
+            background: linear-gradient(to bottom, var(--paper), #dcc8b4);
+            color: var(--bg-dark);
+            border-color: rgba(140, 204, 106, 0.75);
+            transform: scale(1.03) rotate(-1deg);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35), 0 0 14px rgba(106, 170, 74, 0.15);
+            text-shadow: none;
+        }
+
+        .dialog-demo-container.variants-showcase {
+            padding: 22px;
+            min-height: 820px;
+        }
+
+        .dialog-backdrop.variants-layout {
+            position: relative;
+            inset: auto;
+            width: 100%;
+            padding: 30px 20px;
+            background:
+                radial-gradient(ellipse at 50% 10%, rgba(212, 160, 64, 0.12) 0%, rgba(212, 160, 64, 0) 50%),
+                var(--bg-overlay);
+        }
+
+        .overlay-variant-grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 26px;
+        }
+
+        .dialog-modal.compact {
+            width: min(560px, 100%);
+            position: relative;
+            overflow: visible;
+            animation-duration: 0.45s;
+        }
+
+        .dialog-modal.compact::before {
+            content: attr(data-ribbon);
+            position: absolute;
+            top: -13px;
+            right: -7px;
+            transform: rotate(7deg);
+            font-family: var(--font-ui);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+            color: #3a2e24;
+            background: #f3d06a;
+            border: 1px solid rgba(58, 46, 36, 0.25);
+            padding: 4px 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .dialog-modal.compact .modal-header {
+            padding: 14px 18px;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .dialog-modal.compact .modal-title {
+            font-size: 32px;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .dialog-modal.compact .variant-subtitle {
+            font-family: var(--font-scrawl);
+            font-size: 22px;
+            color: rgba(232, 221, 208, 0.8);
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        .dialog-modal.compact .title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .dialog-modal.compact .modal-body {
+            padding: 16px 20px;
+        }
+
+        .dialog-modal.compact .modal-body p {
+            font-size: 15px;
+            line-height: 1.45;
+        }
+
+        .dialog-modal.compact .modal-footer {
+            padding: 14px 20px;
+            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .dialog-modal.compact .modal-btn {
+            font-size: 22px;
+            padding: 9px 16px;
+            min-width: 0;
+            flex: 0 1 48%;
+        }
+
+        .dialog-modal.variant-red {
+            border-color: rgba(212, 64, 64, 0.45);
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), inset 0 0 35px rgba(212, 64, 64, 0.08);
+        }
+
+        .dialog-modal.variant-yellow {
+            border-color: rgba(212, 160, 64, 0.4);
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), inset 0 0 35px rgba(212, 160, 64, 0.08);
+        }
+
+        .dialog-modal.variant-green {
+            border-color: rgba(106, 170, 74, 0.4);
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.65), inset 0 0 35px rgba(106, 170, 74, 0.08);
+        }
+
+        .modal-header.variant-red {
+            background: linear-gradient(135deg, #5a1a1a 0%, #7f2424 60%, #4e1515 100%);
+        }
+
+        .modal-header.variant-yellow {
+            background: linear-gradient(135deg, #5a3f1a 0%, #7a5a28 60%, #4c3618 100%);
+        }
+
+        .modal-header.variant-green {
+            background: linear-gradient(135deg, #2f4f25 0%, #416933 60%, #253f1e 100%);
+        }
+
+        @media (max-width: 640px) {
+            .dialog-demo-container.variants-showcase {
+                min-height: 0;
+            }
+
+            .dialog-modal.compact .modal-title {
+                font-size: 28px;
+            }
+
+            .dialog-modal.compact .variant-subtitle {
+                font-size: 20px;
+            }
+
+            .dialog-modal.compact .modal-body p {
+                font-size: 14px;
+            }
+
+            .dialog-modal.compact .modal-btn {
+                font-size: 18px;
+            }
         }
 
         /* ═══════════════════════════════════════════
@@ -465,17 +680,42 @@
             letter-spacing: 0.5px;
         }
 
+        .radio-channel {
+            margin-left: auto;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+
         .radio-body {
             padding: 18px 20px;
             position: relative;
         }
 
-        .radio-sender {
+        .radio-body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+.radio-sender {
             font-family: var(--font-display);
             font-size: 18px;
             color: var(--yellow-bright);
             margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .radio-msg {
@@ -483,7 +723,91 @@
             font-size: 24px;
             color: var(--text-bright);
             line-height: 1.5;
+            position: relative;
+            z-index: 1;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            min-height: 72px;
+        }
+
+        .radio-static {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: rgba(184, 168, 152, 0.6);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(184, 168, 152, 0.15);
+            border-radius: 3px;
+            padding: 2px 6px;
+            margin: 0 4px;
+            vertical-align: middle;
+            text-shadow: none;
+            display: inline-block;
+        }
+
+        .radio-footer {
+            padding: 12px 18px;
+            border-top: 2px solid rgba(106, 170, 74, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .radio-time {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .radio-hint {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px 6px 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(180, 150, 120, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .radio-hint:hover {
+            border-color: rgba(212, 160, 64, 0.4);
+            background: rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        .radio-hint-key {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--yellow);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .radio-hint-text {
+            font-family: var(--font-display);
+            font-size: 16px;
+            letter-spacing: 1px;
+            color: var(--paper);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            margin-top: 2px;
+        }
+
+        .radio-hint:hover .radio-hint-key {
+            box-shadow: 0 0 12px rgba(212, 160, 64, 0.4);
+            background: var(--yellow-bright);
         }
 
         /* ═══════════════════════════════════════════
@@ -495,6 +819,7 @@
             border: 2px solid rgba(180, 150, 120, 0.2);
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            animation: modalPop 0.35s ease-out;
             z-index: 100;
         }
 
@@ -516,8 +841,9 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            transition: all 0.12s;
+            transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
             border-bottom: 1px solid rgba(180, 150, 120, 0.05);
+            background: transparent;
         }
 
         .context-item:last-child {
@@ -530,12 +856,28 @@
             text-shadow: 0 0 8px rgba(212, 160, 64, 0.2);
         }
 
+        .context-item:active {
+            background: linear-gradient(to right, rgba(212, 160, 64, 0.2), transparent);
+            transform: scale(0.99);
+        }
+
+        .ctx-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .ctx-icon svg {
+            display: block;
+        }
+
         .ctx-label {
             font-family: var(--font-body);
             font-size: 13px;
             font-weight: 700;
             color: var(--text-mid);
             flex: 1;
+            transition: color 0.12s;
         }
 
         .context-item:hover .ctx-label {
@@ -564,60 +906,229 @@
            TUTORIAL DIALOG
            ═══════════════════════════════════════════ */
         .tutorial-modal {
-            width: 480px;
-            background: rgba(35, 30, 26, 0.95);
-            backdrop-filter: blur(12px);
-            border: 2px solid rgba(212, 160, 64, 0.25);
-            border-radius: 4px;
+            width: 520px;
+            background:
+                radial-gradient(120% 120% at 0% 0%, rgba(212, 160, 64, 0.12) 0%, rgba(212, 160, 64, 0) 42%),
+                linear-gradient(180deg, rgba(42, 36, 31, 0.98) 0%, rgba(26, 22, 19, 0.97) 100%);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 160, 64, 0.28);
+            border-radius: 6px;
             overflow: hidden;
+            position: relative;
+            isolation: isolate;
             box-shadow:
-                0 24px 64px rgba(0, 0, 0, 0.7),
+                0 28px 72px rgba(0, 0, 0, 0.78),
+                0 0 0 1px rgba(212, 160, 64, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05),
-                inset 0 0 40px rgba(212, 160, 64, 0.05);
+                inset 0 0 54px rgba(212, 160, 64, 0.06);
+            animation: modalPop 0.35s ease-out;
             z-index: 100;
         }
 
+        .tutorial-modal::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            border: 1px solid rgba(212, 160, 64, 0.14);
+            border-radius: 6px;
+        }
+
+        .tutorial-modal::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.2;
+            mix-blend-mode: soft-light;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='0.2'/%3E%3C/svg%3E");
+            background-size: 128px;
+        }
+
+        .tutorial-modal>* {
+            position: relative;
+            z-index: 2;
+        }
+
         .tutorial-header {
+            padding: 14px 20px;
+            background:
+                linear-gradient(90deg, rgba(212, 160, 64, 0.16) 0%, rgba(212, 160, 64, 0.03) 56%, rgba(212, 160, 64, 0) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0) 100%);
+            border-bottom: 1px solid rgba(212, 160, 64, 0.22);
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 14px 18px;
-            border-bottom: 2px solid rgba(212, 160, 64, 0.15);
-            background: linear-gradient(90deg, rgba(212, 160, 64, 0.12) 0%, rgba(212, 160, 64, 0.02) 100%);
         }
 
-        .tutorial-icon {
-            font-size: 20px;
+        .tutorial-icon-wrap {
+            flex-shrink: 0;
+            animation: float 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45));
         }
 
         .tutorial-title {
             font-family: var(--font-display);
-            font-size: 20px;
-            color: var(--yellow);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-            letter-spacing: 0.5px;
+            font-size: clamp(21px, 2.4vw, 25px);
+            color: var(--yellow-bright);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+            letter-spacing: 0.4px;
+        }
+
+        .tutorial-step-badge {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 8px;
+            border: 1px solid rgba(212, 160, 64, 0.18);
+            background: rgba(10, 9, 8, 0.34);
+            border-radius: 999px;
         }
 
         .tutorial-body {
             padding: 18px 20px;
+            display: grid;
+            gap: 14px;
         }
 
-        .tutorial-msg {
+        .tutorial-text {
             font-family: var(--font-body);
             font-size: 14px;
-            color: var(--text-bright);
-            line-height: 1.6;
-            margin-bottom: 12px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            line-height: 1.65;
+            color: var(--text-mid);
+            font-weight: 550;
+            text-wrap: pretty;
+            min-height: 72px;
         }
 
-        .tutorial-footer {
-            padding: 12px 18px;
-            border-top: 2px solid rgba(212, 160, 64, 0.1);
-            background: rgba(0, 0, 0, 0.2);
+        .tutorial-text .hl {
+            color: var(--yellow-bright);
+            font-weight: 800;
+        }
+
+        .tutorial-screenshot {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(180deg, rgba(10, 9, 8, 0.9) 0%, rgba(12, 11, 10, 0.84) 100%);
+            border: 1px solid rgba(212, 160, 64, 0.2);
+            border-radius: 4px;
             display: flex;
-            justify-content: flex-end;
             align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), inset 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .tutorial-screenshot::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px dashed rgba(212, 160, 64, 0.15);
+            pointer-events: none;
+        }
+
+        .tutorial-cta-footer {
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .tutorial-cta-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 28px;
+            min-width: 180px;
+            background: var(--paper);
+            color: var(--bg-dark);
+            border-color: var(--paper-dark);
+            box-shadow: 0 4px 0 var(--paper-shadow), 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-shadow: none;
+        }
+
+        .tutorial-keycap {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            padding: 2px 7px;
+            border: 1px solid rgba(0, 0, 0, 0.22);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.28);
+            background: var(--yellow);
+            color: var(--bg-dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 3px;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+        }
+
+        .tutorial-modal .modal-btn.confirm:hover {
+            background: var(--paper-light);
+            color: var(--bg-dark);
+            border-color: var(--paper-dark);
+            box-shadow: 0 6px 0 var(--paper-shadow), 0 12px 24px rgba(0, 0, 0, 0.4);
+            transform: scale(1.04) rotate(1deg);
+        }
+
+        .tutorial-modal .modal-btn.confirm:active {
+            transform: translateY(1px) scale(0.99);
+        }
+
+        .screenshot-icon {
+            opacity: 0.25;
+        }
+
+        .screenshot-label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .color-tooltip {
+            position: fixed;
+            background: var(--bg-mid);
+            border: 1px solid var(--yellow);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--yellow-bright);
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-tooltip.visible {
+            display: block;
+        }
+
+        .chip {
+            cursor: help;
         }
     </style>
 </head>
@@ -644,21 +1155,90 @@
             </div>
 
             <div class="showcase">
-                <div class="dialog-demo-container">
-                    <div class="dialog-backdrop"></div>
-                    <div class="dialog-modal">
-                        <div class="modal-header">
-                            <span class="modal-icon">⚠️</span>
-                            <div class="modal-title">SYSTEM ALERT</div>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you absolutely certain you want to exit the shift? Your pay will be <span
-                                    class="highlight">forfeited</span> for this hour, and you will effectively walk
-                                away. Management finds this... disappointing.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="modal-btn cancel">Cancel</button>
-                            <button class="modal-btn confirm">Confirm</button>
+                <div class="color-chips">
+                    <span class="chip" style="background: #2a221d;" title="BG Warm (modal bg)"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper"></span>
+                    <span class="chip" style="background: #e8d5c4;" title="Paper Light"></span>
+                    <span class="chip" style="background: #b0957c;" title="Paper Dark"></span>
+                    <span class="chip" style="background: #8a7660;" title="Paper Shadow"></span>
+                    <span class="chip" style="background: #6aaa4a;" title="Green Accent"></span>
+                    <span class="chip" style="background: #b8a898;" title="Text Mid"></span>
+                    <span class="chip" style="background: #cbb094;" title="Confirm Hover"></span>
+                    <span class="chip" style="background: #dcc8b4;" title="Cancel Hover"></span>
+                    <span class="chip" style="background: #c34747;" title="Danger Red"></span>
+                    <span class="chip" style="background: #992f2f;" title="Danger Dark"></span>
+                    <span class="chip" style="background: #fff2f0;" title="Danger Text"></span>
+                    <span class="chip" style="background: #762424;" title="Danger Shadow"></span>
+                    <span class="chip" style="background: #e05c5c;" title="Danger Hover"></span>
+                    <span class="chip" style="background: #b03636;" title="Danger Hover Dark"></span>
+                    <span class="chip" style="background: #7f2424;" title="Red Header Variant"></span>
+                    <span class="chip" style="background: #4e1515;" title="Red Header Dark"></span>
+                    <span class="chip" style="background: #5a3f1a;" title="Yellow Header Variant"></span>
+                    <span class="chip" style="background: #4c3618;" title="Yellow Header Dark"></span>
+                    <span class="chip" style="background: #2f4f25;" title="Green Header Variant"></span>
+                    <span class="chip" style="background: #253f1e;" title="Green Header Dark"></span>
+                    <span class="chip" style="background: #f3d06a;" title="Ribbon Badge"></span>
+                </div>
+                <div class="dialog-demo-container variants-showcase">
+                    <div class="dialog-backdrop variants-layout">
+                        <div class="overlay-variant-grid">
+                            <div class="dialog-modal compact variant-red" data-ribbon="RISKY IDEA">
+                                <div class="modal-header variant-red">
+                                    <span class="modal-icon">⚠️</span>
+                                    <div class="title-wrap">
+                                        <div class="modal-title">Abandon Shift?!</div>
+                                        <div class="variant-subtitle">Management will remember this.</div>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <p>You are about to quit the current run. Any progress from this shift will be
+                                        lost.</p>
+                                    <br>
+                                    <p>Walk away now, or stay and bag one more paycheck?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="modal-btn safe">Nope, I'm Staying</button>
+                                    <button class="modal-btn confirm">Yep, Give Up</button>
+                                </div>
+                            </div>
+
+                            <div class="dialog-modal compact variant-yellow" data-ribbon="ANOMALY PING">
+                                <div class="modal-header variant-yellow">
+                                    <span class="modal-icon">⚠️</span>
+                                    <div class="title-wrap">
+                                        <div class="modal-title">Something's Off...</div>
+                                        <div class="variant-subtitle">Could be nothing. Could be very not nothing.</div>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Movement detected near the paintings in the <span class="highlight">Gallery</span>. Could
+                                        be real, could be your brain messing with you.</p>
+                                    <br>
+                                    <p>Send someone to check it out?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="modal-btn cancel">Ignore It</button>
+                                    <button class="modal-btn confirm">Go Check It</button>
+                                </div>
+                            </div>
+
+                            <div class="dialog-modal compact variant-green" data-ribbon="ALL CLEAR">
+                                <div class="modal-header variant-green">
+                                    <span class="modal-icon">✓</span>
+                                    <div class="title-wrap">
+                                        <div class="modal-title">Signal Confirmed</div>
+                                        <div class="variant-subtitle">Crew synced and listening.</div>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Team acknowledges your callout. Do you want to keep this channel open for live
+                                        updates?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="modal-btn cancel">Later</button>
+                                    <button class="modal-btn safe">Keep Channel Open</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -675,16 +1255,42 @@
             </div>
 
             <div class="showcase">
+                <div class="color-chips">
+                    <span class="chip" style="background: #6aaa4a;" title="Green (border, dot)"></span>
+                    <span class="chip" style="background: #8acc6a;" title="Green Bright (dot, title)"></span>
+                    <span class="chip" style="background: #e8b850;" title="Yellow Bright (sender)"></span>
+                    <span class="chip" style="background: #d4a040;" title="Yellow (hint key, avatar)"></span>
+                    <span class="chip" style="background: #e8ddd0;" title="Text Bright (message)"></span>
+                    <span class="chip" style="background: #70655c;" title="Text Dim (channel, time)"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper (hint text)"></span>
+                    <span class="chip" style="background: rgba(35, 30, 26, 0.95); border: 1px solid #6aaa4a;" title="Box BG: rgba(35,30,26,0.95)"></span>
+                    <span class="chip" style="background: rgba(106, 170, 74, 0.25); border: 1px solid #6aaa4a;" title="Green Border: rgba(106,170,74,0.25)"></span>
+                </div>
                 <div class="dialog-demo-container">
                     <div class="radio-box">
                         <div class="radio-header">
                             <div class="radio-dot"></div>
-                            <div class="radio-title">INCOMING RADIO</div>
+                            <span class="radio-title">Incoming!</span>
+                            <span class="radio-channel">CH-07</span>
                         </div>
                         <div class="radio-body">
-                            <div class="radio-sender">Handyman Gary</div>
-                            <div class="radio-msg">"Yeah, I checked Sector 4. The door is jammed again. Getting my
-                                crowbar out! Stay frosty!"</div>
+                            <div class="radio-sender"><svg style="display:inline-block;vertical-align:middle;margin-right:6px" width="18"
+                                height="18" viewBox="0 0 18 18" fill="none">
+                                <circle cx="9" cy="6" r="4" fill="#d4a040" />
+                                <path d="M2 17c0-4 3-7 7-7s7 3 7 7" fill="#d4a040" />
+                            </svg>Manager:</div>
+                            <div class="radio-msg">
+                                <span class="radio-static">[krrsh]</span> Hey, check the Gallery — I swear something
+                                moved near the paintings.
+                                <span class="radio-static">[static]</span> ...could be nothing, but should we risk it?
+                            </div>
+                        </div>
+                        <div class="radio-footer">
+                            <span class="radio-time">03:24 AM</span>
+                            <div class="radio-hint">
+                                <span class="radio-hint-key">H</span>
+                                <span class="radio-hint-text">Close</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -701,6 +1307,15 @@
             </div>
 
             <div class="showcase">
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4a040;" title="Yellow (header text, key bg)"></span>
+                    <span class="chip" style="background: #2a221d;" title="BG Warm (menu bg)"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (key text)"></span>
+                    <span class="chip" style="background: #b8a898;" title="Text Mid (labels)"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper (label hover)"></span>
+                    <span class="chip" style="background: rgba(180, 150, 120, 0.2); border: 1px solid #b4967a;" title="Border: rgba(180,150,120,0.2)"></span>
+                    <span class="chip" style="background: rgba(212, 160, 64, 0.06); border: 1px solid #d4a040;" title="Header BG: rgba(212,160,64,0.06)"></span>
+                </div>
                 <div class="dialog-demo-container">
                     <!-- A simulated crosshair or clicked area could go here -->
                     <div class="context-menu">
@@ -734,20 +1349,48 @@
             </div>
 
             <div class="showcase" style="margin-bottom: 0;">
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4a040;" title="Yellow (icon, border)"></span>
+                    <span class="chip" style="background: #e8b850;" title="Yellow Bright (title, highlights)"></span>
+                    <span class="chip" style="background: #b8a898;" title="Text Mid (body text)"></span>
+                    <span class="chip" style="background: #70655c;" title="Text Dim (step badge, screenshot label)"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper (confirm btn)"></span>
+                    <span class="chip" style="background: #1a1512;" title="BG Dark (btn text)"></span>
+                    <span class="chip" style="background: rgba(35, 30, 26, 0.95); border: 1px solid #d4a040;" title="Box BG: rgba(35,30,26,0.95)"></span>
+                    <span class="chip" style="background: rgba(212, 160, 64, 0.25); border: 1px solid #d4a040;" title="Gold Border: rgba(212,160,64,0.25)"></span>
+                </div>
                 <div class="dialog-demo-container">
                     <div class="tutorial-modal">
                         <div class="tutorial-header">
-                            <span class="tutorial-icon">💡</span>
-                            <div class="tutorial-title">New Mechanic</div>
+                            <span class="tutorial-icon-wrap">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="#d4a040" stroke-width="2" fill="none" />
+                                    <path d="M9 9c0-2 1.5-3 3-3s3 1 3 3c0 2-3 2.5-3 4" stroke="#d4a040" stroke-width="2"
+                                        stroke-linecap="round" fill="none" />
+                                    <circle cx="12" cy="17.5" r="1.2" fill="#d4a040" />
+                                </svg>
+                            </span>
+                            <div>
+                                <div class="tutorial-title">How to Report Anomalies</div>
+                                <div class="tutorial-step-badge">Step 1</div>
+                            </div>
                         </div>
                         <div class="tutorial-body">
-                            <div class="tutorial-msg">Observe the monitors carefully. If you spot anything that looks
-                                slightly out of place, double-click the camera to open your Anomaly Report tool. Your
-                                salary depends on it. </div>
+                            <div class="tutorial-text">
+                                When you spot something weird on a camera, <span class="hl">double-click</span> directly on
+                                the anomaly to open the report menu. Pick what looks off — wrong object, something
+                                missing, or an intruder.
+                            </div>
+                            <div class="tutorial-screenshot">
+                                <span class="screenshot-icon">📷</span>
+                                <span class="screenshot-label">SCREENSHOT PLACEHOLDER</span>
+                            </div>
                         </div>
-                        <div class="tutorial-footer">
-                            <button class="modal-btn confirm" style="font-size: 14px; padding: 6px 14px;">Got
-                                It</button>
+                        <div class="modal-footer tutorial-cta-footer">
+                            <button class="modal-btn confirm tutorial-cta-btn">
+                                <span>Got it</span>
+                                <span class="tutorial-keycap">Space</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -755,6 +1398,251 @@
 
         </div>
     </div>
+
+    <div class="color-tooltip" id="colorTooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('colorTooltip');
+        const showcases = document.querySelectorAll('.showcase');
+
+        function rgbToHex(rgb) {
+            if (!rgb) return null;
+            const nums = rgb.match(/\d+/g);
+            if (!nums || nums.length < 3) return null;
+            return '#' + [nums[0], nums[1], nums[2]].map(x => {
+                const hex = parseInt(x).toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function getColor(element) {
+            const style = element.style;
+            if (style.background && style.background.startsWith('#')) {
+                return style.background;
+            }
+            if (style.backgroundColor && style.backgroundColor !== 'transparent') {
+                return rgbToHex(style.backgroundColor);
+            }
+            const computed = getComputedStyle(element);
+            if (computed.backgroundColor && computed.backgroundColor !== 'transparent' && computed.backgroundColor !== 'rgba(0, 0, 0, 0)') {
+                return rgbToHex(computed.backgroundColor);
+            }
+            return null;
+        }
+
+        function handleMouseOver(e, sectionName) {
+            const target = e.target.closest('.dialog-modal, .modal-header, .modal-footer, .modal-btn, .variant-subtitle, [data-ribbon], .radio-box, .radio-header, .radio-dot, .radio-sender, .radio-msg, .radio-footer, .radio-hint, .radio-hint-key, .radio-time, .radio-hint-text, .context-menu, .context-header, .context-item, .ctx-key, .ctx-label, .tutorial-modal, .tutorial-header, .tutorial-body, .tutorial-screenshot, .modal-footer');
+            if (!target) return;
+            
+            let color = null;
+            let name = '';
+
+            if (sectionName === 'overlay') {
+                if (target.dataset.ribbon) {
+                    color = '#f3d06a';
+                    name = 'Ribbon Badge';
+                } else if (target.classList.contains('modal-header')) {
+                    if (target.classList.contains('variant-red')) {
+                        color = '#5a1a1a';
+                        name = 'Red Header';
+                    } else if (target.classList.contains('variant-yellow')) {
+                        color = '#5a3f1a';
+                        name = 'Yellow Header';
+                    } else if (target.classList.contains('variant-green')) {
+                        color = '#2f4f25';
+                        name = 'Green Header';
+                    }
+                } else if (target.classList.contains('variant-subtitle')) {
+                    color = '#e8ddd0';
+                    name = 'Subtitle';
+                } else if (target.classList.contains('modal-btn')) {
+                    if (target.classList.contains('confirm')) {
+                        color = '#d4b9a0';
+                        name = 'Confirm Button';
+                    } else if (target.classList.contains('cancel')) {
+                        color = '#b8a898';
+                        name = 'Cancel Button';
+                    } else if (target.classList.contains('safe')) {
+                        color = '#6aaa4a';
+                        name = 'Safe Button';
+                    } else if (target.classList.contains('danger')) {
+                        color = '#c34747';
+                        name = 'Danger Button';
+                    }
+                } else if (target.classList.contains('dialog-modal')) {
+                    color = '#2a221d';
+                    name = 'Modal BG';
+                }
+            } else if (sectionName === 'radio') {
+                if (target.classList.contains('radio-box')) {
+                    color = '#231e1a';
+                    name = 'Radio Box BG';
+                } else if (target.classList.contains('radio-header')) {
+                    color = '#231e1a';
+                    name = 'Radio Header';
+                } else if (target.classList.contains('radio-dot')) {
+                    color = '#8acc6a';
+                    name = 'Radio Dot';
+                } else if (target.classList.contains('radio-title')) {
+                    color = '#8acc6a';
+                    name = 'Radio Title';
+                } else if (target.classList.contains('radio-channel')) {
+                    color = '#70655c';
+                    name = 'Radio Channel';
+                } else if (target.classList.contains('radio-sender')) {
+                    color = '#e8b850';
+                    name = 'Radio Sender';
+                } else if (target.classList.contains('radio-msg')) {
+                    color = '#e8ddd0';
+                    name = 'Radio Message';
+                } else if (target.classList.contains('radio-footer')) {
+                    color = '#231e1a';
+                    name = 'Radio Footer';
+                } else if (target.classList.contains('radio-time')) {
+                    color = '#70655c';
+                    name = 'Radio Time';
+                } else if (target.classList.contains('radio-hint')) {
+                    color = '#1a1512';
+                    name = 'Radio Hint';
+                } else if (target.classList.contains('radio-hint-key')) {
+                    color = '#d4a040';
+                    name = 'Radio Hint Key';
+                } else if (target.classList.contains('radio-hint-text')) {
+                    color = '#d4b9a0';
+                    name = 'Radio Hint Text';
+                }
+            } else if (sectionName === 'context') {
+                if (target.classList.contains('context-menu')) {
+                    color = '#2a221d';
+                    name = 'Menu BG';
+                } else if (target.classList.contains('context-header')) {
+                    color = '#2a221d';
+                    name = 'Menu Header';
+                } else if (target.classList.contains('context-header-text')) {
+                    color = '#d4a040';
+                    name = 'Header Text';
+                } else if (target.classList.contains('context-item')) {
+                    color = '#2a221d';
+                    name = 'Menu Item';
+                } else if (target.classList.contains('ctx-label')) {
+                    color = '#b8a898';
+                    name = 'Item Label';
+                } else if (target.classList.contains('ctx-key')) {
+                    color = '#d4a040';
+                    name = 'Item Key';
+                }
+            } else if (sectionName === 'tutorial') {
+                if (target.classList.contains('tutorial-modal')) {
+                    color = '#1a1512';
+                    name = 'Tutorial BG';
+                } else if (target.classList.contains('tutorial-header')) {
+                    color = '#1a1512';
+                    name = 'Tutorial Header';
+                } else if (target.classList.contains('tutorial-title')) {
+                    color = '#e8b850';
+                    name = 'Tutorial Title';
+                } else if (target.classList.contains('tutorial-step-badge')) {
+                    color = '#70655c';
+                    name = 'Step Badge';
+                } else if (target.classList.contains('tutorial-body')) {
+                    color = '#1a1512';
+                    name = 'Tutorial Body';
+                } else if (target.classList.contains('tutorial-text')) {
+                    color = '#b8a898';
+                    name = 'Tutorial Text';
+                } else if (target.classList.contains('tutorial-screenshot')) {
+                    color = '#0c0a08';
+                    name = 'Screenshot';
+                } else if (target.classList.contains('screenshot-label')) {
+                    color = '#70655c';
+                    name = 'Screenshot Label';
+                } else if (target.classList.contains('tutorial-cta-footer') || target.closest('.tutorial-cta-footer')) {
+                    color = '#1a1512';
+                    name = 'Tutorial Footer';
+                } else if (target.classList.contains('tutorial-keycap')) {
+                    color = '#d4a040';
+                    name = 'Keycap';
+                } else if (target.classList.contains('tutorial-cta-btn') || target.classList.contains('confirm')) {
+                    color = '#d4b9a0';
+                    name = 'Confirm Button';
+                }
+            }
+
+            if (color) {
+                tooltip.textContent = color + (name ? ` (${name})` : '');
+                tooltip.classList.add('visible');
+            }
+        }
+
+        showcases.forEach((showcase, index) => {
+            const sectionNames = ['overlay', 'radio', 'context', 'tutorial'];
+            const sectionName = sectionNames[index];
+
+            showcase.addEventListener('mouseover', (e) => handleMouseOver(e, sectionName));
+
+            showcase.addEventListener('mousemove', (e) => {
+                if (tooltip.classList.contains('visible')) {
+                    tooltip.style.left = (e.clientX + 15) + 'px';
+                    tooltip.style.top = (e.clientY + 15) + 'px';
+                }
+            });
+
+            showcase.addEventListener('mouseout', () => {
+                tooltip.classList.remove('visible');
+            });
+        });
+
+        document.querySelectorAll('.color-chips').forEach(chipContainer => {
+            chipContainer.addEventListener('mouseover', (e) => {
+                const chip = e.target.closest('.chip');
+                if (!chip) return;
+                
+                chip.dataset.originalTitle = chip.getAttribute('title');
+                chip.removeAttribute('title');
+                
+                const bg = chip.style.background;
+                const title = chip.dataset.originalTitle || '';
+                
+                let hex = bg;
+                if (bg.startsWith('rgba')) {
+                    const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        hex = '#' + [match[1], match[2], match[3]].map(x => {
+                            const h = parseInt(x).toString(16);
+                            return h.length === 1 ? '0' + h : h;
+                        }).join('');
+                    }
+                } else if (bg.startsWith('rgb')) {
+                    const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                        hex = '#' + [match[1], match[2], match[3]].map(x => {
+                            const h = parseInt(x).toString(16);
+                            return h.length === 1 ? '0' + h : h;
+                        }).join('');
+                    }
+                }
+                
+                tooltip.textContent = `${hex} - ${title}`;
+                tooltip.classList.add('visible');
+            });
+
+            chipContainer.addEventListener('mousemove', (e) => {
+                if (tooltip.classList.contains('visible')) {
+                    tooltip.style.left = (e.clientX + 15) + 'px';
+                    tooltip.style.top = (e.clientY + 15) + 'px';
+                }
+            });
+
+            chipContainer.addEventListener('mouseout', (e) => {
+                const chip = e.target.closest('.chip');
+                if (chip && chip.dataset.originalTitle) {
+                    chip.setAttribute('title', chip.dataset.originalTitle);
+                    delete chip.dataset.originalTitle;
+                }
+                tooltip.classList.remove('visible');
+            });
+        });
+    </script>
 
 </body>
 

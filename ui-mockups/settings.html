@@ -81,8 +81,19 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.18) contrast(1.1) saturate(0.5) blur(6px);
-            transform: scale(1.1);
+            filter: brightness(0.35) contrast(1.1) saturate(0.7);
+            transform: scale(1.05);
+            animation: bgSlowDrift 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgSlowDrift {
+            0% {
+                transform: scale(1.05) translate(0, 0);
+            }
+
+            100% {
+                transform: scale(1.08) translate(-0.5%, -0.3%);
+            }
         }
 
         /* Vignette */
@@ -92,7 +103,7 @@
             inset: 0;
             pointer-events: none;
             z-index: 1;
-            background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.65) 70%, rgba(0, 0, 0, 0.9) 100%);
+            background: radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.85) 100%);
         }
 
         /* Paper grain */
@@ -108,6 +119,15 @@
             mix-blend-mode: overlay;
         }
 
+        /* Scanlines */
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.015) 2px, rgba(0, 0, 0, 0.015) 4px);
+        }
+
         /* ═══════════════════════════════════════════
            SETTINGS PANEL
            ═══════════════════════════════════════════ */
@@ -116,41 +136,27 @@
             z-index: 5;
             width: 740px;
             max-height: 88vh;
-            background: var(--bg-mid);
-            border: 2px solid rgba(180, 150, 120, 0.12);
+            background: rgba(26, 21, 18, 0.65);
+            border: 1px solid rgba(184, 154, 126, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 4px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow:
-                0 24px 80px rgba(0, 0, 0, 0.7),
-                0 4px 20px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(0, 0, 0, 0.6);
             animation: panelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes panelIn {
-            from {
-                transform: translateY(20px) scale(0.98);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Paper grain on panel */
-        .settings-panel::after {
+        .settings-panel::before {
             content: '';
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 185, 160, 0.5), transparent);
+            z-index: 20;
             pointer-events: none;
-            z-index: 10;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-            background-size: 128px;
-            opacity: 0.6;
-            mix-blend-mode: overlay;
         }
 
         /* ── HEADER ── */
@@ -467,123 +473,90 @@
         .dropdown-control {
             position: relative;
             min-width: 200px;
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            user-select: none;
+            cursor: pointer;
             z-index: 20;
         }
 
         .dropdown-selected {
-            padding: 7px 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(180, 150, 120, 0.15);
-            font-family: var(--font-body);
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-mid);
-            cursor: pointer;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--paper-dark);
+            color: var(--paper);
+            padding: 8px 12px;
+            border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            transition: all 0.15s;
-            -webkit-user-select: none;
-            user-select: none;
+            gap: 15px;
+            transition: all 0.2s;
         }
 
         .dropdown-selected:hover {
-            border-color: rgba(180, 150, 120, 0.3);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .dropdown-control.open .dropdown-selected {
-            border-color: var(--yellow);
-            background: rgba(0, 0, 0, 0.5);
+            border-color: var(--paper-light);
+            background: rgba(0, 0, 0, 0.6);
         }
 
         .dropdown-arrow {
-            font-family: var(--font-mono);
             font-size: 10px;
-            color: var(--text-dim);
             transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            height: 100%;
-            margin-top: 1px;
-            /* Subtle baseline correction for the arrow symbol */
+        }
+
+        .dropdown-control.open .dropdown-selected {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-color: var(--paper-light);
+            background: rgba(0, 0, 0, 0.8);
         }
 
         .dropdown-control.open .dropdown-arrow {
             transform: rotate(180deg);
-            color: var(--yellow);
         }
 
         /* ── DROPDOWN MENU ── */
         .dropdown-menu {
             position: absolute;
-            top: calc(100% + 4px);
+            top: 100%;
             left: 0;
             right: 0;
-            background: var(--bg-warm);
-            border: 2px solid rgba(180, 150, 120, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            overflow: hidden;
+            background: rgba(16, 13, 11, 0.95);
+            border: 1px solid var(--paper-dark);
+            border-top: none;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
             display: none;
-            animation: dropdownIn 0.2s ease-out;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
             z-index: 100;
         }
 
         .dropdown-control.open .dropdown-menu {
-            display: block;
-        }
-
-        @keyframes dropdownIn {
-            from {
-                opacity: 0;
-                transform: translateY(-4px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            display: flex;
         }
 
         .dropdown-option {
-            padding: 8px 14px 8px 18px;
-            /* Extra left padding to clear marker */
-            font-family: var(--font-body);
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-mid);
+            padding: 10px 12px;
+            color: var(--text-dim);
+            transition: all 0.2s;
             cursor: pointer;
-            transition: all 0.12s;
-            border-bottom: 1px solid rgba(180, 150, 120, 0.05);
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .dropdown-option:last-child {
-            border-bottom: none;
         }
 
         .dropdown-option:hover {
-            background: rgba(212, 160, 64, 0.06);
-            padding-left: 22px;
-            color: var(--paper);
+            background: rgba(212, 185, 160, 0.1);
+            color: var(--paper-light);
+            padding-left: 16px;
         }
 
         .dropdown-option.selected {
-            color: var(--yellow);
-        }
-
-        .dropdown-option.selected::before {
-            content: '▸';
-            position: absolute;
-            left: 6px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--yellow);
-            font-size: 10px;
-            line-height: 1;
+            color: var(--paper);
+            background: rgba(212, 160, 64, 0.15);
+            border-left: 2px solid var(--yellow);
         }
 
         /* ── TOGGLE CONTROL ── */
@@ -675,71 +648,62 @@
 
         .btn {
             font-family: var(--font-display);
-            font-size: 18px;
-            padding: 10px 24px;
-            border: 2px solid rgba(180, 150, 120, 0.2);
-            border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+            font-size: 26px;
+            color: var(--paper-dark);
+            background: transparent;
+            border: none;
             cursor: pointer;
-            transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding: 8px 24px;
             position: relative;
-            transform-origin: center;
+            transition: all 0.2s;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            letter-spacing: 0.5px;
-            background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
-            color: var(--text-mid);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
-            border-radius: 2px;
-            top: 0;
+            gap: 10px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 60%;
+            background: var(--paper);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn:hover {
-            transform: scale(1.03) rotate(-1deg);
-            background: linear-gradient(to bottom, var(--paper), #cbb094);
-            color: var(--bg-dark);
-            border-color: var(--paper);
-            text-shadow: none;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-            z-index: 5;
+            color: var(--paper);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 160, 64, 0.08);
+            padding-left: 30px;
         }
 
-        .btn:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            border-bottom-width: 2px;
+        .btn:hover::before {
+            width: 3px;
         }
 
         .btn-primary {
-            background: var(--paper);
-            color: var(--bg-dark);
-            border-color: var(--paper-dark);
-            box-shadow: 0 4px 0 var(--paper-shadow), 0 8px 16px rgba(0, 0, 0, 0.3);
-            text-shadow: none;
+            color: var(--paper);
         }
 
         .btn-primary:hover {
-            background: var(--paper-light);
-            transform: scale(1.04) rotate(1deg);
-            box-shadow: 0 6px 0 var(--paper-shadow), 0 12px 24px rgba(0, 0, 0, 0.4);
+            color: var(--paper-light);
+            text-shadow: 0 0 20px rgba(212, 160, 64, 0.2);
         }
 
-        .btn-primary:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 0 var(--paper-shadow);
+        .btn-primary::before {
+            background: var(--green);
         }
 
         .btn-secondary {
-            background: linear-gradient(to bottom, var(--bg-mid), #2a2520);
-            color: var(--text-mid);
-            border: 1px solid rgba(180, 150, 120, 0.1);
+            color: var(--text-dim);
         }
 
         .btn-secondary:hover {
-            background: linear-gradient(to bottom, var(--paper), #dcc8b4);
-            color: var(--bg-dark);
+            color: var(--paper-dark);
         }
 
         /* ── DIVIDER ── */
@@ -790,8 +754,9 @@
 <body>
 
     <div class="settings-viewport">
-        <!-- Background (blurred) -->
-        <img src="background6.png" alt="" class="bg-img">
+        <!-- Background -->
+        <img src="background10.png" alt="" class="bg-img">
+        <div class="scanlines"></div>
 
         <!-- Settings Panel -->
         <div class="settings-panel">
@@ -894,7 +859,7 @@
                             <div class="dropdown-control" data-options='["Push to Talk", "Open Mic", "Disabled"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">Push to Talk</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -925,7 +890,7 @@
                                 data-options='["2560 × 1440", "1920 × 1080", "1600 × 900", "1366 × 768", "1280 × 720"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">1920 × 1080</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -936,7 +901,7 @@
                             <div class="dropdown-control" data-options='["Fullscreen", "Windowed", "Borderless"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">Fullscreen</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -954,7 +919,7 @@
                             <div class="dropdown-control" data-options='["30", "60", "120", "144", "240", "Unlimited"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">Unlimited</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -986,7 +951,7 @@
                             <div class="dropdown-control" data-options='["Low", "Medium", "High", "Ultra"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">High</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -1115,7 +1080,7 @@
                                 data-options='["English", "Deutsch", "Français", "Español", "Italiano", "日本語", "한국어", "Polski"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">English</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -1136,7 +1101,7 @@
                             <div class="dropdown-control" data-options='["Small", "Medium", "Large"]'>
                                 <div class="dropdown-selected">
                                     <span class="dropdown-text">Medium</span>
-                                    <span class="dropdown-arrow">▾</span>
+                                    <span class="dropdown-arrow">▼</span>
                                 </div>
                                 <div class="dropdown-menu"></div>
                             </div>
@@ -1204,7 +1169,65 @@
         </div>
     </div>
 
+    <!-- Continuous Music Logic -->
+    <audio id="bgMusic" loop></audio>
+    <audio id="uiClick" src="../audio/uiclick.mp3"></audio>
+
     <script>
+        // ══════════════════════════════════════════
+        //  CONTINUOUS MUSIC LOGIC
+        // ══════════════════════════════════════════
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.10;
+        const storedMusic = sessionStorage.getItem('bgMusicSrc');
+        let storedTime = sessionStorage.getItem('bgMusicTime');
+
+        // Check if page was reloaded
+        const navEntries = performance.getEntriesByType("navigation");
+        if (navEntries.length > 0 && navEntries[0].type === "reload") {
+            storedTime = null; // start music over
+        }
+
+        if (storedMusic) {
+            bgMusic.src = storedMusic;
+            if (storedTime) {
+                bgMusic.currentTime = parseFloat(storedTime);
+            }
+            const tryPlay = () => {
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        const startAudio = () => { bgMusic.play(); document.removeEventListener('click', startAudio); };
+                        document.addEventListener('click', startAudio);
+                    });
+                }
+            };
+            tryPlay();
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (bgMusic.src) {
+                sessionStorage.setItem('bgMusicTime', bgMusic.currentTime);
+                sessionStorage.setItem('bgMusicSrc', bgMusic.src);
+            }
+        });
+
+        // ══════════════════════════════════════════
+        //  UI SOUND LOGIC
+        // ══════════════════════════════════════════
+        const uiClick = document.getElementById('uiClick');
+        if (uiClick) uiClick.volume = 0.4;
+        function playClick() {
+            if (!uiClick) return;
+            uiClick.currentTime = 0;
+            uiClick.play().catch(() => { });
+        }
+
+        // Attach playClick to various interactive elements
+        document.querySelectorAll('.tab, .btn, .slider-track, .dropdown-control, .toggle-control, .keybind-key').forEach(el => {
+            el.addEventListener('mousedown', playClick);
+        });
+
         // ══════════════════════════════════════════
         //  TAB SWITCHING
         // ══════════════════════════════════════════

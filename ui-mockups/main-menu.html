@@ -767,6 +767,87 @@
             border-color: var(--paper-dark);
         }
 
+        /* Handwritten Arrow - Tiny chalk-style sketch */
+        .dev-launcher::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            bottom: 24px;
+            width: 45px;
+            height: 45px;
+            /* Precise 'chalk' sketch: arrow head pointing down-right toward center */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.7'%3E%3Cpath d='M45 5 C 35 10, 20 20, 12 45 M 12 45 L 10 34 M 12 45 L 22 38'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9;
+            filter: blur(0.4px);
+            /* Softens the stroke for a chalkier feel */
+            transform-origin: bottom left;
+            animation:
+                tooltipEntry 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) 5s forwards,
+                tooltipFloat 4s ease-in-out 5.8s infinite;
+        }
+
+        /* Handwritten Text - Small and compact */
+        .dev-launcher::after {
+            content: 'click here for documentation';
+            position: absolute;
+            left: 55px;
+            bottom: 60px;
+            transform: rotate(-1deg);
+            font-family: var(--font-scrawl);
+            font-size: 19px;
+            color: rgba(255, 255, 255, 0.9);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            animation:
+                tooltipEntry 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) 5s forwards,
+                tooltipFloat 4s ease-in-out 5.8s infinite;
+        }
+
+        @keyframes tooltipEntry {
+            from {
+                opacity: 0;
+                transform: rotate(-15deg) translateY(30px) scale(0.6);
+                filter: blur(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: rotate(-3deg) translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes tooltipFloat {
+
+            0%,
+            100% {
+                transform: rotate(-3deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(-1deg) translateY(-10px) translateX(4px);
+            }
+        }
+
+        .dev-launcher:hover::after,
+        .dev-launcher:hover::before {
+            opacity: 1;
+            filter: drop-shadow(0 0 10px rgba(232, 184, 80, 0.4));
+            animation-play-state: paused;
+        }
+
+        .dev-launcher:hover::after {
+            color: var(--yellow-bright);
+            text-shadow: 0 0 20px rgba(232, 184, 80, 0.6), 0 2px 4px rgba(0, 0, 0, 1);
+        }
+
         .dev-launcher svg {
             width: 18px;
             height: 18px;
@@ -932,7 +1013,7 @@
         </div>
 
         <!-- Dev Launcher (Hidden/Discrete) -->
-        <div class="dev-launcher" onclick="openShowcase()" title="Developer Tools">
+        <div class="dev-launcher" onclick="openShowcase()" title="Visual Communication Documents">
             <svg viewBox="0 0 24 24">
                 <path
                     d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11.03L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.97 19.05,5.05L16.56,6.05C16.04,5.66 15.47,5.34 14.85,5.08L14.47,2.44C14.44,2.21 14.24,2.05 14,2.05H10C9.76,2.05 9.56,2.21 9.53,2.44L9.15,5.08C8.53,5.34 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.97 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11.03C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.95C7.96,18.34 8.53,18.66 9.15,18.92L9.53,21.56C9.56,21.79 9.76,21.95 10,21.95H14C14.24,21.95 14.44,21.79 14.47,21.56L14.85,18.92C15.47,18.66 16.04,18.34 16.56,17.95L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
@@ -944,9 +1025,8 @@
             <div class="showcase-header">
                 <h2 class="showcase-title">Visual Communication Documents</h2>
                 <nav class="showcase-nav">
-                    <button class="showcase-btn active"
-                        onclick="loadContent('dialog-containers.html', this)">Dialogs</button>
-                    <button class="showcase-btn" onclick="loadContent('font-showcase.html', this)">Fonts</button>
+                    <button class="showcase-btn active" onclick="loadContent('font-showcase.html', this)">Fonts</button>
+                    <button class="showcase-btn" onclick="loadContent('dialog-containers.html', this)">Dialogs</button>
                     <button class="showcase-btn" onclick="loadContent('hud-elements.html', this)">HUD</button>
                     <button class="showcase-btn" onclick="loadContent('result-screen.html', this)">Results</button>
                     <button class="showcase-btn" onclick="loadContent('monitor-ui-elements.html', this)">Monitor
@@ -1026,7 +1106,7 @@
             overlay.style.display = 'flex';
             // Default load first item if iframe is empty
             if (!iframe.src || iframe.src === window.location.href || iframe.src === "") {
-                loadContent('dialog-containers.html', document.querySelector('.showcase-btn'));
+                loadContent('font-showcase.html', document.querySelector('.showcase-btn'));
             }
         }
 

@@ -1158,7 +1158,7 @@
 
             <!-- Footer -->
             <div class="settings-footer">
-                <span class="footer-hint">Changes are saved automatically</span>
+                <span class="footer-hint">Changes are saved automatically • 'M' for music</span>
                 <div class="footer-actions">
                     <button class="btn btn-secondary" onclick="window.location.href='main-menu.html'">Defaults</button>
                     <button class="btn btn-primary" onclick="window.location.href='main-menu.html'">Apply &
@@ -1181,6 +1181,10 @@
         bgMusic.volume = 0.10;
         const storedMusic = sessionStorage.getItem('bgMusicSrc');
         let storedTime = sessionStorage.getItem('bgMusicTime');
+        const isMuted = sessionStorage.getItem('bgMusicMuted') === 'true';
+
+        // Check for mute state
+        bgMusic.muted = isMuted;
 
         // Check if page was reloaded
         const navEntries = performance.getEntriesByType("navigation");
@@ -1346,6 +1350,11 @@
                     return;
                 }
                 window.location.href = 'main-menu.html';
+            } else if (e.key.toLowerCase() === 'm') {
+                const bgMusic = document.getElementById('bgMusic');
+                bgMusic.muted = !bgMusic.muted;
+                sessionStorage.setItem('bgMusicMuted', bgMusic.muted);
+                playClick();
             }
         });
     </script>

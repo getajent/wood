@@ -143,7 +143,7 @@
             justify-content: space-between;
             align-items: flex-end;
             margin-bottom: 30px;
-            animation: fadeInDown 0.6s ease-out both;
+            animation: fadeInDown 0.4s ease-out both;
         }
 
         .lobby-title {
@@ -192,7 +192,7 @@
             gap: 40px;
             flex: 1;
             height: 100%;
-            animation: fadeInUp 0.6s ease-out 0.2s both;
+            animation: fadeInUp 0.4s ease-out 0.1s both;
         }
 
         .panel {
@@ -518,7 +518,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            animation: fadeInUp 0.6s ease-out 0.4s both;
+            animation: fadeInUp 0.4s ease-out 0.2s both;
         }
 
         .loading-status-area {
@@ -812,7 +812,7 @@
         let messageIndex = 0;
 
         const loadingInterval = setInterval(() => {
-            progress += Math.random() * 8 + 2; // Random jump between 2 and 10
+            progress += Math.random() * 10 + 5; // Balanced jump between 5 and 15
 
             if (progress >= 100) {
                 progress = 100;
@@ -820,7 +820,7 @@
                 finishLoading();
             } else {
                 // Occasionally change text
-                if (Math.random() > 0.7 && messageIndex < messages.length - 1) {
+                if (Math.random() > 0.5 && messageIndex < messages.length - 1) {
                     messageIndex++;
                     loadingMsg.textContent = messages[messageIndex];
                     loadingMsg.classList.add('flicker');
@@ -829,7 +829,7 @@
             }
 
             loadingFill.style.width = progress + "%";
-        }, 300);
+        }, 200);
 
         function finishLoading() {
             loadingFill.style.backgroundColor = "var(--green)";
@@ -846,7 +846,7 @@
             // Show Proceed button
             setTimeout(() => {
                 btnProceed.classList.add('visible');
-            }, 500);
+            }, 200);
         }
     </script>
 </body>

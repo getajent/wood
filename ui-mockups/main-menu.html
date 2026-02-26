@@ -293,6 +293,10 @@
             animation: menuItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
         }
 
+        .menu-item:nth-child(6) {
+            animation: menuItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.85s both;
+        }
+
         @keyframes menuItemIn {
             from {
                 transform: translateX(-20px);
@@ -887,6 +891,11 @@
                     </div>
                     <div class="menu-item" id="menu-credits" tabindex="0">
                         <span class="menu-item-label">Credits</span>
+                    </div>
+                    <div class="menu-item" id="menu-discord" tabindex="0"
+                        onclick="window.open('https://discord.gg/', '_blank')">
+                        <span class="menu-item-label">Discord</span>
+                        <span class="menu-item-desc">Join the community</span>
                     </div>
                     <div class="menu-item" id="menu-quit" tabindex="0">
                         <span class="menu-item-label">Quit</span>

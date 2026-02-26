@@ -48,6 +48,7 @@
             --text-dim: #70655c;
             --text-dark: #3a2e24;
 
+            --red-critical: #ff3030;
             --font-display: 'Boogaloo', cursive;
             --font-handwritten: 'Amatic SC', cursive;
             --font-scrawl: 'Caveat', cursive;
@@ -1300,6 +1301,278 @@
         .color-tooltip.visible {
             display: block;
         }
+
+        /* ═══════════════════════════════════════════
+           RADIAL INVENTORY MENU
+           ═══════════════════════════════════════════ */
+        .radial-inventory-static {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 0;
+            width: 100%;
+            background: rgba(46, 38, 32, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(180, 150, 120, 0.1);
+            margin: 20px 0;
+        }
+
+        .radial-inventory {
+            position: relative;
+            width: 380px;
+            height: 380px;
+        }
+
+        .radial-hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 124px;
+            height: 124px;
+            border-radius: 50%;
+            background: rgba(46, 38, 32, 0.88);
+            border: 2px solid rgba(180, 150, 120, 0.2);
+            backdrop-filter: blur(8px);
+            box-shadow:
+                inset 0 4px 14px rgba(0, 0, 0, 0.65),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.3),
+                0 8px 32px rgba(0, 0, 0, 0.55);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            z-index: 10;
+        }
+
+        .radial-hub-icon {
+            opacity: 0.8;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+            transform: scale(1.5);
+            margin-bottom: 4px;
+        }
+
+        .radial-hub-label {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2.2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-align: center;
+        }
+
+        .radial-hub-key {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            padding: 1px 5px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            background: var(--yellow);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 3px;
+        }
+
+        .radial-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 1px dashed rgba(180, 150, 120, 0.1);
+            pointer-events: none;
+            animation: radialRingSpin 60s linear infinite;
+        }
+
+        @keyframes radialRingSpin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .radial-item {
+            position: absolute;
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 40% 35%, var(--bg-warm), var(--bg-mid));
+            border: 2px solid rgba(180, 150, 120, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            filter: saturate(0.3);
+            opacity: 0.6;
+            transform-origin: center;
+            z-index: 5;
+        }
+
+        .radial-items {
+            position: absolute;
+            inset: 0;
+        }
+
+        .radial-items .radial-item:nth-child(1) {
+            top: -9px;
+            left: 146px;
+        }
+
+        .radial-items .radial-item:nth-child(2) {
+            top: 68px;
+            left: 280px;
+        }
+
+        .radial-items .radial-item:nth-child(3) {
+            top: 223px;
+            left: 280px;
+        }
+
+        .radial-items .radial-item:nth-child(4) {
+            top: 301px;
+            left: 146px;
+        }
+
+        .radial-items .radial-item:nth-child(5) {
+            top: 223px;
+            left: 12px;
+        }
+
+        .radial-items .radial-item:nth-child(6) {
+            top: 68px;
+            left: 12px;
+        }
+
+        .radial-item .radial-item-icon {
+            opacity: 0.85;
+            transition: all 0.2s;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+            transform: scale(1.4);
+            margin-bottom: 2px;
+        }
+
+        .radial-items .radial-item:nth-child(1) {
+            border-color: rgba(212, 160, 64, 0.45);
+        }
+
+        .radial-items .radial-item:nth-child(2) {
+            border-color: rgba(122, 184, 212, 0.45);
+        }
+
+        .radial-items .radial-item:nth-child(3) {
+            border-color: rgba(232, 216, 80, 0.45);
+        }
+
+        .radial-items .radial-item:nth-child(4) {
+            border-color: rgba(212, 112, 64, 0.45);
+        }
+
+        .radial-items .radial-item:nth-child(5) {
+            border-color: rgba(106, 170, 74, 0.45);
+        }
+
+        .radial-items .radial-item:nth-child(6) {
+            border-color: rgba(212, 64, 64, 0.45);
+        }
+
+        .radial-item .radial-item-name {
+            font-family: var(--font-display);
+            font-size: 12px;
+            color: var(--text-mid);
+            transition: color 0.15s;
+            line-height: 1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .radial-item:hover {
+            transform: scale(1.14) rotate(-2deg);
+            border-color: var(--yellow);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 20px rgba(212, 160, 64, 0.15);
+            filter: saturate(1) !important;
+            opacity: 1 !important;
+            z-index: 8;
+        }
+
+        .radial-item:hover .radial-item-icon {
+            opacity: 1;
+            transform: scale(1.6);
+        }
+
+        .radial-item:hover .radial-item-name {
+            color: var(--yellow-bright);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .radial-item.equipped {
+            border-color: var(--yellow);
+            filter: saturate(1);
+            opacity: 1;
+        }
+
+        .radial-wheel-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .radial-title-strip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .radial-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            color: var(--paper);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .radial-subtitle {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .radial-item-num {
+            position: absolute;
+            top: -6px;
+            right: -4px;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+            background: var(--yellow);
+            border-radius: 3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 12;
+        }
     </style>
 </head>
 
@@ -1993,6 +2266,150 @@
             </div>
 
 
+
+            <div class="section-separator"></div>
+
+            <!-- SECTION: RADIAL INVENTORY -->
+            <div class="section-header">
+                <div class="section-header-tag">PATTERN 09 // SELECTION INTERFACE</div>
+                <h2>Radial Inventory</h2>
+                <span class="section-label">Radial tool selection wheel — Hover items to interact</span>
+                <div class="color-chips">
+                    <span class="chip" style="background: #d4a040;" title="Amber (Wrench)"></span>
+                    <span class="chip" style="background: #7ab8d4;" title="Steel Blue (Plunger)"></span>
+                    <span class="chip" style="background: #e8d850;" title="Yellow (Flashlight)"></span>
+                    <span class="chip" style="background: #d47040;" title="Orange (Crowbar)"></span>
+                    <span class="chip" style="background: #6aaa4a;" title="Green (Meter)"></span>
+                    <span class="chip" style="background: #d4b9a0;" title="Paper (Extinguisher)"></span>
+                    <span class="chip" style="background: rgba(46, 38, 32, 0.88); border: 1px solid #b4967a;"
+                        title="Center Hub"></span>
+                </div>
+                <div class="demo-container">
+                    <div class="radial-inventory-static" id="radial-inventory">
+                        <div class="radial-wheel-wrapper">
+                            <div class="radial-inventory">
+                                <div class="radial-ring"></div>
+                                <div class="radial-hub">
+                                    <span class="radial-hub-icon">
+                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                                                stroke="#b8a898" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <span class="radial-hub-label">Equipped</span>
+                                    <span class="radial-hub-key">I</span>
+                                </div>
+                                <div class="radial-items">
+                                    <div class="radial-item equipped" data-tool="Wrench"
+                                        onclick="selectRadialTool(this)">
+                                        <span class="radial-item-num">1</span>
+                                        <span class="radial-item-icon">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                <path
+                                                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+                                                    stroke="#d4a040" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="radial-item-name">Wrench</span>
+                                    </div>
+                                    <div class="radial-item" data-tool="Plunger" onclick="selectRadialTool(this)">
+                                        <span class="radial-item-num">2</span>
+                                        <span class="radial-item-icon">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                <line x1="12" y1="22" x2="12" y2="10" stroke="#7ab8d4"
+                                                    stroke-width="2.5" stroke-linecap="round" />
+                                                <path
+                                                    d="M7 10h10a1 1 0 0 1 1 1v1a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3v-1a1 1 0 0 1 1-1z"
+                                                    stroke="#7ab8d4" stroke-width="1.8" fill="none" />
+                                                <ellipse cx="12" cy="9" rx="5.5" ry="2" stroke="#7ab8d4"
+                                                    stroke-width="1.8" fill="rgba(122,184,212,0.12)" />
+                                            </svg>
+                                        </span>
+                                        <span class="radial-item-name">Plunger</span>
+                                    </div>
+                                    <div class="radial-item" data-tool="Flashlight" onclick="selectRadialTool(this)">
+                                        <span class="radial-item-num">3</span>
+                                        <span class="radial-item-icon">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                <path d="M9 18h6" stroke="#e8d850" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M10 22h4" stroke="#e8d850" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M12 2v1" stroke="#e8d850" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M4.93 4.93l.71.71" stroke="#e8d850" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M18.36 4.93l-.71.71" stroke="#e8d850" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M15 8a3 3 0 1 0-6 0c0 2 1.5 3 2 4.5h2c.5-1.5 2-2.5 2-4.5z"
+                                                    stroke="#e8d850" stroke-width="1.8" fill="rgba(232,216,80,0.08)" />
+                                            </svg>
+                                        </span>
+                                        <span class="radial-item-name">Flashlight</span>
+                                    </div>
+                                    <div class="radial-item" data-tool="Crowbar" onclick="selectRadialTool(this)">
+                                        <span class="radial-item-num">4</span>
+                                        <span class="radial-item-icon">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 20L19 4" stroke="#d47040" stroke-width="2.5"
+                                                    stroke-linecap="round" />
+                                                <path d="M19 4c0 0-1 3-3 3" stroke="#d47040" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M5 20c0 0 0-3 2-4" stroke="#d47040" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="radial-item-name">Crowbar</span>
+                                    </div>
+                                    <div class="radial-item" data-tool="Multimeter" onclick="selectRadialTool(this)">
+                                        <span class="radial-item-num">5</span>
+                                        <span class="radial-item-icon">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                <rect x="4" y="3" width="16" height="18" rx="2" stroke="#6aaa4a"
+                                                    stroke-width="1.8" fill="none" />
+                                                <circle cx="12" cy="10" r="4" stroke="#6aaa4a" stroke-width="1.5"
+                                                    fill="none" />
+                                                <line x1="12" y1="10" x2="14.5" y2="7.5" stroke="#6aaa4a"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <circle cx="9" cy="17" r="1" fill="#6aaa4a" />
+                                                <circle cx="12" cy="17" r="1" fill="#6aaa4a" />
+                                                <circle cx="15" cy="17" r="1" fill="#6aaa4a" />
+                                            </svg>
+                                        </span>
+                                        <span class="radial-item-name">Meter</span>
+                                    </div>
+                                    <div class="radial-item" data-tool="Extinguisher" onclick="selectRadialTool(this)">
+                                        <span class="radial-item-num">6</span>
+                                        <span class="radial-item-icon">
+                                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                                                <rect x="8" y="6" width="8" height="14" rx="3" stroke="#d4b9a0"
+                                                    stroke-width="1.8" fill="none" />
+                                                <path d="M10 6V4a2 2 0 0 1 4 0v2" stroke="#d4b9a0" stroke-width="1.5"
+                                                    fill="none" />
+                                                <line x1="14" y1="4" x2="17" y2="2" stroke="#d4b9a0" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <line x1="10" y1="10" x2="14" y2="10" stroke="#d4b9a0"
+                                                    stroke-width="1.3" stroke-linecap="round" />
+                                                <line x1="12" y1="20" x2="12" y2="22" stroke="#d4b9a0" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                        </span>
+                                        <span class="radial-item-name">Extinguisher</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="radial-title-strip">
+                                <span class="radial-title" id="radial-selected-name">Wrench</span>
+                                <span class="radial-subtitle">Press 1–6 or click to equip</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="style-guide-footer"
                 style="padding: 40px; text-align: center; border-top: 1px solid rgba(212, 160, 64, 0.1); font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase;">
                 W.O.O.D. — Facility Management Prototype
@@ -2001,7 +2418,43 @@
     </div>
 
     <script>
+        // ─── RADIAL INVENTORY MENU LOGIC ───
+        function selectRadialTool(itemEl) {
+            if (!itemEl) return;
+            const toolName = itemEl.getAttribute('data-tool');
+
+            // Update equipped state
+            document.querySelectorAll('.radial-item').forEach(el => el.classList.remove('equipped'));
+            itemEl.classList.add('equipped');
+
+            // Update center hub icon (clone the item's icon)
+            const hubIcon = document.querySelector('.radial-hub-icon');
+            const itemIcon = itemEl.querySelector('.radial-item-icon');
+            if (hubIcon && itemIcon) {
+                hubIcon.innerHTML = itemIcon.innerHTML;
+            }
+
+            // Update title strip
+            const nameEl = document.getElementById('radial-selected-name');
+            if (nameEl) nameEl.textContent = toolName;
+        }
+
+        function selectRadialToolByIndex(index) {
+            const items = document.querySelectorAll('.radial-item');
+            if (index >= 0 && index < items.length) {
+                selectRadialTool(items[index]);
+            }
+        }
+
+        window.addEventListener('keydown', e => {
+            const key = e.key.toLowerCase();
+            if (key >= '1' && key <= '6') {
+                selectRadialToolByIndex(parseInt(key) - 1);
+            }
+        });
+
         function activateHold(ringId) {
+
             const ring = document.getElementById(ringId);
 
             // Reset if already completed
@@ -2036,12 +2489,12 @@
         document.querySelectorAll('.color-swatch, .color-box').forEach(card => {
             const parent = card.closest('.color-swatch') || card.closest('.color-card');
             if (!parent) return;
-            
+
             parent.addEventListener('mouseover', (e) => {
                 const bg = card.style.background;
                 const labelEl = parent.querySelector('.color-label');
                 const valueEl = parent.querySelector('.color-value');
-                
+
                 let hex = bg;
                 if (bg.startsWith('rgba')) {
                     const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
@@ -2060,7 +2513,7 @@
                         }).join('');
                     }
                 }
-                
+
                 const label = labelEl ? labelEl.textContent : '';
                 tooltip.textContent = `${hex} - ${label}`;
                 tooltip.classList.add('visible');
@@ -2082,13 +2535,13 @@
             chipContainer.addEventListener('mouseover', (e) => {
                 const chip = e.target.closest('.chip');
                 if (!chip) return;
-                
+
                 chip.dataset.originalTitle = chip.getAttribute('title');
                 chip.removeAttribute('title');
-                
+
                 const bg = chip.style.background;
                 const title = chip.dataset.originalTitle || '';
-                
+
                 let hex = bg;
                 if (bg.startsWith('rgba')) {
                     const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
@@ -2107,7 +2560,7 @@
                         }).join('');
                     }
                 }
-                
+
                 tooltip.textContent = `${hex} - ${title}`;
                 tooltip.classList.add('visible');
             });

@@ -762,6 +762,286 @@
       margin: 4px 0;
     }
 
+    /* ─── NEW RESULTS DESIGN (v2 Alternative) ─── */
+    .showcase-v2 {
+      padding: 60px 20px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid rgba(212, 160, 64, 0.1);
+      position: relative;
+    }
+
+    .rs-v2-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      perspective: 1000px;
+    }
+
+    /* Shared v2 prefix to avoid conflict with v1 */
+    .rs2-panel {
+      width: 480px;
+      background: var(--bg-warm);
+      border: 2px solid rgba(180, 150, 120, 0.15);
+      border-radius: 4px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rs2-header {
+      padding: 40px 20px 30px;
+      background: var(--bg-warm);
+      border-bottom: 2px solid rgba(180, 150, 120, 0.15);
+      text-align: center;
+      position: relative;
+    }
+
+    .rs2-title {
+      font-family: var(--font-display);
+      font-size: 64px;
+      color: var(--paper);
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+      letter-spacing: 6px;
+      transform: rotate(-1.5deg) skew(-2deg);
+      display: block;
+      margin-bottom: 12px;
+      line-height: 0.85;
+    }
+
+    .rs2-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      font-weight: 700;
+    }
+
+    .rs2-content {
+      padding: 24px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .rs2-status-card {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(180, 150, 120, 0.1);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rs2-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rs2-card-row .label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .rs2-card-row .value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .rs2-paybar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rs2-paybar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .rs2-paybar-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .rs2-paybar-amount {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--green-bright);
+      text-shadow: 0 0 12px var(--green-glow);
+    }
+
+    .rs2-paybar-track {
+      height: 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(180, 150, 120, 0.1);
+      position: relative;
+    }
+
+    .rs2-paybar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red-mid), var(--red-bar), var(--red-bright));
+      width: 78%;
+    }
+
+    .rs2-stat-row {
+      background: var(--bg-mid);
+      border: 2px solid rgba(180, 150, 120, 0.12);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .rs2-stat-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--text-mid);
+    }
+
+    .rs2-stat-val {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--paper);
+    }
+
+    .rs2-btn {
+      background: var(--bg-mid);
+      border: 2px solid rgba(180, 150, 120, 0.15);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-mid);
+      transition: all 0.2s;
+    }
+
+    .rs2-btn:hover {
+      background: var(--paper);
+      color: var(--bg-dark);
+      transform: scale(1.02);
+    }
+
+    .rs2-btn.primary {
+      background: var(--red-dark);
+      border-color: transparent;
+      color: white;
+    }
+
+    .rs2-btn.primary:hover {
+      background: var(--red-mid);
+    }
+
+    /* Premium card style from game-screen */
+    .rs2-breakdown-card {
+      width: 320px;
+      background: var(--bg-warm);
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+      border: 1px solid rgba(212, 185, 160, 0.2);
+      padding: 30px 24px 24px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transform: rotate(2deg);
+    }
+
+    .rs2-breakdown-card::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 100px;
+      height: 24px;
+      background: rgba(220, 200, 180, 0.9);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+    }
+
+    .rs2-card-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--paper);
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px dashed rgba(180, 150, 120, 0.2);
+      padding-bottom: 10px;
+    }
+
+    .rs2-bd-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-mid);
+    }
+
+    .rs2-bd-amount.plus {
+      color: var(--green-bright);
+    }
+
+    .rs2-bd-amount.minus {
+      color: var(--red-bright);
+    }
+
+    .rs2-bd-total {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px solid rgba(180, 150, 120, 0.1);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--green-bright);
+    }
+
+    /* Paper Shreds CSS */
+    .paper-shred {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 1px;
+      animation: shredFly var(--dur, 1.2s) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s) both;
+      opacity: 0;
+    }
+
+    @keyframes shredFly {
+      0% {
+        transform: translate(0, 0) rotate(var(--rot0, 0deg)) scaleX(1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(var(--tx, 0px), var(--ty, -200px)) rotate(var(--rotf, 360deg)) scaleX(var(--scx, 1));
+        opacity: 0;
+      }
+    }
+
     /* total row */
     .bd-total {
       display: flex;
@@ -1085,8 +1365,9 @@
       transition: all 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
       position: relative;
       transform-origin: center;
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       letter-spacing: 0.5px;
       background: linear-gradient(to bottom, var(--bg-mid), #231e1a);
@@ -1242,10 +1523,132 @@
       </div>
 
       <!-- SHOWCASE -->
-      <div class="showcase">
+      <!-- SHOWCASE V2 (DEFAULT) -->
+      <div class="spec-meta" style="margin-top: 100px;">
+        <span class="spec-label">Default Design (v2)</span>
+        <h2 class="spec-title">IN-GAME SPLIT PANEL</h2>
+        <p class="spec-desc">
+          A more immersive "in-world" design featuring a primary data sidebar and a floating physical breakdown card.
+          Optimized for large screens and immersive horror environments.
+        </p>
+        <button class="btn primary" onclick="spawnShredsV2()" style="margin-top: 20px; padding: 10px 30px;">TEST PREMIUM
+          PARTICLES</button>
+
+        <div style="margin-top: 40px;">
+          <span class="section-label">V2 UI Palette</span>
+          <div class="color-chips">
+            <span class="chip" style="background: var(--bg-warm);" title="Panel BG (var(--bg-warm))"></span>
+            <span class="chip" style="background: var(--bg-mid);" title="Stat Shadow (var(--bg-mid))"></span>
+            <span class="chip" style="background: var(--paper);" title="Primary Text (var(--paper))"></span>
+            <span class="chip" style="background: var(--text-dim);" title="Labels (var(--text-dim))"></span>
+            <span class="chip" style="background: var(--green-bright);" title="Currency (var(--green-bright))"></span>
+            <span class="chip" style="background: var(--red-dark);" title="Danger Btn (var(--red-dark))"></span>
+            <span class="chip" style="background: rgba(220, 200, 180, 0.9);"
+              title="Card Tape (rgba(220, 200, 180, 0.9))"></span>
+            <span class="chip" style="background: rgba(180, 150, 120, 0.15);"
+              title="UI Border (rgba(180,150,120,0.15))"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-v2">
+        <div class="rs-v2-container">
+          <!-- Main sidebar -->
+          <div class="rs2-panel">
+            <div class="rs2-header">
+              <span class="rs2-title">SHIFT OVER</span>
+              <div class="rs2-subtitle">you survived... barely</div>
+            </div>
+
+            <div class="rs2-content">
+              <div class="rs2-status-card">
+                <div class="rs2-card-row">
+                  <span class="label">LOCATION</span>
+                  <span class="value" style="color:white">Facility B</span>
+                </div>
+                <div class="rs2-card-row">
+                  <span class="label">SHIFT</span>
+                  <span class="value">Night #04</span>
+                </div>
+                <div class="rs2-card-row">
+                  <span class="label">CLOCK OUT</span>
+                  <span class="value">03:47 AM</span>
+                </div>
+              </div>
+
+              <div class="rs2-paybar-wrap">
+                <div class="rs2-paybar-top">
+                  <span class="rs2-paybar-label">Shift Pay</span>
+                  <span class="rs2-paybar-amount">$847</span>
+                </div>
+                <div class="rs2-paybar-track">
+                  <div class="rs2-paybar-fill"></div>
+                </div>
+              </div>
+
+              <div class="rs2-stat-row">
+                <span class="rs2-stat-name">ANOMALIES</span>
+                <span class="rs2-stat-val">5</span>
+              </div>
+              <div class="rs2-stat-row">
+                <span class="rs2-stat-name">FIXED</span>
+                <span class="rs2-stat-val" style="color:var(--green-bright)">8</span>
+              </div>
+
+              <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+                <button class="rs2-btn primary">
+                  <span>NEXT SHIFT</span>
+                  <span>▶</span>
+                </button>
+                <button class="rs2-btn">
+                  <span>MAIN MENU</span>
+                  <span style="font-size: 10px; opacity: 0.6;">(Esc)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating card -->
+          <div class="rs2-breakdown-card">
+            <div class="rs2-card-title">HOW'D YOU EARN IT?</div>
+            <div class="rs2-bd-list">
+              <div class="rs2-bd-item">
+                <span>Base shift pay</span>
+                <span class="rs2-bd-amount plus">+$500</span>
+              </div>
+              <div class="rs2-bd-item">
+                <span>Breakdowns repaired</span>
+                <span class="rs2-bd-amount plus">+$480</span>
+              </div>
+              <div class="rs2-bd-item" style="margin-top: 10px; opacity: 0.8; font-style: italic;">
+                <span>False report penalty</span>
+                <span class="rs2-bd-amount minus">-$75</span>
+              </div>
+            </div>
+            <div class="rs2-bd-total">
+              <span>Net Pay</span>
+              <span>$847</span>
+            </div>
+
+            <div
+              style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between; border-top: 2px dashed rgba(180,150,120,0.2); padding-top: 15px;">
+              <span style="font-family: var(--font-scrawl); font-size: 18px; color: var(--text-dim);">Rating:</span>
+              <div
+                style="border: 3px solid #6a2e24; color: #6a2e24; padding: 4px 10px; font-family: var(--font-display); font-size: 24px; transform: rotate(-5deg); font-weight: 900;">
+                B+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOWCASE V1 (RESERVED) -->
+      <div class="showcase"
+        style="margin-top: 100px; border-top: 1px dashed rgba(212, 160, 64, 0.2); padding-top: 80px;">
         <div class="spec-meta">
-          <span class="spec-label">Pattern 08 // Performance Review</span>
-          <h2 class="spec-title">The Result Screen</h2>
+          <span class="spec-label"
+            style="background: var(--red-dark); color: white; padding: 2px 8px; border-radius: 2px;">RESERV
+            VERSION</span>
+          <h2 class="spec-title">Original Centered Modal</h2>
           <p class="spec-desc">A heavy-vignetted diagnostic panel that processes shift data. Features animated pay-bar
             thresholds, hover-reactive stat cards, and physical-grade rating stamps.</p>
         </div>
@@ -1549,6 +1952,7 @@
     };
 
     function spawnPayoutParticles() {
+      // (Keep existing particles for v1)
       const parent = document.getElementById('main-result');
       if (!parent) return;
 
@@ -1557,82 +1961,105 @@
         const p = document.createElement('div');
         p.className = 'payout-particle';
         p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-
-        // Random trajectory
         const tx = (Math.random() - 0.5) * 600;
         const ty = (Math.random() - 0.5) * 600 - 100;
         const tr = (Math.random() - 0.5) * 720;
-
         p.style.setProperty('--tx', `${tx}px`);
         p.style.setProperty('--ty', `${ty}px`);
         p.style.setProperty('--tr', `${tr}deg`);
-
-        // Center of the result screen
         p.style.left = '50%';
         p.style.top = '50%';
-
         parent.appendChild(p);
         setTimeout(() => p.remove(), 1500);
       }
     }
-    </script>
 
-    <div class="color-tooltip" id="colorTooltip"></div>
+    // New Paper Shreds for v2
+    function spawnShredsV2() {
+      const cx = window.innerWidth * 0.5;
+      const cy = window.innerHeight * 0.5;
+      const colors = ['#d4b9a0', '#b89a7e', '#e0cbb8', 'rgba(212,160,64,0.7)', 'rgba(90,26,26,0.75)'];
 
-    <script>
-      const tooltip = document.getElementById('colorTooltip');
+      for (let i = 0; i < 14; i++) {
+        const p = document.createElement('div');
+        p.className = 'paper-shred';
+        p.style.width = (8 + Math.random() * 24) + 'px';
+        p.style.height = (4 + Math.random() * 8) + 'px';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.position = 'fixed';
+        p.style.left = (cx + (Math.random() - 0.5) * 200) + 'px';
+        p.style.top = (cy + (Math.random() - 0.5) * 150) + 'px';
 
-      document.querySelectorAll('.color-chips').forEach(chipContainer => {
-        chipContainer.addEventListener('mouseover', (e) => {
-          const chip = e.target.closest('.chip');
-          if (!chip) return;
-          
-          chip.dataset.originalTitle = chip.getAttribute('title');
-          chip.removeAttribute('title');
-          
-          const bg = chip.style.background;
-          const title = chip.dataset.originalTitle || '';
-          
-          let hex = bg;
-          if (bg.startsWith('rgba')) {
-            const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
-            if (match) {
-              hex = '#' + [match[1], match[2], match[3]].map(x => {
-                const h = parseInt(x).toString(16);
-                return h.length === 1 ? '0' + h : h;
-              }).join('');
-            }
-          } else if (bg.startsWith('rgb')) {
-            const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
-            if (match) {
-              hex = '#' + [match[1], match[2], match[3]].map(x => {
-                const h = parseInt(x).toString(16);
-                return h.length === 1 ? '0' + h : h;
-              }).join('');
-            }
+        p.style.setProperty('--tx', `${(Math.random() - 0.5) * 400}px`);
+        p.style.setProperty('--ty', `${-(80 + Math.random() * 260)}px`);
+        p.style.setProperty('--rot0', `${(Math.random() - 0.5) * 30}deg`);
+        p.style.setProperty('--rotf', `${(Math.random() - 0.5) * 600}deg`);
+        p.style.setProperty('--scx', `${0.5 + Math.random() * 0.8}`);
+        p.style.setProperty('--dur', `${0.85 + Math.random() * 0.55}s`);
+        p.style.setProperty('--delay', `${i * 0.025}s`);
+
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 2000);
+      }
+    }
+  </script>
+
+  <div class="color-tooltip" id="colorTooltip"></div>
+
+  <script>
+    const tooltip = document.getElementById('colorTooltip');
+
+    document.querySelectorAll('.color-chips').forEach(chipContainer => {
+      chipContainer.addEventListener('mouseover', (e) => {
+        const chip = e.target.closest('.chip');
+        if (!chip) return;
+
+        chip.dataset.originalTitle = chip.getAttribute('title');
+        chip.removeAttribute('title');
+
+        const bg = chip.style.background;
+        const title = chip.dataset.originalTitle || '';
+
+        let hex = bg;
+        if (bg.startsWith('rgba')) {
+          const match = bg.match(/rgba\((\d+),\s*(\d+),\s*(\d+)/);
+          if (match) {
+            hex = '#' + [match[1], match[2], match[3]].map(x => {
+              const h = parseInt(x).toString(16);
+              return h.length === 1 ? '0' + h : h;
+            }).join('');
           }
-          
-          tooltip.textContent = `${hex} - ${title}`;
-          tooltip.classList.add('visible');
-        });
-
-        chipContainer.addEventListener('mousemove', (e) => {
-          if (tooltip.classList.contains('visible')) {
-            tooltip.style.left = (e.clientX + 15) + 'px';
-            tooltip.style.top = (e.clientY + 15) + 'px';
+        } else if (bg.startsWith('rgb')) {
+          const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+          if (match) {
+            hex = '#' + [match[1], match[2], match[3]].map(x => {
+              const h = parseInt(x).toString(16);
+              return h.length === 1 ? '0' + h : h;
+            }).join('');
           }
-        });
+        }
 
-        chipContainer.addEventListener('mouseout', (e) => {
-          const chip = e.target.closest('.chip');
-          if (chip && chip.dataset.originalTitle) {
-            chip.setAttribute('title', chip.dataset.originalTitle);
-            delete chip.dataset.originalTitle;
-          }
-          tooltip.classList.remove('visible');
-        });
+        tooltip.textContent = `${hex} - ${title}`;
+        tooltip.classList.add('visible');
       });
-    </script>
-  </body>
+
+      chipContainer.addEventListener('mousemove', (e) => {
+        if (tooltip.classList.contains('visible')) {
+          tooltip.style.left = (e.clientX + 15) + 'px';
+          tooltip.style.top = (e.clientY + 15) + 'px';
+        }
+      });
+
+      chipContainer.addEventListener('mouseout', (e) => {
+        const chip = e.target.closest('.chip');
+        if (chip && chip.dataset.originalTitle) {
+          chip.setAttribute('title', chip.dataset.originalTitle);
+          delete chip.dataset.originalTitle;
+        }
+        tooltip.classList.remove('visible');
+      });
+    });
+  </script>
+</body>
 
 </html>
